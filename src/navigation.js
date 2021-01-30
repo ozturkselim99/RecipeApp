@@ -9,7 +9,10 @@ const LoginStack = createStackNavigator();
 
 function Navigation() {
   return (
-    <LoginStack.Navigator>
+    <LoginStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
       <LoginStack.Screen name={'Welcome'} component={WelcomeScreen} />
       <LoginStack.Screen name={'Login'} component={LoginScreen} />
     </LoginStack.Navigator>
