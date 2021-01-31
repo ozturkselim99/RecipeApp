@@ -3,7 +3,6 @@ const space = [];
 const sizes = {
   actionButton: 48,
 };
-
 const colors = {
   mainGreen: '#1FCC79',
   mainText: '#2E3E5C',

@@ -4,9 +4,9 @@ import Svg, {Path} from 'react-native-svg';
 function SvgGoogle(props) {
   return (
     <Svg
-      height="21"
+      height="23"
       viewBox="0 0 512 512"
-      width="21"
+      width="23"
       xmlns="http://www.w3.org/2000/svg"
       className=""
       {...props}>
