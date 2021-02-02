@@ -14,7 +14,7 @@ function LockIcon() {
   return <Lock stroke={theme.colors.mainText} />;
 }
 
-function RegisterScreen() {
+function RegisterScreen({navigation}) {
   const [Email, setEmail] = React.useState('');
   const [Password, setPassword] = React.useState('');
   const [PasswordValid, setPasswordValid] = React.useState(null);
@@ -119,6 +119,7 @@ function RegisterScreen() {
       </Box>
       <Box px="24px" mt="23px">
         <Button
+          onPress={() => navigation.navigate('VerificationCode')}
           bg={theme.colors.mainGreen}
           width="100%"
           py={19}
