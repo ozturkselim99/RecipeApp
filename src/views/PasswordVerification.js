@@ -6,7 +6,7 @@ import CodeInput from '../components/CodeInput';
 import theme from '../utils/Theme';
 import CountDown from 'react-native-countdown-component';
 
-function VerificationScreen({navigation}) {
+function PasswordVerificationScreen({navigation}) {4
   const [code1, setCode1] = React.useState('');
   const [code2, setCode2] = React.useState('');
   const [code3, setCode3] = React.useState('');
@@ -117,13 +117,12 @@ function VerificationScreen({navigation}) {
       </Box>
       <Box px={24} mt="24px">
         <Button
-          onPress={() => navigation.navigate('Login')}
           bg={theme.colors.mainGreen}
           width="100%"
           py={19}
           borderRadius={theme.radii.button}>
           <Text fontSize={15} fontWeight={700} color="white">
-            Onayla
+            İleri
           </Text>
         </Button>
       </Box>
@@ -145,4 +144,4 @@ function VerificationScreen({navigation}) {
     </Box>
   );
 }
-export default VerificationScreen;
+export default PasswordVerificationScreen;

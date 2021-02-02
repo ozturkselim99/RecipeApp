@@ -23,7 +23,7 @@ function LoginScreen({navigation}) {
   return (
     <Box flexDirection="column" justifyContent="center" flex={1}>
       <ScrollView style={{flex: 1}}>
-        <Box alignItems="center" px="66px" mb={'18px'}>
+        <Box alignItems="center" px="66px" mb={'18px'} paddingTop="107px">
           <Text
             fontWeight={700}
             fontSize="22px"
@@ -56,7 +56,7 @@ function LoginScreen({navigation}) {
           />
         </Box>
         <Box alignItems="flex-end" px="24px" mt="24px">
-          <Button>
+          <Button onPress={() => navigation.navigate('PasswordRecovery')}>
             <Text color={theme.colors.mainText}>Şifremi Unuttum </Text>
           </Button>
         </Box>
@@ -78,6 +78,7 @@ function LoginScreen({navigation}) {
         </Box>
         <Box px={24}>
           <Button
+            onPress={() => navigation.navigate('ResetPassword')}
             bg={theme.colors.googleButtonColor}
             width="100%"
             py={19}
@@ -91,13 +92,15 @@ function LoginScreen({navigation}) {
           </Button>
         </Box>
         <Box flexDirection="row" justifyContent="center" mt="24px">
-          <Text
-            color={theme.colors.mainText}
-            fontSize="15px"
-            fontWeight={500}
-            mr="15px">
-            Hesabınız yok mu?
-          </Text>
+          <Button onPress={() => navigation.navigate('PasswordVerification')}>
+            <Text
+              color={theme.colors.mainText}
+              fontSize="15px"
+              fontWeight={500}
+              mr="15px">
+              Hesabınız yok mu?
+            </Text>
+          </Button>
           <Button onPress={() => navigation.navigate('Register')}>
             <Text
               fontWeight={700}
