@@ -5,6 +5,7 @@ import Text from '../components/Text';
 import Button from '../components/Button';
 import theme from '../utils/Theme';
 import {Mail, Lock, Eye, CheckCircle} from '../components/icons';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 function MailIcon() {
   return <Mail stroke={theme.colors.mainText} />;
@@ -24,7 +25,12 @@ function ResetPasswordScreen({navigation}) {
   }
 
   return (
-    <Box flexDirection="column" justifyContent="center" flex={1}>
+    <Box
+      as={SafeAreaView}
+      bg={'white'}
+      flexDirection="column"
+      justifyContent="center"
+      flex={1}>
       {/*<Box px="66px" mb={'18px'}>*/}
       <Text
         fontWeight={700}
@@ -43,7 +49,7 @@ function ResetPasswordScreen({navigation}) {
           Lütfen yeni şifrenizi girin
         </Text>
       </Box>
-      <Box>
+      <Box px={24}>
         <FormInput
           placeholderText="Şifre giriniz"
           LeftIcon={LockIcon}

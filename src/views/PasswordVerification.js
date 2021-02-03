@@ -5,8 +5,9 @@ import Button from '../components/Button';
 import CodeInput from '../components/CodeInput';
 import theme from '../utils/Theme';
 import CountDown from 'react-native-countdown-component';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
-function PasswordVerificationScreen({navigation}) {4
+function PasswordVerificationScreen({navigation}) {
   const [code1, setCode1] = React.useState('');
   const [code2, setCode2] = React.useState('');
   const [code3, setCode3] = React.useState('');
@@ -17,7 +18,12 @@ function PasswordVerificationScreen({navigation}) {4
   const code3Ref = React.useRef(null);
   const code4Ref = React.useRef(null);
   return (
-    <Box flexDirection="column" justifyContent="center" flex={1}>
+    <Box
+      as={SafeAreaView}
+      bg={'white'}
+      flexDirection="column"
+      justifyContent="center"
+      flex={1}>
       <Box alignItems="center" px="66px" mb="8px">
         <Text
           fontWeight={700}
