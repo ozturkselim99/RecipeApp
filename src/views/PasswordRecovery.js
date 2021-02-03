@@ -6,6 +6,7 @@ import Button from '../components/Button';
 import theme from '../utils/Theme';
 import {Mail} from '../components/icons';
 import {ScrollView} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 function MailIcon() {
   return <Mail stroke={theme.colors.mainText} />;
@@ -13,7 +14,12 @@ function MailIcon() {
 
 function PasswordRecoveryScreen({navigation}) {
   return (
-    <Box flexDirection="column" justifyContent="center" flex={1}>
+    <Box
+      as={SafeAreaView}
+      bg={'white'}
+      flexDirection="column"
+      justifyContent="center"
+      flex={1}>
       <ScrollView style={{flex: 1}}>
         <Box alignItems="center" px="66px" mb={'18px'} paddingTop={'107px'}>
           <Text
@@ -25,7 +31,7 @@ function PasswordRecoveryScreen({navigation}) {
             Şifre Kurtarma
           </Text>
         </Box>
-        <Box alignItems="center" px="66px" mb="38px">
+        <Box alignItems="center" px="24px" mb="38px">
           <Text
             fontWeight={500}
             fontSize="15px"
@@ -34,7 +40,7 @@ function PasswordRecoveryScreen({navigation}) {
             Şifrenizi kurtarmak için e-postanızı giriniz
           </Text>
         </Box>
-        <Box mb="16px">
+        <Box mb="16px" px="24px">
           <FormInput
             placeholderText="Mail veya telefon numarası"
             LeftIcon={MailIcon}

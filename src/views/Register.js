@@ -5,6 +5,7 @@ import Text from '../components/Text';
 import Button from '../components/Button';
 import theme from '../utils/Theme';
 import {Mail, Lock, Eye, CheckCircle} from '../components/icons';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 function MailIcon() {
   return <Mail stroke={theme.colors.mainText} />;
@@ -24,7 +25,12 @@ function RegisterScreen({navigation}) {
   }
 
   return (
-    <Box flexDirection="column" justifyContent="center" flex={1}>
+    <Box
+      as={SafeAreaView}
+      bg={'white'}
+      flexDirection="column"
+      justifyContent="center"
+      flex={1}>
       <Box alignItems="center" px="66px" mb={'18px'}>
         <Text
           fontWeight={700}
@@ -44,7 +50,7 @@ function RegisterScreen({navigation}) {
           Lütfen hesap bilgilerinizi buraya giriniz!
         </Text>
       </Box>
-      <Box mb="16px">
+      <Box mb="16px" px="24px">
         <FormInput
           placeholderText="Mail veya telefon numarası"
           LeftIcon={MailIcon}
@@ -52,7 +58,7 @@ function RegisterScreen({navigation}) {
           onChangeText={setEmail}
         />
       </Box>
-      <Box>
+      <Box px="24px">
         <FormInput
           placeholderText="Şifre giriniz"
           LeftIcon={LockIcon}

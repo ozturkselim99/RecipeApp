@@ -5,6 +5,7 @@ import Button from '../components/Button';
 import CodeInput from '../components/CodeInput';
 import theme from '../utils/Theme';
 import CountDown from 'react-native-countdown-component';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 function VerificationScreen({navigation}) {
   const [code1, setCode1] = React.useState('');
@@ -17,7 +18,12 @@ function VerificationScreen({navigation}) {
   const code3Ref = React.useRef(null);
   const code4Ref = React.useRef(null);
   return (
-    <Box flexDirection="column" justifyContent="center" flex={1}>
+    <Box
+      as={SafeAreaView}
+      bg={'white'}
+      flexDirection="column"
+      justifyContent="center"
+      flex={1}>
       <Box alignItems="center" px="66px" mb="8px">
         <Text
           fontWeight={700}

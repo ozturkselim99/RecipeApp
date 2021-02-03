@@ -1,7 +1,6 @@
 import Input from './Input';
 import theme from '../utils/Theme';
 import Box from './Box';
-import Text from './Text';
 import * as React from 'react';
 import Button from './Button';
 
@@ -12,20 +11,24 @@ function FormInput({
   onChangeText,
   value,
   setIsValid,
+  onFocus,
   pattern,
   password,
+  inputRef,
+  backgroundColor,
+  borderWidth,
 }) {
   const [showPassword, setShowPassword] = React.useState(false);
   const [isFocus, setIsFocus] = React.useState(false);
 
-  const handleValidation = (value) => {
+  const handleValidation = (_value) => {
     if (!pattern) {
       return true;
     }
     // string pattern, one validation rule
     if (typeof pattern === 'string') {
       const condition = new RegExp(pattern, 'g');
-      return condition.test(value);
+      return condition.test(_value);
     }
     // array patterns, multiple validation rules
     if (typeof pattern === 'object') {
@@ -33,34 +36,32 @@ function FormInput({
       return conditions.map((condition) => condition.test(value));
     }
   };
-
   const onChange = (value) => {
-    const isValid = handleValidation(value);
-    setIsValid && setIsValid(isValid);
+    if (pattern !== null) {
+      const isValid = handleValidation(value);
+      setIsValid && setIsValid(isValid);
+    }
     onChangeText && onChangeText(value);
   };
 
+  const _onFocus = () => {
+    setIsFocus(true);
+    onFocus && onFocus();
+  };
+
   return (
-    <Box position="relative" px={24}>
+    <Box position="relative">
       <Input
-        style={{
-          shadowColor: '#000',
-          shadowOpacity: 0.1,
-          shadowRadius: 24,
-          shadowOffset: {
-            width: 0,
-            height: 4,
-          },
-        }}
         secureTextEntry={password ? !showPassword : false}
         value={value}
         onChangeText={(text) => onChange(text)}
-        bg="white"
+        bg={backgroundColor ? backgroundColor : 'white'}
         height={56}
-        onFocus={() => setIsFocus(true)}
+        ref={inputRef}
+        onFocus={_onFocus}
         onBlur={() => setIsFocus(false)}
         color={theme.colors.mainText}
-        borderWidth={1}
+        borderWidth={borderWidth == null ? 1 : borderWidth}
         fontSize={15}
         borderColor={
           isFocus ? theme.colors.mainGreen : theme.colors.borderColor
@@ -71,12 +72,12 @@ function FormInput({
         borderRadius={theme.radii.input}
       />
       {LeftIcon && (
-        <Box position="absolute" left={48} top={16}>
+        <Box position="absolute" left={24} top={16}>
           <LeftIcon height={5} />
         </Box>
       )}
       {RightIcon && (
-        <Box position="absolute" right={50} top={16}>
+        <Box position="absolute" right={24} top={16}>
           <Button onPress={() => setShowPassword(!showPassword)}>
             <RightIcon />
           </Button>

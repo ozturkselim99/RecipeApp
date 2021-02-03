@@ -4,10 +4,11 @@ import {Image} from 'react-native';
 import Text from '../components/Text';
 import theme from '../utils/Theme';
 import Button from '../components/Button';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 export default function WelcomeScreen({navigation}) {
   return (
-    <Box flex={1}>
+    <Box as={SafeAreaView} flex={1} bg={'white'}>
       <Box>
         <Image
           source={require('../img/opening.jpg')}

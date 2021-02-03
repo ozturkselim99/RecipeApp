@@ -6,6 +6,7 @@ const sizes = {
 const colors = {
   mainGreen: '#1FCC79',
   mainText: '#2E3E5C',
+  mainGray: '#F4F5F7',
   secondaryText: '#9FA5C0',
   borderColor: '#D0DBEA',
   googleButtonColor: '#FF5842',
