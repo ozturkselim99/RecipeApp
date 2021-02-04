@@ -1,28 +1,47 @@
 import * as React from 'react';
-import {Dimensions} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import Box from '../components/Box';
-import FormInput from '../components/FormInput';
-import Button from '../components/Button';
-import {ChevronLeft, Search, Filter} from '../components/icons';
-import theme from '../utils/Theme';
-import Animated, {Easing} from 'react-native-reanimated';
-import HomeSearch from '../components/HomeSearch';
-
-function ChevronLeftIcon() {
-  return <ChevronLeft stroke={theme.colors.mainText} />;
-}
-
-function SearchIcon() {
-  return <Search stroke={theme.colors.mainText} />;
-}
-
-function FilterIcon() {
-  return <Filter stroke={theme.colors.mainText} />;
-}
+import Text from '../components/Text';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {FlatList} from 'react-native';
+import StoryContainer from '../components/StoryContainer';
 
 export default function HomeScreen() {
-  const [keyword, setKeyword] = React.useState('');
+  const stories = [
+    {
+      key: 'ozaferayan',
+      isStoryInsertable: true,
+      hasStory: false,
+      src: 'https://i.pravatar.cc/150?img=8',
+    },
+    {key: 'ngordon', hasStory: true, src: 'https://i.pravatar.cc/150?img=8'},
+    {
+      key: 'r_von_rails',
+      hasStory: true,
+      src: 'https://i.pravatar.cc/150?img=9',
+    },
+    {key: 'figNelson', hasStory: true, src: 'https://i.pravatar.cc/150?img=10'},
+    {
+      key: 'benjaminEv',
+      hasStory: true,
+      src: 'https://i.pravatar.cc/150?img=11',
+    },
+    {key: 'gilesPos', hasStory: true, src: 'https://i.pravatar.cc/150?img=12'},
+    {key: 'hugh27', hasStory: true, src: 'https://i.pravatar.cc/150?img=13'},
+    {
+      key: 'b_guidelines',
+      hasStory: true,
+      src: 'https://i.pravatar.cc/150?img=14',
+    },
+  ];
 
-  return <></>;
+  return (
+    <Box as={SafeAreaView}>
+      <FlatList
+        ListHeaderComponent={() => (
+          <StoryContainer stories={stories} onStoryPress={this.onStoryPress} />
+        )}
+        data={[{key: 'a'}, {key: 'b'}, {key: 'c'}, {key: 'd'}, {key: 'e'}]}
+      />
+    </Box>
+  );
 }
