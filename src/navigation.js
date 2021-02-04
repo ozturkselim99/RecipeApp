@@ -58,7 +58,7 @@ function TabNavigator() {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        initialRouteName="Search"
+        initialRouteName="Home"
         tabBar={(props) => <TabBar {...props} />}>
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Search" component={SearchScreen} />
@@ -70,4 +70,4 @@ function TabNavigator() {
   );
 }
 
-export default Navigation;
+export default TabNavigator;
