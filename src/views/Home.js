@@ -4,6 +4,10 @@ import Text from '../components/Text';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {FlatList} from 'react-native';
 import StoryContainer from '../components/StoryContainer';
+import theme from '../utils/Theme';
+import Button from '../components/Button';
+import SelectMultipleButton from '../components/SelectMultipleButton';
+import RecipeCard from '../components/RecipeCard';
 
 export default function HomeScreen() {
   const stories = [
@@ -34,14 +38,54 @@ export default function HomeScreen() {
     },
   ];
 
+  const onStoryPress = () => {};
   return (
     <Box as={SafeAreaView}>
       <FlatList
         ListHeaderComponent={() => (
-          <StoryContainer stories={stories} onStoryPress={this.onStoryPress} />
+          <StoryContainer stories={stories} onStoryPress={onStoryPress} />
         )}
         data={[{key: 'a'}, {key: 'b'}, {key: 'c'}, {key: 'd'}, {key: 'e'}]}
       />
+      <Box mt="20px" ml="24px">
+        <Text fontWeight="700" fontSize="17px" color={theme.colors.mainText}>
+          Category
+        </Text>
+      </Box>
+      <Box flexDirection="row" px="24px" mt="16px">
+        <Button
+          bg={theme.colors.mainGreen}
+          px="24px"
+          py="15px"
+          borderRadius={theme.radii.button}>
+          <Text color="white" fontSize="15px" fontWeight="700">
+            All
+          </Text>
+        </Button>
+        <Button
+          bg={theme.colors.mainGreen}
+          px="24px"
+          py="15px"
+          mx="16px"
+          borderRadius={theme.radii.button}>
+          <Text color="white" fontSize="15px" fontWeight="700">
+            All
+          </Text>
+        </Button>
+        <Button
+          bg={theme.colors.mainGreen}
+          px="24px"
+          py="15px"
+          borderRadius={theme.radii.button}>
+          <Text color="white" fontSize="15px" fontWeight="700">
+            All
+          </Text>
+        </Button>
+      </Box>
+      <Box pl="24px" mt="24px">
+        <RecipeCard />
+      </Box>
+
     </Box>
   );
 }
