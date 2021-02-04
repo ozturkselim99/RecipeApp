@@ -6,10 +6,50 @@ import FormInput from '../components/FormInput';
 import {Filter, Search, Clock, ArrowUpLeft} from '../components/icons';
 import theme from '../utils/Theme';
 import Button from '../components/Button';
+import TagSelector from '../components/TagSelector';
 
 function SearchIcon() {
   return <Search stroke={theme.colors.mainText} />;
 }
+
+const tags = [
+  {
+    id: 'the',
+    name: 'the',
+  },
+  {
+    id: 'quick',
+    name: 'quick',
+  },
+  {
+    id: 'brown',
+    name: 'brown',
+  },
+  {
+    id: 'fox',
+    name: 'fox',
+  },
+  {
+    id: 'jumps',
+    name: 'jumps',
+  },
+  {
+    id: 'over',
+    name: 'over',
+  },
+  {
+    id: 'the2',
+    name: 'the',
+  },
+  {
+    id: 'lazy',
+    name: 'lazy',
+  },
+  {
+    id: 'dog',
+    name: 'dog',
+  },
+];
 
 export default function SearchScreen() {
   const [isFocus, setIsFocus] = React.useState(false);
@@ -90,6 +130,13 @@ export default function SearchScreen() {
           <Text fontSize={17} color={theme.colors.mainText} fontWeight={700}>
             Search suggestions
           </Text>
+        </Box>
+        <Box mt={24}>
+          <TagSelector
+            tags={tags}
+            multiple
+            onChange={(selected) => console.log(selected)}
+          />
         </Box>
       </Box>
     </Box>
