@@ -1,15 +1,53 @@
 import * as React from 'react';
 import Box from '../components/Box';
 import Text from '../components/Text';
+import {ScrollView, FlatList} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {FlatList} from 'react-native';
 import StoryContainer from '../components/StoryContainer';
 import theme from '../utils/Theme';
-import Button from '../components/Button';
-import SelectMultipleButton from '../components/SelectMultipleButton';
 import RecipeCard from '../components/RecipeCard';
+import TagSelector from '../components/TagSelector';
 
 export default function HomeScreen() {
+  const tags = [
+    {
+      id: 'the',
+      name: 'the',
+    },
+    {
+      id: 'quick',
+      name: 'quick',
+    },
+    {
+      id: 'brown',
+      name: 'brown',
+    },
+    {
+      id: 'fox',
+      name: 'fox',
+    },
+    {
+      id: 'jumps',
+      name: 'jumps',
+    },
+    {
+      id: 'over',
+      name: 'over',
+    },
+    {
+      id: 'the2',
+      name: 'the',
+    },
+    {
+      id: 'lazy',
+      name: 'lazy',
+    },
+    {
+      id: 'dog',
+      name: 'dog',
+    },
+  ];
+
   const stories = [
     {
       key: 'ozaferayan',
@@ -40,7 +78,7 @@ export default function HomeScreen() {
 
   const onStoryPress = () => {};
   return (
-    <Box as={SafeAreaView}>
+    <Box as={SafeAreaView} bg={'white'}>
       <FlatList
         ListHeaderComponent={() => (
           <StoryContainer stories={stories} onStoryPress={onStoryPress} />
@@ -52,40 +90,16 @@ export default function HomeScreen() {
           Category
         </Text>
       </Box>
-      <Box flexDirection="row" px="24px" mt="16px">
-        <Button
-          bg={theme.colors.mainGreen}
-          px="24px"
-          py="15px"
-          borderRadius={theme.radii.button}>
-          <Text color="white" fontSize="15px" fontWeight="700">
-            All
-          </Text>
-        </Button>
-        <Button
-          bg={theme.colors.mainGreen}
-          px="24px"
-          py="15px"
-          mx="16px"
-          borderRadius={theme.radii.button}>
-          <Text color="white" fontSize="15px" fontWeight="700">
-            All
-          </Text>
-        </Button>
-        <Button
-          bg={theme.colors.mainGreen}
-          px="24px"
-          py="15px"
-          borderRadius={theme.radii.button}>
-          <Text color="white" fontSize="15px" fontWeight="700">
-            All
-          </Text>
-        </Button>
+      <Box as={ScrollView} horizontal flexDirection="row" px="24px" mt="16px">
+        <TagSelector
+          tags={tags}
+          multiple
+          onChange={(selected) => console.log(selected)}
+        />
       </Box>
       <Box pl="24px" mt="24px">
         <RecipeCard />
       </Box>
-
     </Box>
   );
 }

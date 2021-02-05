@@ -48,7 +48,6 @@ function Navigation() {
           name={'PasswordRecovery'}
           component={PasswordRecoveryScreen}
         />
-        <LoginStack.Screen name={'Home'} component={HomeScreen} />
       </LoginStack.Navigator>
     </NavigationContainer>
   );
