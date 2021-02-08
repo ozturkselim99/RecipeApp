@@ -1,26 +1,29 @@
 import Box from './Box';
 import {Image} from 'react-native';
-import images from '../res/images';
 import Text from './Text';
 import theme from '../utils/Theme';
 import Button from './Button';
 import * as React from 'react';
 
-export default function NotificationFollow() {
+export default function NotificationFollow({
+  userName,
+  imageAvatar,
+  followText,
+}) {
   return (
     <Box flexDirection="row" mt="24px">
       {/*Avatar*/}
       <Box>
         <Image
-          source={images.zafer}
+          source={imageAvatar}
           style={{width: 48, height: 48, borderRadius: 9999}}
         />
       </Box>
       {/*Textleri kapsayan box*/}
-      <Box ml="16px" mr={40}>
+      <Box ml="16px" mr={30}>
         <Box>
           <Text fontSize="17px" fontWeight={700} color={theme.colors.mainText}>
-            Dean Winchester
+            {userName}
           </Text>
         </Box>
         <Box>
@@ -29,7 +32,7 @@ export default function NotificationFollow() {
             fontWeight={500}
             color={theme.colors.secondaryText}
             mt="3px">
-            now following you ・ 1h
+            {followText}
           </Text>
         </Box>
       </Box>

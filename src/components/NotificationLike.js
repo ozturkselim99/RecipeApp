@@ -7,21 +7,26 @@ import theme from '../utils/Theme';
 import Button from './Button';
 import img2 from '../img/manzara.jpg';
 
-export default function NotificationLike() {
+export default function NotificationLike({
+  userName,
+  likedText,
+  likeAvatar,
+  likedFoto,
+}) {
   return (
     <Box flexDirection="row" mt="24px">
       {/*Yesterday foto*/}
       <Box>
         <Image
-          source={img}
+          source={likeAvatar}
           style={{width: 65, height: 65, borderRadius: 9999}}
         />
       </Box>
       {/*Textleri kapsayan box*/}
       <Box ml="16px">
-        <Box width={134}>
+        <Box width={170}>
           <Text fontSize="17px" fontWeight={700} color={theme.colors.mainText}>
-            John Steve and Sam Winchester
+            {userName}
           </Text>
         </Box>
         <Box>
@@ -30,7 +35,7 @@ export default function NotificationLike() {
             fontWeight={500}
             color={theme.colors.secondaryText}
             mt="3px">
-            liked your recipe ・ 20 min
+            {likedText}
           </Text>
         </Box>
       </Box>
@@ -38,7 +43,7 @@ export default function NotificationLike() {
       <Box ml="30px">
         <Button>
           <Image
-            source={img2}
+            source={likedFoto}
             style={{width: 64, height: 64, borderRadius: 16}}
           />
         </Button>

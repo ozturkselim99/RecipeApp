@@ -2,17 +2,22 @@ import * as React from 'react';
 import Box from '../components/Box';
 import Text from '../components/Text';
 import theme from '../utils/Theme';
-import {FlatList} from 'react-native';
-import images from '../res/images';
-import {Image} from 'react-native';
-import {borderRadius} from 'styled-system';
-import Button from '../components/Button';
 import NotificationLike from '../components/NotificationLike';
 import NotificationFollow from '../components/NotificationFollow';
+import tehlike from '../img/Tehlike2.jpg';
+import qral from '../img/qral.jpg';
+import selo from '../img/selo.jpg';
+import fuku from '../img/fuku.jpg';
+import suslu from '../img/susluSelo.jpeg';
+import durum from '../img/durum.jpeg';
+import brokoli from '../img/brokoli.jpeg';
+import masum from '../img/masum.jpeg';
+import crazy from '../img/crazy.jpg';
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function NotificationScreen() {
   return (
-    <Box paddingTop={'26px'} pl="24px" pr="24px" bg={'white'}>
+    <Box as={SafeAreaView} pt="12px" px={'24px'} bg={'white'} flex={1}>
       {/*New texti*/}
       <Box>
         <Text
@@ -23,7 +28,11 @@ export default function NotificationScreen() {
           New
         </Text>
       </Box>
-      <NotificationFollow />
+      <NotificationFollow
+        userName={'Furkan Ergün'}
+        imageAvatar={fuku}
+        followText={'now following you ・ 46m'}
+      />
       {/*Today texti*/}
       <Box>
         <Text
@@ -34,9 +43,23 @@ export default function NotificationScreen() {
           Today
         </Text>
       </Box>
-      <NotificationLike />
-      <NotificationFollow />
-      <NotificationLike />
+      <NotificationLike
+        userName={'Şopar Selo'}
+        likedText={'liked your recipe ・ 53 min'}
+        likeAvatar={suslu}
+        likedFoto={durum}
+      />
+      <NotificationFollow
+        userName={'Ahmet Selim Öztürk'}
+        imageAvatar={selo}
+        followText={'now following you ・ 18m'}
+      />
+      <NotificationLike
+        userName={'Crazy Girl'}
+        likedText={'liked your recipe ・ 61 min'}
+        likedFoto={brokoli}
+        likeAvatar={crazy}
+      />
       {/*Yesterday texti*/}
       <Box>
         <Text
@@ -47,10 +70,16 @@ export default function NotificationScreen() {
           Yesterday
         </Text>
       </Box>
-      <NotificationFollow />
-      <NotificationFollow />
-      {/*Boş box*/}
-      <Box bg="white" mt="70px" />
+      <NotificationFollow
+        userName={'Berkay Kral'}
+        imageAvatar={qral}
+        followText={'now following you ・ 23m'}
+      />
+      <NotificationFollow
+        userName={'Davud Samed Tombul'}
+        imageAvatar={tehlike}
+        followText={'now following you ・ 28m'}
+      />
     </Box>
   );
 }
