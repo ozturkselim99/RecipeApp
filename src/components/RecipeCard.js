@@ -5,10 +5,10 @@ import {Image, TouchableHighlight} from 'react-native';
 import images from '../res/images';
 import Text from './Text';
 import img from '../img/Mama.png';
-import Heart from '../components/icons/Heart';
+import Heart from './icons/Heart';
 import Button from './Button';
 
-const RecipeCard = () => {
+const RecipeCard = ({onPress, author, title}) => {
   return (
     <Box flexDirection="column" width={151}>
       <Box flexDirection="row">
@@ -23,13 +23,10 @@ const RecipeCard = () => {
           color={theme.colors.mainText}
           ml="10px"
           textAlign="justify">
-          Zafer Ayan
+          {author}
         </Text>
       </Box>
-      <Button
-        onPress={() => {
-          console.log('abimin kulaklığı daha iyi ');
-        }}>
+      <Button onPress={onPress}>
         <Box mt="16px" position="relative">
           <Box
             position="absolute"
@@ -55,7 +52,7 @@ const RecipeCard = () => {
           fontWeight={700}
           color={theme.colors.mainText}
           mt="5px">
-          10 dakikada portakal sulu irmikli baklava
+          {title}
         </Text>
         <Text
           fontSize="12px"
