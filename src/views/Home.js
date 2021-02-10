@@ -7,6 +7,7 @@ import StoryContainer from '../components/StoryContainer';
 import theme from '../utils/Theme';
 import RecipeCard from '../components/RecipeCard';
 import TagSelector from '../components/TagSelector';
+import sampleData from '../data.js';
 
 export default function HomeScreen({navigation}) {
   const tags = [
@@ -48,43 +49,25 @@ export default function HomeScreen({navigation}) {
     },
   ];
 
-  const stories = [
-    {
-      key: 'ozaferayan',
-      isStoryInsertable: true,
-      hasStory: false,
-      src: 'https://i.pravatar.cc/150?img=8',
-    },
-    {key: 'ngordon', hasStory: true, src: 'https://i.pravatar.cc/150?img=8'},
-    {
-      key: 'r_von_rails',
-      hasStory: true,
-      src: 'https://i.pravatar.cc/150?img=9',
-    },
-    {key: 'figNelson', hasStory: true, src: 'https://i.pravatar.cc/150?img=10'},
-    {
-      key: 'benjaminEv',
-      hasStory: true,
-      src: 'https://i.pravatar.cc/150?img=11',
-    },
-    {key: 'gilesPos', hasStory: true, src: 'https://i.pravatar.cc/150?img=12'},
-    {key: 'hugh27', hasStory: true, src: 'https://i.pravatar.cc/150?img=13'},
-    {
-      key: 'b_guidelines',
-      hasStory: true,
-      src: 'https://i.pravatar.cc/150?img=14',
-    },
-  ];
-
   const onStoryPress = () => {};
   return (
     <Box as={SafeAreaView} bg={'white'} flex={1}>
       <Box>
         <FlatList
           ListHeaderComponent={() => (
-            <StoryContainer stories={stories} onStoryPress={onStoryPress} />
+            <StoryContainer
+              stories={sampleData.stories}
+              onStoryPress={onStoryPress}
+            />
           )}
-          data={[{key: 'a'}, {key: 'b'}, {key: 'c'}, {key: 'd'}, {key: 'e'}]}
+          data={[
+            {key: 'a'},
+            {key: 'b'},
+            {key: 'c'},
+            {key: 'd'},
+            {key: 'e'},
+            {key: 'f'},
+          ]}
         />
       </Box>
       <Box mt="20px" ml="24px">
@@ -99,22 +82,27 @@ export default function HomeScreen({navigation}) {
           />
         </Box>
       </Box>
+
       <Box
-        mt="24px"
+        as={FlatList}
         px={24}
-        flexDirection="row"
-        justifyContent={'space-between'}>
-        <RecipeCard
-          onPress={() => navigation.navigate('DetailRecipe')}
-          title={'Fıstıklı portakallı irmik helvası'}
-          author={'Berkay Özdağ'}
-        />
-        <RecipeCard
-          onPress={() => navigation.navigate('DetailRecipe')}
-          title={'Fıstıklı portakallı irmik helvası'}
-          author={'Berkay Özdağ'}
-        />
-      </Box>
+        mt={18}
+        data={sampleData.recipes}
+        columnWrapperStyle={{justifyContent: 'space-between'}}
+        ItemSeparatorComponent={() => <Box size={30} />}
+        renderItem={({item}) => (
+          <RecipeCard
+            item={item}
+            onPress={() =>
+              navigation.navigate('DetailRecipe', {
+                itemId: item.id,
+              })
+            }
+          />
+        )}
+        numColumns={2}
+        keyExtractor={(item) => item.id}
+      />
     </Box>
   );
 }

@@ -16,12 +16,8 @@ const FirstRoute = () => (
     flexDirection="row"
     px={24}
     flexWrap="wrap"
-    justifyContent={'space-between'}>
-    <RecipeCard />
-    <RecipeCard />
-    <RecipeCard />
-    <RecipeCard />
-  </Box>
+    justifyContent={'space-between'}
+  />
 );
 
 const SecondRoute = () => (

@@ -2,22 +2,21 @@ import React from 'react';
 import theme from '../utils/Theme';
 import Box from './Box';
 import {Image} from 'react-native';
-import images from '../res/images';
 import Text from './Text';
-import img from '../img/Mama.png';
 import Heart from './icons/Heart';
 import {Dimensions} from 'react-native';
 import Button from './Button';
 
 const width = Dimensions.get('window').width;
 
-const RecipeCard = ({onPress, author, title}) => {
+const RecipeCard = ({item, onPress}) => {
   return (
     <Box flexDirection="column" width={width * 0.41}>
       <Box flexDirection="row" alignItems={'center'}>
         <Image
-          source={images.zafer}
+          source={{uri: item.author.avatar}}
           style={{width: 31, height: 31, borderRadius: 11}}
+          resizeMode="contain"
         />
         <Text
           style={{textAlignVertical: 'center', textAlign: 'center'}}
@@ -26,10 +25,10 @@ const RecipeCard = ({onPress, author, title}) => {
           color={theme.colors.mainText}
           ml="10px"
           textAlign="justify">
-          {author}
+          {item.author.fullname}
         </Text>
       </Box>
-      <Button onPress={onPress} mt={12}>
+      <Button mt={12} onPress={onPress}>
         <Box
           position="absolute"
           top={16}
@@ -37,13 +36,13 @@ const RecipeCard = ({onPress, author, title}) => {
           zIndex={10}
           right={16}
           borderRadius="8px"
-          bg="rgba(255, 255, 255, 0.2)"
+          bg="rgba(255, 255, 255, 0.6)"
           justifyContent="center"
           alignItems="center">
           <Heart stroke="white" />
         </Box>
         <Image
-          source={img}
+          source={{uri: item.image}}
           resizeMode="cover"
           style={{
             borderRadius: 16,
@@ -55,7 +54,7 @@ const RecipeCard = ({onPress, author, title}) => {
       </Button>
       <Box mt={15}>
         <Text fontSize="12px" fontWeight={700} color={theme.colors.mainText}>
-          {title}
+          {item.title}
         </Text>
         <Text
           fontSize="12px"

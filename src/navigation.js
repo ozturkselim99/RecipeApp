@@ -23,6 +23,9 @@ const LoginStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
 
+import Button from './components/Button';
+import {Bell} from './components/icons';
+
 function Navigation() {
   const [userToken, setUserToken] = React.useState(false);
 

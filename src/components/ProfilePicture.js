@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {Image, StyleSheet} from 'react-native';
 import images from '../res/images';
 import colors from '../res/colors';
 import Box from './Box';
@@ -55,7 +55,7 @@ const ProfilePicture = ({item, onStoryPress, size}) => {
         size={params.size + 1}
         alignItems="center"
         justifyContent="center">
-        <Image source={{uri: item.src}} style={styles(params).profileImg} />
+        <Image source={{uri: item.avatar}} style={styles(params).profileImg} />
       </Box>
 
       {!item.hasStory && item.isStoryInsertable && (
