@@ -14,7 +14,7 @@ const StoryListItem = ({item, onStoryPress}) => {
         fontSize="12px"
         fontWeight="normal">
         {' '}
-        {item && item.key}
+        {item && item.username}
       </Text>
     </Box>
   );

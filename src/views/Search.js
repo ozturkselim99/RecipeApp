@@ -57,10 +57,19 @@ const tags = [
 export default function SearchScreen() {
   const [isFocus, setIsFocus] = React.useState(false);
   const searchInputRef = React.useRef(null);
+  const modalizeRef = React.useRef(null);
+
+  const onModalOpen = () => {
+    modalizeRef.current?.open();
+  };
+  const onModalClose = () => {
+    modalizeRef.current?.close();
+  };
+
   return (
     <Box as={SafeAreaView} bg={'white'} flex={1}>
-      <Box px={24} flexDirection={'row'} mt={16}>
-        <Box flexGrow={0.8}>
+      <Box px={24} flexDirection={'row'} justifyContent={'space-between'}>
+        <Box flex={1}>
           <FormInput
             inputRef={searchInputRef}
             LeftIcon={SearchIcon}
@@ -76,11 +85,13 @@ export default function SearchScreen() {
               setIsFocus(false);
               searchInputRef.current.blur();
             }}
-            mr={3}
             ml={10}>
             <Text>Cancel</Text>
           </Button>
         )}
+        <Button onPress={onModalOpen} ml={24}>
+          <Filter stroke={theme.colors.mainText} />
+        </Button>
       </Box>
       <Box mt={24} height={8} bg={theme.colors.mainGray} />
       <Box px={24} mt={12}>
@@ -144,7 +155,7 @@ export default function SearchScreen() {
           />
         </Box>
       </Box>
-      <RecipeFilter />
+      <RecipeFilter modalRef={modalizeRef} />
     </Box>
   );
 }

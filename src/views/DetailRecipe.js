@@ -8,29 +8,29 @@ import theme from '../utils/Theme';
 import {Image} from 'react-native';
 import images from '../res/images';
 import img from '../img/photo.jpg';
+import data from '../data';
 
 const {height: SCREEN_HEIGHT} = Dimensions.get('window');
 
 const IS_IPHONE_X = SCREEN_HEIGHT === 812 || SCREEN_HEIGHT === 896;
 const HEADER_HEIGHT = Platform.OS === 'ios' ? (IS_IPHONE_X ? 88 : 64) : 64;
 
-const renderContent = () => {
+const renderContent = (recipe) => {
   return (
     <Box px="24px">
       <Box
         style={{
-          flex: 1,
           height: 5,
           backgroundColor: 'gray',
           width: 40,
           borderRadius: 100,
         }}
         mt="16px"
-        ml="140px"
+        mx="auto"
       />
-      <Box py="44px">
+      <Box py="30px">
         <Text color={theme.colors.mainText} fontSize="17px" fontWeight="bold">
-          Cacao Maca Walnut Milk
+          {recipe?.title}
         </Text>
         <Text
           color={theme.colors.secondaryText}
@@ -41,35 +41,39 @@ const renderContent = () => {
         </Text>
       </Box>
       <Box flexDirection="column">
-        <Box flexDirection="row" alignItems="center">
+        <Box
+          flexDirection="row"
+          justifyContent={'space-between'}
+          alignItems="center">
           <Image
-            source={images.zafer}
+            source={{uri: recipe && recipe?.author.avatar}}
             style={{width: 31, height: 31, borderRadius: 11}}
           />
-          <Text
-            ml="8px"
-            style={{textAlignVertical: 'center', textAlign: 'center'}}
-            color={theme.colors.mainText}
-            fontSize="15px"
-            fontWeight="bold">
-            Zafer Ayan
-          </Text>
-          <Box
-            size="32px"
-            ml="100px"
-            borderRadius="32px"
-            bg={theme.colors.mainGreen}
-            justifyContent="center"
-            alignItems="center">
-            <Heart stroke="white" />
-          </Box>
-          <Box alignItems="center" justifyContent="center" ml="8px">
+          <Box flex={1} ml={10}>
             <Text
+              color={theme.colors.mainText}
               fontSize="15px"
-              fontWeight="bold"
-              color={theme.colors.mainText}>
-              10000 likes
+              fontWeight="bold">
+              {recipe && recipe.author?.fullname}
             </Text>
+          </Box>
+          <Box flexDirection={'row'}>
+            <Box
+              size="32px"
+              borderRadius="32px"
+              bg={theme.colors.mainGreen}
+              justifyContent="center"
+              alignItems="center">
+              <Heart stroke="white" />
+            </Box>
+            <Box alignItems="center" justifyContent="center" ml="8px">
+              <Text
+                fontSize="15px"
+                fontWeight="bold"
+                color={theme.colors.mainText}>
+                10000 likes
+              </Text>
+            </Box>
           </Box>
         </Box>
       </Box>
@@ -154,16 +158,24 @@ const renderContent = () => {
   );
 };
 
-function DetailRecipe() {
+function DetailRecipe({route, navigation}) {
+  const [recipe, setRecipe] = React.useState(null);
+  React.useEffect(() => {
+    const id = route.params?.itemId;
+    if (id) {
+      setRecipe(data.recipes[id]);
+    }
+  }, [route.params?.itemId]);
+
   return (
     <ReactNativeParallaxHeader
       statusBarColor={'transparent'}
       headerMinHeight={HEADER_HEIGHT}
       headerMaxHeight={400}
       extraScrollHeight={20}
-      backgroundImage={require('../img/Mama.png')}
+      backgroundImage={{uri: recipe?.image}}
       backgroundImageScale={1.2}
-      renderContent={renderContent}
+      renderContent={() => renderContent(recipe)}
       containerStyle={{flex: 1, background: 'white'}}
       contentContainerStyle={{flexGrow: 1, background: 'white'}}
       innerContainerStyle={{flex: 1, background: 'white'}}

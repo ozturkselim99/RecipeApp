@@ -1,20 +1,22 @@
 import React from 'react';
 import theme from '../utils/Theme';
 import Box from './Box';
-import {Image, TouchableHighlight} from 'react-native';
-import images from '../res/images';
+import {Image} from 'react-native';
 import Text from './Text';
-import img from '../img/Mama.png';
 import Heart from './icons/Heart';
+import {Dimensions} from 'react-native';
 import Button from './Button';
 
-const RecipeCard = ({onPress, author, title}) => {
+const width = Dimensions.get('window').width;
+
+const RecipeCard = ({item, onPress}) => {
   return (
-    <Box flexDirection="column" width={151}>
-      <Box flexDirection="row">
+    <Box flexDirection="column" width={width * 0.41}>
+      <Box flexDirection="row" alignItems={'center'}>
         <Image
-          source={images.zafer}
+          source={{uri: item.author.avatar}}
           style={{width: 31, height: 31, borderRadius: 11}}
+          resizeMode="contain"
         />
         <Text
           style={{textAlignVertical: 'center', textAlign: 'center'}}
@@ -23,36 +25,36 @@ const RecipeCard = ({onPress, author, title}) => {
           color={theme.colors.mainText}
           ml="10px"
           textAlign="justify">
-          {author}
+          {item.author.fullname}
         </Text>
       </Box>
-      <Button onPress={onPress}>
-        <Box mt="16px" position="relative">
-          <Box
-            position="absolute"
-            top={16}
-            size="32px"
-            zIndex={10}
-            right={16}
-            borderRadius="8px"
-            bg="rgba(255, 255, 255, 0.2)"
-            justifyContent="center"
-            alignItems="center">
-            <Heart stroke="white" />
-          </Box>
-          <Image
-            source={img}
-            style={{width: 151, height: 151, borderRadius: 16}}
-          />
+      <Button mt={12} onPress={onPress}>
+        <Box
+          position="absolute"
+          top={16}
+          size="32px"
+          zIndex={10}
+          right={16}
+          borderRadius="8px"
+          bg="rgba(255, 255, 255, 0.6)"
+          justifyContent="center"
+          alignItems="center">
+          <Heart stroke="white" />
         </Box>
+        <Image
+          source={{uri: item.image}}
+          resizeMode="cover"
+          style={{
+            borderRadius: 16,
+            flex: 1,
+            position: 'relative',
+            height: width * 0.41,
+          }}
+        />
       </Button>
-      <Box>
-        <Text
-          fontSize="12px"
-          fontWeight={700}
-          color={theme.colors.mainText}
-          mt="5px">
-          {title}
+      <Box mt={15}>
+        <Text fontSize="12px" fontWeight={700} color={theme.colors.mainText}>
+          {item.title}
         </Text>
         <Text
           fontSize="12px"

@@ -21,8 +21,14 @@ import DetailRecipe from './views/DetailRecipe';
 
 const LoginStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+const HomeStack = createStackNavigator();
+
+import Button from './components/Button';
+import {Bell} from './components/icons';
 
 function Navigation() {
+  const [userToken, setUserToken] = React.useState(false);
+
   return (
     <NavigationContainer>
       <LoginStack.Navigator
@@ -54,18 +60,29 @@ function Navigation() {
   );
 }
 
+function Home() {
+  return (
+    <HomeStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <HomeStack.Screen name="Home" component={HomeScreen} />
+      <HomeStack.Screen name="DetailRecipe" component={DetailRecipe} />
+    </HomeStack.Navigator>
+  );
+}
+
 function TabNavigator() {
   return (
     <NavigationContainer>
       <Tab.Navigator
         initialRouteName="Home"
         tabBar={(props) => <TabBar {...props} />}>
-        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="Search" component={SearchScreen} />
         <Tab.Screen name="Upload" component={UploadScreen} />
         <Tab.Screen name="Notification" component={NotificationScreen} />
         <Tab.Screen name="Profile" component={ProfileScreen} />
-        <Tab.Screen name="DetailRecipe" component={DetailRecipe} />
       </Tab.Navigator>
     </NavigationContainer>
   );
