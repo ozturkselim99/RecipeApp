@@ -17,6 +17,7 @@ import SearchScreen from './views/Search';
 import UploadScreen from './views/Upload';
 import NotificationScreen from './views/Notification';
 import ProfileScreen from './views/Profile';
+import DetailRecipe from './views/DetailRecipe';
 
 const LoginStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -64,6 +65,7 @@ function TabNavigator() {
         <Tab.Screen name="Upload" component={UploadScreen} />
         <Tab.Screen name="Notification" component={NotificationScreen} />
         <Tab.Screen name="Profile" component={ProfileScreen} />
+        <Tab.Screen name="DetailRecipe" component={DetailRecipe} />
       </Tab.Navigator>
     </NavigationContainer>
   );
