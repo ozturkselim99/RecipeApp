@@ -78,26 +78,37 @@ export default function HomeScreen({navigation}) {
 
   const onStoryPress = () => {};
   return (
-    <Box as={SafeAreaView} bg={'white'}>
-      <FlatList
-        ListHeaderComponent={() => (
-          <StoryContainer stories={stories} onStoryPress={onStoryPress} />
-        )}
-        data={[{key: 'a'}, {key: 'b'}, {key: 'c'}, {key: 'd'}, {key: 'e'}]}
-      />
+    <Box as={SafeAreaView} bg={'white'} flex={1}>
+      <Box>
+        <FlatList
+          ListHeaderComponent={() => (
+            <StoryContainer stories={stories} onStoryPress={onStoryPress} />
+          )}
+          data={[{key: 'a'}, {key: 'b'}, {key: 'c'}, {key: 'd'}, {key: 'e'}]}
+        />
+      </Box>
       <Box mt="20px" ml="24px">
         <Text fontWeight="700" fontSize="17px" color={theme.colors.mainText}>
           Category
         </Text>
+        <Box as={ScrollView} horizontal flexDirection="row" mt="16px">
+          <TagSelector
+            tags={tags}
+            multiple
+            onChange={(selected) => console.log(selected)}
+          />
+        </Box>
       </Box>
-      <Box as={ScrollView} horizontal flexDirection="row" px="24px" mt="16px">
-        <TagSelector
-          tags={tags}
-          multiple
-          onChange={(selected) => console.log(selected)}
+      <Box
+        mt="24px"
+        px={24}
+        flexDirection="row"
+        justifyContent={'space-between'}>
+        <RecipeCard
+          onPress={() => navigation.navigate('DetailRecipe')}
+          title={'Fıstıklı portakallı irmik helvası'}
+          author={'Berkay Özdağ'}
         />
-      </Box>
-      <Box pl="24px" mt="24px">
         <RecipeCard
           onPress={() => navigation.navigate('DetailRecipe')}
           title={'Fıstıklı portakallı irmik helvası'}

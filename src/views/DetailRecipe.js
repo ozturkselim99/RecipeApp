@@ -8,6 +8,7 @@ import theme from '../utils/Theme';
 import {Image} from 'react-native';
 import images from '../res/images';
 import img from '../img/photo.jpg';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const {height: SCREEN_HEIGHT} = Dimensions.get('window');
 
@@ -19,14 +20,13 @@ const renderContent = () => {
     <Box px="24px">
       <Box
         style={{
-          flex: 1,
           height: 5,
           backgroundColor: 'gray',
           width: 40,
           borderRadius: 100,
         }}
         mt="16px"
-        ml="140px"
+        mx="auto"
       />
       <Box py="44px">
         <Text color={theme.colors.mainText} fontSize="17px" fontWeight="bold">
@@ -161,7 +161,7 @@ function DetailRecipe() {
       headerMinHeight={HEADER_HEIGHT}
       headerMaxHeight={400}
       extraScrollHeight={20}
-      backgroundImage={require('../img/Mama.png')}
+      backgroundImage={require('../img/brokoli.jpeg')}
       backgroundImageScale={1.2}
       renderContent={renderContent}
       containerStyle={{flex: 1, background: 'white'}}

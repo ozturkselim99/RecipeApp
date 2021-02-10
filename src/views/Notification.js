@@ -13,27 +13,23 @@ import durum from '../img/durum.jpeg';
 import brokoli from '../img/brokoli.jpeg';
 import masum from '../img/masum.jpeg';
 import crazy from '../img/crazy.jpg';
-import { SafeAreaView } from "react-native-safe-area-context";
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 export default function NotificationScreen() {
   return (
     <Box as={SafeAreaView} pt="12px" px={'24px'} bg={'white'} flex={1}>
-      {/*New texti*/}
-      <Box>
-        <Text
-          fontSize="17px"
-          fontWeight={700}
-          color={theme.colors.mainText}
-          mt="12px">
-          New
-        </Text>
-      </Box>
+      <Text
+        fontSize="17px"
+        fontWeight={700}
+        color={theme.colors.mainText}
+        mt="12px">
+        New
+      </Text>
       <NotificationFollow
         userName={'Furkan Ergün'}
         imageAvatar={fuku}
         followText={'now following you ・ 46m'}
       />
-      {/*Today texti*/}
       <Box>
         <Text
           fontSize="17px"
