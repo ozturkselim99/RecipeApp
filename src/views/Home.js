@@ -8,7 +8,7 @@ import theme from '../utils/Theme';
 import RecipeCard from '../components/RecipeCard';
 import TagSelector from '../components/TagSelector';
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
   const tags = [
     {
       id: 'the',
@@ -98,7 +98,11 @@ export default function HomeScreen() {
         />
       </Box>
       <Box pl="24px" mt="24px">
-        <RecipeCard />
+        <RecipeCard
+          onPress={() => navigation.navigate('DetailRecipe')}
+          title={'Fıstıklı portakallı irmik helvası'}
+          author={'Berkay Özdağ'}
+        />
       </Box>
     </Box>
   );
