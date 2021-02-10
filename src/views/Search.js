@@ -7,6 +7,9 @@ import {Filter, Search, Clock, ArrowUpLeft} from '../components/icons';
 import theme from '../utils/Theme';
 import Button from '../components/Button';
 import TagSelector from '../components/TagSelector';
+import RecipeFilter from '../components/RecipeFilter';
+import HomeSearch from '../components/HomeSearch';
+import {ScrollView} from 'react-native';
 
 function SearchIcon() {
   return <Search stroke={theme.colors.mainText} />;
@@ -56,8 +59,8 @@ export default function SearchScreen() {
   const searchInputRef = React.useRef(null);
   return (
     <Box as={SafeAreaView} bg={'white'} flex={1}>
-      <Box px={24} flexDirection={'row'} justifyContent={'space-between'}>
-        <Box flex={1}>
+      <Box px={24} flexDirection={'row'} mt={16}>
+        <Box flexGrow={0.8}>
           <FormInput
             inputRef={searchInputRef}
             LeftIcon={SearchIcon}
@@ -73,14 +76,11 @@ export default function SearchScreen() {
               setIsFocus(false);
               searchInputRef.current.blur();
             }}
+            mr={3}
             ml={10}>
             <Text>Cancel</Text>
           </Button>
         )}
-
-        <Button ml={24}>
-          <Filter stroke={theme.colors.mainText} />
-        </Button>
       </Box>
       <Box mt={24} height={8} bg={theme.colors.mainGray} />
       <Box px={24} mt={12}>
@@ -131,7 +131,12 @@ export default function SearchScreen() {
             Search suggestions
           </Text>
         </Box>
-        <Box mt={24}>
+        <Box
+          as={ScrollView}
+          horizontal
+          flexDirection="row"
+          showsHorizontalScrollIndicator={false}
+          mt={24}>
           <TagSelector
             tags={tags}
             multiple
@@ -139,6 +144,7 @@ export default function SearchScreen() {
           />
         </Box>
       </Box>
+      <RecipeFilter />
     </Box>
   );
 }
