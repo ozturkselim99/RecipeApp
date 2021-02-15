@@ -9,7 +9,6 @@ import theme from '../utils/Theme';
 function TabBar({state, descriptors, navigation}) {
   return (
     <Box
-      pb={20}
       bg="white"
       flexDirection="row"
       style={{
