@@ -23,9 +23,6 @@ const LoginStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
 
-import Button from './components/Button';
-import {Bell} from './components/icons';
-
 function Navigation() {
   const [userToken, setUserToken] = React.useState(false);
 
@@ -76,6 +73,12 @@ function TabNavigator() {
   return (
     <NavigationContainer>
       <Tab.Navigator
+        tabBarOptions={{
+          keyboardHidesTabBar: true,
+          style: {
+            position: 'absolute',
+          },
+        }}
         initialRouteName="Home"
         tabBar={(props) => <TabBar {...props} />}>
         <Tab.Screen name="Home" component={Home} />

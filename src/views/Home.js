@@ -1,13 +1,13 @@
 import * as React from 'react';
 import Box from '../components/Box';
 import Text from '../components/Text';
-import {ScrollView, FlatList} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {ScrollView, FlatList, StatusBar} from 'react-native';
 import StoryContainer from '../components/StoryContainer';
 import theme from '../utils/Theme';
 import RecipeCard from '../components/RecipeCard';
 import TagSelector from '../components/TagSelector';
 import sampleData from '../data.js';
+import {SafeAreaView} from 'react-native-safe-area-view';
 
 export default function HomeScreen({navigation}) {
   const tags = [
@@ -52,6 +52,7 @@ export default function HomeScreen({navigation}) {
   const onStoryPress = () => {};
   return (
     <Box as={SafeAreaView} bg={'white'} flex={1}>
+      <StatusBar barStyle={'dark-content'} backgroundColor={'white'} />
       <Box>
         <FlatList
           ListHeaderComponent={() => (
