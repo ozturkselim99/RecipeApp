@@ -6,7 +6,6 @@ import Text from '../components/Text';
 import {Heart, CheckCircle} from '../components/icons';
 import theme from '../utils/Theme';
 import {Image} from 'react-native';
-import images from '../res/images';
 import img from '../img/photo.jpg';
 import data from '../data';
 

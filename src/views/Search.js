@@ -142,12 +142,8 @@ export default function SearchScreen() {
             Search suggestions
           </Text>
         </Box>
-        <Box
-          as={ScrollView}
-          horizontal
-          flexDirection="row"
-          showsHorizontalScrollIndicator={false}
-          mt={24}>
+
+        <Box mt={24}>
           <TagSelector
             tags={tags}
             multiple

@@ -7,7 +7,7 @@ import theme from '../utils/Theme';
 import RecipeCard from '../components/RecipeCard';
 import TagSelector from '../components/TagSelector';
 import sampleData from '../data.js';
-import {SafeAreaView} from 'react-native-safe-area-view';
+import SafeAreaView from 'react-native-safe-area-view';
 
 export default function HomeScreen({navigation}) {
   const tags = [
