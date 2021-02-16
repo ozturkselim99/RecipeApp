@@ -18,10 +18,12 @@ import UploadScreen from './views/Upload';
 import NotificationScreen from './views/Notification';
 import ProfileScreen from './views/Profile';
 import DetailRecipe from './views/DetailRecipe';
+import FollowingScreen from './views/Following';
 
 const LoginStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
+const ProfileStack = createStackNavigator();
 
 function Navigation() {
   const [userToken, setUserToken] = React.useState(false);
@@ -69,6 +71,18 @@ function Home() {
   );
 }
 
+function Profile() {
+  return (
+    <ProfileStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <ProfileStack.Screen name="Profile" component={ProfileScreen} />
+      <ProfileStack.Screen name="Following" component={FollowingScreen} />
+    </ProfileStack.Navigator>
+  );
+}
+
 function TabNavigator() {
   return (
     <NavigationContainer>
@@ -85,7 +99,7 @@ function TabNavigator() {
         <Tab.Screen name="Search" component={SearchScreen} />
         <Tab.Screen name="Upload" component={UploadScreen} />
         <Tab.Screen name="Notification" component={NotificationScreen} />
-        <Tab.Screen name="Profile" component={ProfileScreen} />
+        <Tab.Screen name="Profile" component={Profile} />
       </Tab.Navigator>
     </NavigationContainer>
   );
