@@ -9,6 +9,7 @@ export default function NotificationFollow({
   userName,
   imageAvatar,
   followText,
+  buttonText,
 }) {
   return (
     <Box flexDirection="row" mt="24px" justifyContent={'space-between'}>
@@ -35,7 +36,7 @@ export default function NotificationFollow({
         height={39}
         width={87}>
         <Text fontSize={12} fontWeight={500} color={'white'}>
-          Follow
+          {buttonText}
         </Text>
       </Button>
     </Box>

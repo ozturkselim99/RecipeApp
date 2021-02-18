@@ -29,6 +29,7 @@ export default function NotificationScreen() {
         userName={'Furkan Ergün'}
         imageAvatar={fuku}
         followText={'now following you ・ 46m'}
+        buttonText={'Follow'}
       />
       <Box>
         <Text
@@ -49,6 +50,7 @@ export default function NotificationScreen() {
         userName={'Ahmet Selim Öztürk'}
         imageAvatar={selo}
         followText={'now following you ・ 18m'}
+        buttonText={'Follow'}
       />
       <NotificationLike
         userName={'Crazy Girl'}
@@ -70,11 +72,13 @@ export default function NotificationScreen() {
         userName={'Berkay Kral'}
         imageAvatar={qral}
         followText={'now following you ・ 23m'}
+        buttonText={'Follow'}
       />
       <NotificationFollow
         userName={'Davud Samed Tombul'}
         imageAvatar={tehlike}
         followText={'now following you ・ 28m'}
+        buttonText={'Follow'}
       />
     </Box>
   );
