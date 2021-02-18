@@ -7,9 +7,9 @@ import {View, StyleSheet, Dimensions} from 'react-native';
 import selo from '../img/selo.jpg';
 import theme from '../utils/Theme';
 import {Share2} from '../components/icons';
-import RecipeCard from '../components/RecipeCard';
 import {ScrollView} from 'react-native-gesture-handler';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
+import {Auth} from 'aws-amplify';
 
 const FirstRoute = () => (
   <Box
@@ -39,6 +39,7 @@ const renderTabBar = (props) => (
 
 export default function ProfileScreen() {
   const [index, setIndex] = React.useState(0);
+  const [isAuth, setAuth] = React.useState(false);
   const [routes] = React.useState([
     {key: 'first', title: 'First'},
     {key: 'second', title: 'Second'},

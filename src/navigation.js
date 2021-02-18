@@ -23,9 +23,7 @@ const LoginStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
 
-function Navigation() {
-  const [userToken, setUserToken] = React.useState(false);
-
+function GirisNav() {
   return (
     <NavigationContainer>
       <LoginStack.Navigator
@@ -91,4 +89,4 @@ function TabNavigator() {
   );
 }
 
-export default Navigation;
+export default TabNavigator;

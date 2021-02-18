@@ -8,7 +8,7 @@ import RecipeCard from '../components/RecipeCard';
 import TagSelector from '../components/TagSelector';
 import sampleData from '../data.js';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {API, graphqlOperation} from 'aws-amplify';
+import {API, Auth} from 'aws-amplify';
 import {listTodos} from '../graphql/queries';
 
 export default function HomeScreen({navigation}) {
@@ -53,7 +53,8 @@ export default function HomeScreen({navigation}) {
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await API.graphql(graphqlOperation(listTodos));
+        const data = await Auth.signIn('', '');
+        console.log(data);
       } catch (e) {
         console.log(e);
       }

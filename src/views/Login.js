@@ -6,6 +6,7 @@ import Button from '../components/Button';
 import theme from '../utils/Theme';
 import {Mail, Lock, Eye, Google} from '../components/icons';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {Auth} from 'aws-amplify';
 
 function MailIcon() {
   return <Mail stroke={theme.colors.mainText} />;
@@ -20,6 +21,17 @@ function EyeIcon() {
 }
 
 function LoginScreen({navigation}) {
+  const [Email, setEmail] = React.useState('');
+  const [Password, setPassword] = React.useState('');
+
+  const signInHandler = async () => {
+    try {
+      const user = await Auth.signIn(Email, Password);
+    } catch (error) {
+      console.log('error signing in', error);
+    }
+  };
+
   return (
     <Box
       as={SafeAreaView}
@@ -50,6 +62,8 @@ function LoginScreen({navigation}) {
         <FormInput
           placeholderText="Mail veya telefon numarası"
           LeftIcon={MailIcon}
+          onChangeText={setEmail}
+          value={Email}
         />
       </Box>
       <Box px="24px">
@@ -57,6 +71,8 @@ function LoginScreen({navigation}) {
           placeholderText="Şifre giriniz"
           LeftIcon={LockIcon}
           RightIcon={EyeIcon}
+          onChangeText={setPassword}
+          value={Password}
           password
         />
       </Box>
@@ -70,6 +86,7 @@ function LoginScreen({navigation}) {
           bg={theme.colors.mainGreen}
           width="100%"
           py={19}
+          onPress={signInHandler}
           borderRadius={theme.radii.button}>
           <Text fontSize={15} fontWeight={700} color="white">
             Giriş Yap
@@ -77,7 +94,7 @@ function LoginScreen({navigation}) {
         </Button>
       </Box>
       <Box my="24px" alignItems="center">
-        <Button onPress={() => navigation.navigate('Home')}>
+        <Button>
           <Text color={theme.colors.secondaryText} fontSize="15px">
             veya devam edin
           </Text>
