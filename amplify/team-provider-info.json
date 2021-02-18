@@ -10,6 +10,11 @@
       "StackName": "amplify-recipeapp-dev-214838",
       "StackId": "arn:aws:cloudformation:eu-west-1:955419725191:stack/amplify-recipeapp-dev-214838/6c8cac80-6fbe-11eb-b927-0a10c648fb9b",
       "AmplifyAppId": "d8wwhijgeeooo"
+    },
+    "categories": {
+      "auth": {
+        "recipeapp22bc918f": {}
+      }
     }
   }
 }

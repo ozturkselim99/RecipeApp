@@ -10,7 +10,7 @@ import RegisterScreen from './views/Register';
 import VerificationScreen from './views/VerificationCode';
 import ResetPasswordScreen from './views/ResetPassword';
 import PasswordVerificationScreen from './views/PasswordVerification';
-import PasswordRecoveryScreen from './views/PasswordRecovery';
+import PasswordRecoveryScreen from './views/ForgotPassword';
 import HomeScreen from './views/Home';
 import TabBar from './components/TabBar';
 import SearchScreen from './views/Search';
@@ -91,4 +91,4 @@ function TabNavigator() {
   );
 }
 
-export default TabNavigator;
+export default Navigation;

@@ -3,3 +3,10 @@ type Todo @model {
   name: String!
   description: String
 }
+
+type Recipe @model {
+  id: ID!
+  title: String!
+  description: String
+  photo: String
+}

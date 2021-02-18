@@ -1,9 +1,6 @@
 import Input from './Input';
 import theme from '../utils/Theme';
-import Box from './Box';
-import Text from './Text';
 import * as React from 'react';
-import Button from './Button';
 
 export default function CodeInput(props) {
   const [isFocus, setIsFocus] = React.useState(false);
@@ -22,8 +19,8 @@ export default function CodeInput(props) {
       {...props}
       ref={inputRef}
       bg="white"
-      height={72}
-      width={72}
+      height={52}
+      width={52}
       color={theme.colors.mainText}
       borderWidth={isFocus ? 2 : 1}
       fontSize={34}

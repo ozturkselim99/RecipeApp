@@ -34,3 +34,39 @@ export const onDeleteTodo = /* GraphQL */ `
     }
   }
 `;
+export const onCreateRecipe = /* GraphQL */ `
+  subscription OnCreateRecipe {
+    onCreateRecipe {
+      id
+      title
+      description
+      photo
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateRecipe = /* GraphQL */ `
+  subscription OnUpdateRecipe {
+    onUpdateRecipe {
+      id
+      title
+      description
+      photo
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteRecipe = /* GraphQL */ `
+  subscription OnDeleteRecipe {
+    onDeleteRecipe {
+      id
+      title
+      description
+      photo
+      createdAt
+      updatedAt
+    }
+  }
+`;
