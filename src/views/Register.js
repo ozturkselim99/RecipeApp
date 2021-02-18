@@ -6,6 +6,7 @@ import Button from '../components/Button';
 import theme from '../utils/Theme';
 import {Mail, Lock, Eye, CheckCircle} from '../components/icons';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {Auth} from 'aws-amplify';
 
 function MailIcon() {
   return <Mail stroke={theme.colors.mainText} />;
@@ -22,6 +23,18 @@ function RegisterScreen({navigation}) {
 
   function EyeIcon() {
     return <Eye stroke={theme.colors.mainText} />;
+  }
+
+  async function signUp() {
+    try {
+      const {user} = await Auth.signUp(Email, Password);
+      console.log(user);
+      navigation.navigate('VerificationCode', {
+        email: Email,
+      });
+    } catch (error) {
+      console.log('error signing up:', error);
+    }
   }
 
   return (
@@ -125,7 +138,7 @@ function RegisterScreen({navigation}) {
       </Box>
       <Box px="24px" mt="23px">
         <Button
-          onPress={() => navigation.navigate('VerificationCode')}
+          onPress={signUp}
           bg={theme.colors.mainGreen}
           width="100%"
           py={19}

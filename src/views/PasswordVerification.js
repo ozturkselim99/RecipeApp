@@ -6,17 +6,33 @@ import CodeInput from '../components/CodeInput';
 import theme from '../utils/Theme';
 import CountDown from 'react-native-countdown-component';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {Auth} from 'aws-amplify';
 
-function PasswordVerificationScreen({navigation}) {
+function PasswordVerificationScreen({route, navigation}) {
   const [code1, setCode1] = React.useState('');
   const [code2, setCode2] = React.useState('');
   const [code3, setCode3] = React.useState('');
   const [code4, setCode4] = React.useState('');
+  const [code5, setCode5] = React.useState('');
+  const [code6, setCode6] = React.useState('');
 
   const code1Ref = React.useRef(null);
   const code2Ref = React.useRef(null);
   const code3Ref = React.useRef(null);
   const code4Ref = React.useRef(null);
+  const code5Ref = React.useRef(null);
+  const code6Ref = React.useRef(null);
+
+  const confirmHandle = async () => {
+    const verificationCode = code1 + code2 + code3 + code4 + code5 + code6;
+    try {
+      await Auth.forgotPasswordSubmit(route.params?.email, verificationCode);
+      navigation.navigate('Login');
+    } catch (error) {
+      console.log('error confirming sign up', error);
+    }
+  };
+
   return (
     <Box
       as={SafeAreaView}
@@ -94,6 +110,36 @@ function PasswordVerificationScreen({navigation}) {
           }}
           onChangeText={(text) => {
             setCode4(text);
+            if (text != '') {
+              code5Ref.current && code5Ref.current.focus();
+            }
+          }}
+        />
+        <CodeInput
+          inputRef={code5Ref}
+          value={code5}
+          onKeyPress={({nativeEvent}) => {
+            if (nativeEvent.key === 'Backspace') {
+              code4Ref.current && code4Ref.current.focus();
+            }
+          }}
+          onChangeText={(text) => {
+            setCode5(text);
+            if (text != '') {
+              code6Ref.current && code6Ref.current.focus();
+            }
+          }}
+        />
+        <CodeInput
+          inputRef={code6Ref}
+          value={code6}
+          onKeyPress={({nativeEvent}) => {
+            if (nativeEvent.key === 'Backspace') {
+              code5Ref.current && code5Ref.current.focus();
+            }
+          }}
+          onChangeText={(text) => {
+            setCode6(text);
           }}
         />
       </Box>
@@ -126,6 +172,7 @@ function PasswordVerificationScreen({navigation}) {
           bg={theme.colors.mainGreen}
           width="100%"
           py={19}
+          onPress={confirmHandle}
           borderRadius={theme.radii.button}>
           <Text fontSize={15} fontWeight={700} color="white">
             İleri

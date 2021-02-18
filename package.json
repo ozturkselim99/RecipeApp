@@ -12,9 +12,13 @@
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",
+    "@react-native-community/netinfo": "^5.9.10",
     "@react-navigation/bottom-tabs": "^5.11.7",
     "@react-navigation/native": "^5.9.2",
     "@react-navigation/stack": "^5.14.2",
+    "amazon-cognito-identity-js": "^4.5.10",
+    "aws-amplify": "^3.3.19",
+    "aws-amplify-react-native": "^4.3.1",
     "prop-types": "^15.7.2",
     "react": "16.13.1",
     "react-native": "0.63.4",

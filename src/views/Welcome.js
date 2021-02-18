@@ -1,12 +1,13 @@
 import Box from '../components/Box';
 import * as React from 'react';
-import {Image} from 'react-native';
+import {Image, StatusBar} from 'react-native';
 import Text from '../components/Text';
 import theme from '../utils/Theme';
 import Button from '../components/Button';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 export default function WelcomeScreen({navigation}) {
+  StatusBar.setBarStyle('dark-content', true);
   return (
     <Box as={SafeAreaView} flex={1} bg={'white'}>
       <Box>

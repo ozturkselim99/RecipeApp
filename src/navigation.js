@@ -10,7 +10,7 @@ import RegisterScreen from './views/Register';
 import VerificationScreen from './views/VerificationCode';
 import ResetPasswordScreen from './views/ResetPassword';
 import PasswordVerificationScreen from './views/PasswordVerification';
-import PasswordRecoveryScreen from './views/PasswordRecovery';
+import PasswordRecoveryScreen from './views/ForgotPassword';
 import HomeScreen from './views/Home';
 import TabBar from './components/TabBar';
 import SearchScreen from './views/Search';
@@ -25,9 +25,7 @@ const Tab = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 
-function Navigation() {
-  const [userToken, setUserToken] = React.useState(false);
-
+function GirisNav() {
   return (
     <NavigationContainer>
       <LoginStack.Navigator
