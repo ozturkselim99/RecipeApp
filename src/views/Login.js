@@ -7,6 +7,8 @@ import theme from '../utils/Theme';
 import {Mail, Lock, Eye, Google} from '../components/icons';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Auth} from 'aws-amplify';
+import AuthContext from '../context/AuthContext';
+import {useNavigation} from '@react-navigation/native';
 
 function MailIcon() {
   return <Mail stroke={theme.colors.mainText} />;
@@ -20,25 +22,25 @@ function EyeIcon() {
   return <Eye stroke={theme.colors.mainText} />;
 }
 
-function LoginScreen({navigation}) {
+function LoginScreen() {
   const [Email, setEmail] = React.useState('');
   const [Password, setPassword] = React.useState('');
 
+  const navigation = useNavigation();
+
+  const {setLogged} = React.useContext(AuthContext);
+
   const signInHandler = async () => {
-    try {
-      const user = await Auth.signIn(Email, Password);
-    } catch (error) {
-      console.log('error signing in', error);
-    }
+    await Auth.signIn(Email, Password)
+      .then(() => {
+        setLogged(true);
+        navigation.navigate('Home');
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
-    <Box
-      as={SafeAreaView}
-      flexDirection="column"
-      justifyContent="center"
-      bg={'white'}
-      flex={1}>
+    <Box as={SafeAreaView} justifyContent="center" bg={'white'} flex={1}>
       <Box alignItems="center" px="66px" mb={'18px'}>
         <Text
           fontWeight={700}
@@ -60,8 +62,10 @@ function LoginScreen({navigation}) {
       </Box>
       <Box mb="16px" px="24px">
         <FormInput
+          autoCapitalize={'none'}
           placeholderText="Mail veya telefon numarası"
           LeftIcon={MailIcon}
+          keyboardType={'email-address'}
           onChangeText={setEmail}
           value={Email}
         />
