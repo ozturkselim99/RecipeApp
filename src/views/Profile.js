@@ -41,7 +41,7 @@ const renderTabBar = (props) => (
   />
 );
 
-export default function ProfileScreen() {
+export default function ProfileScreen({navigation}) {
   const [index, setIndex] = React.useState(0);
   const navigation = useNavigation();
 
@@ -106,13 +106,15 @@ export default function ProfileScreen() {
             <Text fontWeight={700} fontSize={17} color={theme.colors.mainText}>
               782
             </Text>
-            <Text
-              mt={2}
-              fontWeight={500}
-              fontSize={15}
-              color={theme.colors.secondaryText}>
-              Following
-            </Text>
+            <Button onPress={() => navigation.navigate('Following')}>
+              <Text
+                mt={2}
+                fontWeight={500}
+                fontSize={15}
+                color={theme.colors.secondaryText}>
+                Following
+              </Text>
+            </Button>
           </Box>
           <Box flexDirection="column" alignItems={'center'}>
             <Text fontWeight={700} fontSize={17} color={theme.colors.mainText}>
