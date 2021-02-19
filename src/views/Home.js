@@ -9,7 +9,6 @@ import TagSelector from '../components/TagSelector';
 import sampleData from '../data.js';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {API, Auth} from 'aws-amplify';
-import {listTodos} from '../graphql/queries';
 
 export default function HomeScreen({navigation}) {
   const tags = [
@@ -53,8 +52,6 @@ export default function HomeScreen({navigation}) {
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await Auth.signIn('', '');
-        console.log(data);
       } catch (e) {
         console.log(e);
       }

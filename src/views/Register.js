@@ -4,7 +4,7 @@ import Box from '../components/Box';
 import Text from '../components/Text';
 import Button from '../components/Button';
 import theme from '../utils/Theme';
-import {Mail, Lock, Eye, CheckCircle} from '../components/icons';
+import {Mail, Lock, Eye, CheckCircle, User} from '../components/icons';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Auth} from 'aws-amplify';
 
@@ -16,8 +16,13 @@ function LockIcon() {
   return <Lock stroke={theme.colors.mainText} />;
 }
 
+function UserIcon() {
+  return <User stroke={theme.colors.mainText} />;
+}
+
 function RegisterScreen({navigation}) {
   const [Email, setEmail] = React.useState('');
+  const [FullName, setFullName] = React.useState('');
   const [Password, setPassword] = React.useState('');
   const [PasswordValid, setPasswordValid] = React.useState(null);
 
@@ -27,7 +32,13 @@ function RegisterScreen({navigation}) {
 
   async function signUp() {
     try {
-      const {user} = await Auth.signUp(Email, Password);
+      const {user} = await Auth.signUp({
+        username: Email,
+        password: Password,
+        attributes: {
+          'custom:fullname': FullName,
+        },
+      });
       console.log(user);
       navigation.navigate('VerificationCode', {
         email: Email,
@@ -62,6 +73,14 @@ function RegisterScreen({navigation}) {
           lineHeigt="27">
           Lütfen hesap bilgilerinizi buraya giriniz!
         </Text>
+      </Box>
+      <Box mb="16px" px="24px">
+        <FormInput
+          placeholderText="Ad Soyad"
+          LeftIcon={UserIcon}
+          value={FullName}
+          onChangeText={setFullName}
+        />
       </Box>
       <Box mb="16px" px="24px">
         <FormInput

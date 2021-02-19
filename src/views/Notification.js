@@ -14,9 +14,16 @@ import brokoli from '../img/brokoli.jpeg';
 import masum from '../img/masum.jpeg';
 import crazy from '../img/crazy.jpg';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {useNavigation} from '@react-navigation/native';
+import AuthContext from '../context/AuthContext';
+import MustLogin from './MustLogin';
 
 export default function NotificationScreen() {
-  return (
+  const navigation = useNavigation();
+
+  const {isLogged} = React.useContext(AuthContext);
+
+  return isLogged ? (
     <Box as={SafeAreaView} pt="12px" px={'24px'} bg={'white'} flex={1}>
       <Text
         fontSize="17px"
@@ -81,5 +88,7 @@ export default function NotificationScreen() {
         buttonText={'Follow'}
       />
     </Box>
+  ) : (
+    <MustLogin />
   );
 }

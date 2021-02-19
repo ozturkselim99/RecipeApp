@@ -9,6 +9,9 @@ import theme from '../utils/Theme';
 import {Share2} from '../components/icons';
 import {ScrollView} from 'react-native-gesture-handler';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
+import {useNavigation} from '@react-navigation/native';
+import MustLogin from './MustLogin';
+import AuthContext from '../context/AuthContext';
 import {Auth} from 'aws-amplify';
 import Button from '../components/Button';
 
@@ -40,11 +43,15 @@ const renderTabBar = (props) => (
 
 export default function ProfileScreen({navigation}) {
   const [index, setIndex] = React.useState(0);
-  const [isAuth, setAuth] = React.useState(false);
+  const navigation = useNavigation();
+
+  const {isLogged, setLogged} = React.useContext(AuthContext);
+
   const [routes] = React.useState([
     {key: 'first', title: 'First'},
     {key: 'second', title: 'Second'},
   ]);
+
   const renderScene = SceneMap({
     first: FirstRoute,
     second: SecondRoute,
@@ -52,16 +59,27 @@ export default function ProfileScreen({navigation}) {
 
   const initialLayout = {width: Dimensions.get('window').width};
 
-  return (
-    <Box as={SafeAreaView} bg={'white'} flex={1} position="relative">
+  return isLogged ? (
+    <Box as={SafeAreaView} bg={'white'} flex={1}>
       <ScrollView>
-        <Box position="absolute" top={24} right={24}>
-          <Share2 stroke={theme.colors.mainText} />
+        <Box alignItems={'flex-end'} mr={24} pt={24}>
+          <Button
+            onPress={() => {
+              Auth.signOut();
+              navigation.navigate('Auth');
+              setLogged(false);
+            }}>
+            <Share2 stroke={theme.colors.mainText} />
+          </Button>
         </Box>
-        <Box alignItems="center">
+        <Box alignItems="center" mt={20}>
           <Image
             source={selo}
-            style={{width: 100, height: 100, borderRadius: 9999, marginTop: 56}}
+            style={{
+              width: 100,
+              height: 100,
+              borderRadius: 9999,
+            }}
           />
           <Text
             fontWeight={700}
@@ -121,6 +139,8 @@ export default function ProfileScreen({navigation}) {
         />
       </ScrollView>
     </Box>
+  ) : (
+    <MustLogin />
   );
 }
 

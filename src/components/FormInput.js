@@ -17,6 +17,8 @@ function FormInput({
   inputRef,
   backgroundColor,
   borderWidth,
+  keyboardType,
+  autoCapitalize,
 }) {
   const [showPassword, setShowPassword] = React.useState(false);
   const [isFocus, setIsFocus] = React.useState(false);
@@ -52,6 +54,8 @@ function FormInput({
   return (
     <Box position="relative">
       <Input
+        autoCapitalize={autoCapitalize}
+        keyboardType={keyboardType}
         secureTextEntry={password ? !showPassword : false}
         value={value}
         onChangeText={(text) => onChange(text)}
