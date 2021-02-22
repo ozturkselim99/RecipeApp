@@ -5,24 +5,39 @@ import Navigation from './navigation';
 import theme from './utils/Theme';
 import {StatusBar} from 'react-native';
 import AuthContext, {AuthProvider} from './context/AuthContext';
-import {Auth} from 'aws-amplify';
+import {API, Auth, graphqlOperation} from 'aws-amplify';
+import {getUser} from './graphql/queries';
+import {createUser} from './graphql/mutations';
 
 function AppContainer() {
   const {setLogged} = React.useContext(AuthContext);
 
+  const saveUserToDb = async (user) => {
+    await API.graphql(graphqlOperation(createUser, {input: user}));
+  };
+
   React.useEffect(() => {
-    const getUser = async () => {
-      //Uygulama ilk açıldığında Auth olan user var mı kontrol ediliyor.
-      await Auth.currentAuthenticatedUser()
-        .then((data) => {
-          setLogged(true);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+    const updateUser = async () => {
+      const userInfo = await Auth.currentAuthenticatedUser({bypassCache: true});
+      if (userInfo) {
+        setLogged(true);
+        const userData = await API.graphql(
+          graphqlOperation(getUser, {id: userInfo.attributes.sub}),
+        );
+        if (!userData.data.getUser) {
+          const user = {
+            id: userInfo.attributes.sub,
+            email: userInfo.attributes.email,
+            fullname: userInfo.attributes['custom:fullname'],
+            avatar:
+              'https://i.kinja-img.com/gawker-media/image/upload/t_original/ijsi5fzb1nbkbhxa2gc1.png',
+          };
+          saveUserToDb(user);
+        }
+      }
     };
 
-    getUser();
+    updateUser();
   }, [setLogged]);
 
   return <Navigation />;

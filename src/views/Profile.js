@@ -12,8 +12,11 @@ import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {useNavigation} from '@react-navigation/native';
 import MustLogin from './MustLogin';
 import AuthContext from '../context/AuthContext';
-import {Auth} from 'aws-amplify';
+import {API, Auth, graphqlOperation, Storage} from 'aws-amplify';
 import Button from '../components/Button';
+import {getUser} from '../graphql/queries';
+import data from '../data';
+import {S3Image} from 'aws-amplify-react-native';
 
 const FirstRoute = () => (
   <Box
@@ -41,8 +44,10 @@ const renderTabBar = (props) => (
   />
 );
 
-export default function ProfileScreen({navigation}) {
+export default function ProfileScreen() {
   const [index, setIndex] = React.useState(0);
+  const [user, setUser] = React.useState({});
+  const [deneme, setDeneme] = React.useState('');
   const navigation = useNavigation();
 
   const {isLogged, setLogged} = React.useContext(AuthContext);
@@ -51,6 +56,21 @@ export default function ProfileScreen({navigation}) {
     {key: 'first', title: 'First'},
     {key: 'second', title: 'Second'},
   ]);
+
+  React.useEffect(() => {
+    const fetchUser = async () => {
+      const userInfo = await Auth.currentUserInfo();
+      const userData = await API.graphql(
+        graphqlOperation(getUser, {id: userInfo.username}),
+      );
+      if (userData) {
+        setUser(userData.data.getUser);
+      }
+      //setDeneme(await Storage.get('deneme.jpg'));
+      //console.log(deneme);
+    };
+    fetchUser();
+  }, [deneme]);
 
   const renderScene = SceneMap({
     first: FirstRoute,
@@ -74,7 +94,8 @@ export default function ProfileScreen({navigation}) {
         </Box>
         <Box alignItems="center" mt={20}>
           <Image
-            source={selo}
+            source={{uri: user && user.avatar}}
+            //source={{uri: deneme}}
             style={{
               width: 100,
               height: 100,
@@ -86,7 +107,7 @@ export default function ProfileScreen({navigation}) {
             fontSize={17}
             color={theme.colors.mainText}
             mt="24px">
-            Selim Öztürk
+            {user && user.fullname}
           </Text>
         </Box>
         <Box flexDirection="row" mt="24px" justifyContent="space-around">
