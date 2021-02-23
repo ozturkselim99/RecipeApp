@@ -15,6 +15,7 @@ export const createRecipe = /* GraphQL */ `
         items {
           id
           description
+          images
           createdAt
           updatedAt
         }
@@ -70,6 +71,7 @@ export const updateRecipe = /* GraphQL */ `
         items {
           id
           description
+          images
           createdAt
           updatedAt
         }
@@ -125,6 +127,7 @@ export const deleteRecipe = /* GraphQL */ `
         items {
           id
           description
+          images
           createdAt
           updatedAt
         }
@@ -207,6 +210,7 @@ export const createStep = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      images
       createdAt
       updatedAt
     }
@@ -253,6 +257,7 @@ export const updateStep = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      images
       createdAt
       updatedAt
     }
@@ -299,6 +304,7 @@ export const deleteStep = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      images
       createdAt
       updatedAt
     }

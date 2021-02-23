@@ -10,7 +10,7 @@ import {getUser} from './graphql/queries';
 import {createUser} from './graphql/mutations';
 
 function AppContainer() {
-  const {setLogged} = React.useContext(AuthContext);
+  const {setLogged, setUserId} = React.useContext(AuthContext);
 
   const saveUserToDb = async (user) => {
     await API.graphql(graphqlOperation(createUser, {input: user}));
@@ -23,6 +23,7 @@ function AppContainer() {
       }).catch(() => {});
       if (userInfo) {
         setLogged(true);
+        setUserId(userInfo.attributes.sub);
         const userData = await API.graphql(
           graphqlOperation(getUser, {id: userInfo.attributes.sub}),
         );

@@ -7,12 +7,14 @@ type Recipe @model{
   category: Category @connection(name:"RecipeCategory")
   country: Country @connection(name:"CountryRecipe")
   user:User @connection(name:"UserRecipe")
+
 }
 
 type Step @model{
   id: ID!
   description: String!
   recipe: Recipe @connection(name: "RecipeStep")
+  images: [String]
 }
 
 type Category @model{

@@ -2,20 +2,17 @@ import * as React from 'react';
 import Box from '../components/Box';
 import Text from '../components/Text';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Image} from 'react-native';
 import {View, StyleSheet, Dimensions} from 'react-native';
-import selo from '../img/selo.jpg';
 import theme from '../utils/Theme';
 import {Share2} from '../components/icons';
 import {ScrollView} from 'react-native-gesture-handler';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import MustLogin from './MustLogin';
 import AuthContext from '../context/AuthContext';
-import {API, Auth, graphqlOperation, Storage} from 'aws-amplify';
+import {API, Auth, graphqlOperation} from 'aws-amplify';
 import Button from '../components/Button';
 import {getUser} from '../graphql/queries';
-import data from '../data';
 import {S3Image} from 'aws-amplify-react-native';
 
 const FirstRoute = () => (
@@ -47,8 +44,8 @@ const renderTabBar = (props) => (
 export default function ProfileScreen() {
   const [index, setIndex] = React.useState(0);
   const [user, setUser] = React.useState({});
-  const [avatar, setAvatar] = React.useState('');
   const navigation = useNavigation();
+  const route = useRoute();
 
   const {isLogged, setLogged} = React.useContext(AuthContext);
 
@@ -59,17 +56,15 @@ export default function ProfileScreen() {
 
   React.useEffect(() => {
     const fetchUser = async () => {
-      const userInfo = await Auth.currentUserInfo();
       const userData = await API.graphql(
-        graphqlOperation(getUser, {id: userInfo.username}),
+        graphqlOperation(getUser, {id: route.params.id}),
       );
       if (userData) {
         setUser(userData.data.getUser);
-        setAvatar(await Storage.get(userInfo.attributes.picture));
       }
     };
     fetchUser();
-  }, []);
+  }, [route.params.id]);
 
   const renderScene = SceneMap({
     first: FirstRoute,
@@ -92,8 +87,8 @@ export default function ProfileScreen() {
           </Button>
         </Box>
         <Box alignItems="center" mt={20}>
-          <Image
-            source={{uri: avatar}}
+          <S3Image
+            imgKey={user.avatar}
             style={{
               width: 100,
               height: 100,

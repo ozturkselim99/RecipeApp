@@ -113,7 +113,7 @@ export default function HomeScreen({navigation}) {
             item={item}
             onPress={() =>
               navigation.navigate('DetailRecipe', {
-                itemId: item.id,
+                id: item.id,
               })
             }
           />

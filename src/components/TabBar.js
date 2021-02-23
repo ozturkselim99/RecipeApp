@@ -5,8 +5,11 @@ import Box from './Box';
 import Text from './Text';
 
 import theme from '../utils/Theme';
+import AuthContext from '../context/AuthContext';
 
 function TabBar({state, descriptors, navigation}) {
+  const {userId} = React.useContext(AuthContext);
+
   return (
     <Box
       bg="white"
@@ -35,13 +38,17 @@ function TabBar({state, descriptors, navigation}) {
           });
 
           if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name);
+            if (route.name === 'Profile') {
+              navigation.navigate(route.name, {id: userId});
+            } else {
+              navigation.navigate(route.name);
+            }
           }
         };
 
         return label === 'Upload' ? (
           // search button
-          <Box key={label} p={15} mt={-36} borderRadius="full">
+          <Box key={label} p={14} mt={-36} borderRadius="full">
             <Button
               size={56}
               bg={theme.colors.mainGreen}
@@ -83,7 +90,7 @@ function TabBar({state, descriptors, navigation}) {
                       ? theme.colors.mainGreen
                       : theme.colors.secondaryText
                   }
-                  mt={8}
+                  mt={2}
                   textAlign={'center'}
                   fontSize={12}>
                   {label}
@@ -105,7 +112,7 @@ function TabBar({state, descriptors, navigation}) {
                       ? theme.colors.mainGreen
                       : theme.colors.secondaryText
                   }
-                  mt={8}
+                  mt={2}
                   textAlign={'center'}
                   fontSize={12}>
                   {label}
@@ -127,7 +134,7 @@ function TabBar({state, descriptors, navigation}) {
                       ? theme.colors.mainGreen
                       : theme.colors.secondaryText
                   }
-                  mt={8}
+                  mt={2}
                   textAlign={'center'}
                   fontSize={12}>
                   {label}
@@ -149,7 +156,7 @@ function TabBar({state, descriptors, navigation}) {
                       ? theme.colors.mainGreen
                       : theme.colors.secondaryText
                   }
-                  mt={8}
+                  mt={2}
                   textAlign={'center'}
                   fontSize={12}>
                   {label}

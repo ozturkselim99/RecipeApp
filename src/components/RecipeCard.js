@@ -6,27 +6,20 @@ import Text from './Text';
 import Heart from './icons/Heart';
 import {Dimensions} from 'react-native';
 import Button from './Button';
-import {Storage} from 'aws-amplify';
+import {S3Image} from 'aws-amplify-react-native';
 
 const width = Dimensions.get('window').width;
 
 const RecipeCard = ({item, onPress}) => {
-  const [avatar, setAvatar] = React.useState(null);
-
-  React.useEffect(() => {
-    const getAvatar = async () => {
-      setAvatar(await Storage.get(item.user.avatar));
-    };
-    getAvatar();
-  }, [item.user.avatar]);
+  const [isFavorite, setIsFavorite] = React.useState(false);
 
   return (
     <Box flexDirection="column" width={width * 0.41}>
       <Box flexDirection="row" alignItems={'center'}>
-        <Image
-          source={{uri: avatar}}
-          style={{width: 31, height: 31, borderRadius: 11}}
+        <S3Image
+          imgKey={item.user.avatar}
           resizeMode="contain"
+          style={{width: 31, height: 31, borderRadius: 11}}
         />
         <Text
           style={{textAlignVertical: 'center', textAlign: 'center'}}
@@ -40,6 +33,8 @@ const RecipeCard = ({item, onPress}) => {
       </Box>
       <Button mt={12} onPress={onPress}>
         <Box
+          as={Button}
+          onPress={() => setIsFavorite(!isFavorite)}
           position="absolute"
           top={16}
           size="32px"
@@ -49,7 +44,10 @@ const RecipeCard = ({item, onPress}) => {
           bg="rgba(255, 255, 255, 0.6)"
           justifyContent="center"
           alignItems="center">
-          <Heart stroke="white" />
+          <Heart
+            stroke={!isFavorite && theme.colors.secondaryText}
+            fill={isFavorite ? theme.colors.mainGreen : 'transparent'}
+          />
         </Box>
         <Image
           source={{uri: item.image[0]}}

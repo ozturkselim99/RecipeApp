@@ -12,6 +12,7 @@ export const getRecipe = /* GraphQL */ `
         items {
           id
           description
+          images
           createdAt
           updatedAt
         }
@@ -135,6 +136,7 @@ export const getStep = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      images
       createdAt
       updatedAt
     }
@@ -158,6 +160,7 @@ export const listSteps = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        images
         createdAt
         updatedAt
       }
