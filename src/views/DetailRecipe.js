@@ -1,13 +1,16 @@
 import * as React from 'react';
 import Box from '../components/Box';
-import {Platform, Dimensions} from 'react-native';
+import {Platform, Dimensions, ActivityIndicator} from 'react-native';
 import ReactNativeParallaxHeader from 'react-native-parallax-header';
 import Text from '../components/Text';
 import {Heart, CheckCircle} from '../components/icons';
 import theme from '../utils/Theme';
 import {Image} from 'react-native';
-import img from '../img/photo.jpg';
-import data from '../data';
+import {useRoute} from '@react-navigation/native';
+import {API, graphqlOperation} from 'aws-amplify';
+import {getRecipe} from '../graphql/queries';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {S3Image} from 'aws-amplify-react-native';
 
 const {height: SCREEN_HEIGHT} = Dimensions.get('window');
 
@@ -29,14 +32,14 @@ const renderContent = (recipe) => {
       />
       <Box py="30px">
         <Text color={theme.colors.mainText} fontSize="17px" fontWeight="bold">
-          {recipe?.title}
+          {recipe.title}
         </Text>
         <Text
           color={theme.colors.secondaryText}
           fontSize="15px"
           fontWeight={500}
           mt="8px">
-          Food 60 mins
+          {recipe.category.title}
         </Text>
       </Box>
       <Box flexDirection="column">
@@ -44,8 +47,9 @@ const renderContent = (recipe) => {
           flexDirection="row"
           justifyContent={'space-between'}
           alignItems="center">
-          <Image
-            source={{uri: recipe && recipe?.author.avatar}}
+          <S3Image
+            imgKey={recipe.user.avatar}
+            resizeMode="contain"
             style={{width: 31, height: 31, borderRadius: 11}}
           />
           <Box flex={1} ml={10}>
@@ -53,7 +57,7 @@ const renderContent = (recipe) => {
               color={theme.colors.mainText}
               fontSize="15px"
               fontWeight="bold">
-              {recipe && recipe.author?.fullname}
+              {recipe && recipe.user.fullname}
             </Text>
           </Box>
           <Box flexDirection={'row'}>
@@ -84,8 +88,7 @@ const renderContent = (recipe) => {
           fontSize="15px"
           fontWeight={500}
           color={theme.colors.secondaryText}>
-          Your recipe has been uploaded, you can see it on your profile. Your
-          recipe has been uploaded, you can see it on your
+          {recipe.description}
         </Text>
       </Box>
       <Box mt="25px">
@@ -119,60 +122,68 @@ const renderContent = (recipe) => {
       </Box>
       <Box mt="25px">
         <Text fontSize="15px" fontWeight="bold" color={theme.colors.mainText}>
-          Steps
+          Nasıl Yapılır?
         </Text>
-        <Box flexDirection="column" mt="12px">
-          <Box flexDirection="row">
-            <Box
-              borderRadius="12px"
-              width={24}
-              height={23}
-              bg={theme.colors.mainText}
-              alignItems="center"
-              justifyContent="center">
-              <Text color="white">1</Text>
+        {recipe.steps.items.map((step, index) => (
+          <React.Fragment key={index}>
+            <Box flexDirection="row" mt={15}>
+              <Box
+                borderRadius="12px"
+                width={24}
+                height={23}
+                bg={theme.colors.mainText}
+                alignItems="center"
+                justifyContent="center">
+                <Text color="white">{index + 1}</Text>
+              </Box>
+              <Text
+                color={theme.colors.mainText}
+                ml="8px"
+                fontSize="15px"
+                pr="24px">
+                {step.description}
+              </Text>
             </Box>
-            <Text
-              color={theme.colors.mainText}
-              ml="8px"
-              fontSize="15px"
-              pr="24px">
-              Your recipe has been uploaded, you can see it on your profile.
-              Your recipe has been uploaded, you can see it on your Your recipe
-              has been uploaded, you can see it on your profile. Your recipe has
-              been uploaded, you can see it on your Your recipe has been
-              uploaded, you can see it on your profile. Your recipe has been
-              uploaded, you can see it on your
-            </Text>
-          </Box>
-        </Box>
-        <Box alignItems="center" justifyContent="center" mt="14px">
-          <Image
-            source={img}
-            style={{width: 280, height: 171, borderRadius: 12}}
-          />
-        </Box>
+            <Box alignItems="center" justifyContent="center" mt="14px">
+              <Image
+                source={{uri: step.images[0]}}
+                style={{width: 280, height: 171, borderRadius: 12}}
+              />
+            </Box>
+          </React.Fragment>
+        ))}
       </Box>
     </Box>
   );
 };
 
-function DetailRecipe({route, navigation}) {
+function DetailRecipe() {
   const [recipe, setRecipe] = React.useState(null);
-  React.useEffect(() => {
-    const id = route.params?.itemId;
-    if (id) {
-      setRecipe(data.recipes[id]);
-    }
-  }, [route.params?.itemId]);
 
-  return (
+  const route = useRoute();
+
+  React.useEffect(() => {
+    const fetchRecipe = async (id) => {
+      return API.graphql(graphqlOperation(getRecipe, {id: id}));
+    };
+
+    if (route?.params.id) {
+      fetchRecipe(route.params.id)
+        .then(async (recipe) => {
+          setRecipe(recipe.data.getRecipe);
+          console.log(recipe.data.getRecipe);
+        })
+        .catch((e) => console.log(e));
+    }
+  }, [route.params.id]);
+
+  return recipe ? (
     <ReactNativeParallaxHeader
       statusBarColor={'transparent'}
       headerMinHeight={HEADER_HEIGHT}
-      headerMaxHeight={400}
+      headerMaxHeight={300}
       extraScrollHeight={20}
-      backgroundImage={{uri: recipe?.image}}
+      backgroundImage={{uri: recipe?.image[0]}}
       backgroundImageScale={1.2}
       renderContent={() => renderContent(recipe)}
       containerStyle={{flex: 1, background: 'white'}}
@@ -180,6 +191,10 @@ function DetailRecipe({route, navigation}) {
       innerContainerStyle={{flex: 1, background: 'white'}}
       navbarColor={'transparent'}
     />
+  ) : (
+    <Box as={SafeAreaView} flex={1} justifyContent={'center'}>
+      <ActivityIndicator size="large" />
+    </Box>
   );
 }
 export default DetailRecipe;

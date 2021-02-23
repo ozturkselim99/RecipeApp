@@ -9,22 +9,31 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {Auth} from 'aws-amplify';
 
 function PasswordVerificationScreen({route, navigation}) {
-  const [code1, setCode1] = React.useState('');
-  const [code2, setCode2] = React.useState('');
-  const [code3, setCode3] = React.useState('');
-  const [code4, setCode4] = React.useState('');
-  const [code5, setCode5] = React.useState('');
-  const [code6, setCode6] = React.useState('');
+  const [codes, setCodes] = React.useState([]);
 
-  const code1Ref = React.useRef(null);
-  const code2Ref = React.useRef(null);
-  const code3Ref = React.useRef(null);
-  const code4Ref = React.useRef(null);
-  const code5Ref = React.useRef(null);
-  const code6Ref = React.useRef(null);
+  const inputRefs = [
+    React.useRef(),
+    React.useRef(),
+    React.useRef(),
+    React.useRef(),
+    React.useRef(),
+    React.useRef(),
+  ];
+
+  const goNextAfterEdit = (index) => {
+    if (index < 5) {
+      inputRefs[index + 1].focus();
+    }
+  };
+
+  const goPrevBackspace = (index) => {
+    if (index !== 0) {
+      inputRefs[index - 1].focus();
+    }
+  };
 
   const confirmHandle = async () => {
-    const verificationCode = code1 + code2 + code3 + code4 + code5 + code6;
+    const verificationCode = codes.join('');
     try {
       await Auth.forgotPasswordSubmit(route.params?.email, verificationCode);
       navigation.navigate('Login');
@@ -60,88 +69,25 @@ function PasswordVerificationScreen({route, navigation}) {
         </Text>
       </Box>
       <Box flexDirection="row" justifyContent="space-between" px="24px">
-        <CodeInput
-          inputRef={code1Ref}
-          value={code1}
-          onChangeText={(text) => {
-            setCode1(text);
-            if (text != '') {
-              code2Ref.current && code2Ref.current.focus();
-            }
-          }}
-        />
-        <CodeInput
-          inputRef={code2Ref}
-          value={code2}
-          onKeyPress={({nativeEvent}) => {
-            if (nativeEvent.key === 'Backspace') {
-              code1Ref.current && code1Ref.current.focus();
-            }
-          }}
-          onChangeText={(text) => {
-            setCode2(text);
-            if (text != '') {
-              code3Ref.current && code3Ref.current.focus();
-            }
-          }}
-        />
-        <CodeInput
-          inputRef={code3Ref}
-          value={code3}
-          onKeyPress={({nativeEvent}) => {
-            if (nativeEvent.key === 'Backspace') {
-              code2Ref.current && code2Ref.current.focus();
-            }
-          }}
-          onChangeText={(text) => {
-            setCode3(text);
-            if (text != '') {
-              code4Ref.current && code4Ref.current.focus();
-            }
-          }}
-        />
-        <CodeInput
-          inputRef={code4Ref}
-          value={code4}
-          onKeyPress={({nativeEvent}) => {
-            if (nativeEvent.key === 'Backspace') {
-              code3Ref.current && code3Ref.current.focus();
-            }
-          }}
-          onChangeText={(text) => {
-            setCode4(text);
-            if (text != '') {
-              code5Ref.current && code5Ref.current.focus();
-            }
-          }}
-        />
-        <CodeInput
-          inputRef={code5Ref}
-          value={code5}
-          onKeyPress={({nativeEvent}) => {
-            if (nativeEvent.key === 'Backspace') {
-              code4Ref.current && code4Ref.current.focus();
-            }
-          }}
-          onChangeText={(text) => {
-            setCode5(text);
-            if (text != '') {
-              code6Ref.current && code6Ref.current.focus();
-            }
-          }}
-        />
-        <CodeInput
-          inputRef={code6Ref}
-          value={code6}
-          onKeyPress={({nativeEvent}) => {
-            if (nativeEvent.key === 'Backspace') {
-              code5Ref.current && code5Ref.current.focus();
-            }
-          }}
-          onChangeText={(text) => {
-            setCode6(text);
-          }}
-        />
+        {inputRefs.map((k, index) => (
+          <CodeInput
+            inputRef={(r) => (inputRefs[index] = r)}
+            value={codes[index]}
+            onKeyPress={({nativeEvent}) => {
+              if (nativeEvent.key === 'Backspace') {
+                goPrevBackspace(index);
+              }
+            }}
+            onChangeText={(text) => {
+              let newArray = [...codes];
+              newArray[index] = text;
+              setCodes(newArray);
+              if (text !== '') {
+                goNextAfterEdit(index);
+              }
+            }}
+          />
+        ))}
       </Box>
       <Box
         alignItems="center"

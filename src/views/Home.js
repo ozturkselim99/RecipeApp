@@ -8,9 +8,12 @@ import RecipeCard from '../components/RecipeCard';
 import TagSelector from '../components/TagSelector';
 import sampleData from '../data.js';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {API, Auth} from 'aws-amplify';
+import {API, graphqlOperation} from 'aws-amplify';
+import {listRecipes} from '../graphql/queries';
 
 export default function HomeScreen({navigation}) {
+  const [recipes, setRecipes] = React.useState([]);
+
   const tags = [
     {
       id: 'the',
@@ -49,16 +52,19 @@ export default function HomeScreen({navigation}) {
       name: 'dog',
     },
   ];
+
   React.useEffect(() => {
     const fetchData = async () => {
       try {
+        const recipes = await API.graphql(graphqlOperation(listRecipes));
+        setRecipes(recipes.data.listRecipes.items);
       } catch (e) {
         console.log(e);
       }
     };
 
     fetchData();
-  });
+  }, []);
 
   const onStoryPress = () => {};
 
@@ -99,7 +105,7 @@ export default function HomeScreen({navigation}) {
         as={FlatList}
         px={24}
         mt={18}
-        data={sampleData.recipes}
+        data={recipes}
         columnWrapperStyle={{justifyContent: 'space-between'}}
         ItemSeparatorComponent={() => <Box size={30} />}
         renderItem={({item}) => (
@@ -107,7 +113,7 @@ export default function HomeScreen({navigation}) {
             item={item}
             onPress={() =>
               navigation.navigate('DetailRecipe', {
-                itemId: item.id,
+                id: item.id,
               })
             }
           />

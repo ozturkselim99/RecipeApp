@@ -37,6 +37,7 @@ function RegisterScreen({navigation}) {
         password: Password,
         attributes: {
           'custom:fullname': FullName,
+          picture: 'avatar/avatar.png',
         },
       });
       console.log(user);

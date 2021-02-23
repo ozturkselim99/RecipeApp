@@ -10,7 +10,7 @@ import {getUser} from './graphql/queries';
 import {createUser} from './graphql/mutations';
 
 function AppContainer() {
-  const {setLogged} = React.useContext(AuthContext);
+  const {setLogged, setUserId} = React.useContext(AuthContext);
 
   const saveUserToDb = async (user) => {
     await API.graphql(graphqlOperation(createUser, {input: user}));
@@ -18,9 +18,12 @@ function AppContainer() {
 
   React.useEffect(() => {
     const updateUser = async () => {
-      const userInfo = await Auth.currentAuthenticatedUser({bypassCache: true});
+      const userInfo = await Auth.currentAuthenticatedUser({
+        bypassCache: true,
+      }).catch(() => {});
       if (userInfo) {
         setLogged(true);
+        setUserId(userInfo.attributes.sub);
         const userData = await API.graphql(
           graphqlOperation(getUser, {id: userInfo.attributes.sub}),
         );
@@ -29,8 +32,7 @@ function AppContainer() {
             id: userInfo.attributes.sub,
             email: userInfo.attributes.email,
             fullname: userInfo.attributes['custom:fullname'],
-            avatar:
-              'https://i.kinja-img.com/gawker-media/image/upload/t_original/ijsi5fzb1nbkbhxa2gc1.png',
+            avatar: userInfo.attributes.picture,
           };
           saveUserToDb(user);
         }
@@ -44,7 +46,7 @@ function AppContainer() {
 }
 
 function App() {
-  StatusBar.setBarStyle('light-content', true);
+  StatusBar.setBarStyle('dark-content', true);
   return (
     <ThemeProvider theme={theme}>
       <SafeAreaProvider>

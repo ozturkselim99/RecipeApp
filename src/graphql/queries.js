@@ -12,6 +12,7 @@ export const getRecipe = /* GraphQL */ `
         items {
           id
           description
+          images
           createdAt
           updatedAt
         }
@@ -36,7 +37,6 @@ export const getRecipe = /* GraphQL */ `
         }
         createdAt
         updatedAt
-        owner
       }
       user {
         id
@@ -82,7 +82,6 @@ export const listRecipes = /* GraphQL */ `
           name
           createdAt
           updatedAt
-          owner
         }
         user {
           id
@@ -125,7 +124,6 @@ export const getStep = /* GraphQL */ `
           name
           createdAt
           updatedAt
-          owner
         }
         user {
           id
@@ -138,6 +136,7 @@ export const getStep = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      images
       createdAt
       updatedAt
     }
@@ -161,6 +160,7 @@ export const listSteps = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        images
         createdAt
         updatedAt
       }
@@ -230,7 +230,6 @@ export const getCountry = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -250,7 +249,6 @@ export const listCountrys = /* GraphQL */ `
         }
         createdAt
         updatedAt
-        owner
       }
       nextToken
     }

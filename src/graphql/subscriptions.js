@@ -12,6 +12,7 @@ export const onCreateRecipe = /* GraphQL */ `
         items {
           id
           description
+          images
           createdAt
           updatedAt
         }
@@ -36,7 +37,6 @@ export const onCreateRecipe = /* GraphQL */ `
         }
         createdAt
         updatedAt
-        owner
       }
       user {
         id
@@ -65,6 +65,7 @@ export const onUpdateRecipe = /* GraphQL */ `
         items {
           id
           description
+          images
           createdAt
           updatedAt
         }
@@ -89,7 +90,6 @@ export const onUpdateRecipe = /* GraphQL */ `
         }
         createdAt
         updatedAt
-        owner
       }
       user {
         id
@@ -118,6 +118,7 @@ export const onDeleteRecipe = /* GraphQL */ `
         items {
           id
           description
+          images
           createdAt
           updatedAt
         }
@@ -142,7 +143,6 @@ export const onDeleteRecipe = /* GraphQL */ `
         }
         createdAt
         updatedAt
-        owner
       }
       user {
         id
@@ -186,7 +186,6 @@ export const onCreateStep = /* GraphQL */ `
           name
           createdAt
           updatedAt
-          owner
         }
         user {
           id
@@ -199,6 +198,7 @@ export const onCreateStep = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      images
       createdAt
       updatedAt
     }
@@ -230,7 +230,6 @@ export const onUpdateStep = /* GraphQL */ `
           name
           createdAt
           updatedAt
-          owner
         }
         user {
           id
@@ -243,6 +242,7 @@ export const onUpdateStep = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      images
       createdAt
       updatedAt
     }
@@ -274,7 +274,6 @@ export const onDeleteStep = /* GraphQL */ `
           name
           createdAt
           updatedAt
-          owner
         }
         user {
           id
@@ -287,6 +286,7 @@ export const onDeleteStep = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      images
       createdAt
       updatedAt
     }
@@ -359,8 +359,8 @@ export const onDeleteCategory = /* GraphQL */ `
   }
 `;
 export const onCreateCountry = /* GraphQL */ `
-  subscription OnCreateCountry($owner: String!) {
-    onCreateCountry(owner: $owner) {
+  subscription OnCreateCountry {
+    onCreateCountry {
       id
       flag
       name
@@ -377,13 +377,12 @@ export const onCreateCountry = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onUpdateCountry = /* GraphQL */ `
-  subscription OnUpdateCountry($owner: String!) {
-    onUpdateCountry(owner: $owner) {
+  subscription OnUpdateCountry {
+    onUpdateCountry {
       id
       flag
       name
@@ -400,13 +399,12 @@ export const onUpdateCountry = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onDeleteCountry = /* GraphQL */ `
-  subscription OnDeleteCountry($owner: String!) {
-    onDeleteCountry(owner: $owner) {
+  subscription OnDeleteCountry {
+    onDeleteCountry {
       id
       flag
       name
@@ -423,7 +421,6 @@ export const onDeleteCountry = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;

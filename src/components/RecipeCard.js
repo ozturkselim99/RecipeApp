@@ -6,17 +6,20 @@ import Text from './Text';
 import Heart from './icons/Heart';
 import {Dimensions} from 'react-native';
 import Button from './Button';
+import {S3Image} from 'aws-amplify-react-native';
 
 const width = Dimensions.get('window').width;
 
 const RecipeCard = ({item, onPress}) => {
+  const [isFavorite, setIsFavorite] = React.useState(false);
+
   return (
     <Box flexDirection="column" width={width * 0.41}>
       <Box flexDirection="row" alignItems={'center'}>
-        <Image
-          source={{uri: item.author.avatar}}
-          style={{width: 31, height: 31, borderRadius: 11}}
+        <S3Image
+          imgKey={item.user.avatar}
           resizeMode="contain"
+          style={{width: 31, height: 31, borderRadius: 11}}
         />
         <Text
           style={{textAlignVertical: 'center', textAlign: 'center'}}
@@ -25,11 +28,13 @@ const RecipeCard = ({item, onPress}) => {
           color={theme.colors.mainText}
           ml="10px"
           textAlign="justify">
-          {item.author.fullname}
+          {item.user.fullname}
         </Text>
       </Box>
       <Button mt={12} onPress={onPress}>
         <Box
+          as={Button}
+          onPress={() => setIsFavorite(!isFavorite)}
           position="absolute"
           top={16}
           size="32px"
@@ -39,10 +44,13 @@ const RecipeCard = ({item, onPress}) => {
           bg="rgba(255, 255, 255, 0.6)"
           justifyContent="center"
           alignItems="center">
-          <Heart stroke="white" />
+          <Heart
+            stroke={!isFavorite && theme.colors.secondaryText}
+            fill={isFavorite ? theme.colors.mainGreen : 'transparent'}
+          />
         </Box>
         <Image
-          source={{uri: item.image}}
+          source={{uri: item.image[0]}}
           resizeMode="cover"
           style={{
             borderRadius: 16,
@@ -61,7 +69,7 @@ const RecipeCard = ({item, onPress}) => {
           fontWeight={700}
           color={theme.colors.secondaryText}
           mt="5px">
-          Food >60 mins
+          {item.category.title}
         </Text>
       </Box>
     </Box>
