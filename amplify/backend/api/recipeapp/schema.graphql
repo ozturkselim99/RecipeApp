@@ -33,7 +33,7 @@ enum PreparationTime{
   ZeroBetweenFifteen,FifteenBetweenThirty,ThirtyBetweenFourtyFive,FourtyFiveBetweenSixty,SixtyPlus
 }
 
-type Country @model @auth(rules: [{ allow: owner }]){
+type Country @model{
   id: ID!
   flag: String!
   name:String!

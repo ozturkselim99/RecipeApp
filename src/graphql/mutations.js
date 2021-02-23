@@ -39,7 +39,6 @@ export const createRecipe = /* GraphQL */ `
         }
         createdAt
         updatedAt
-        owner
       }
       user {
         id
@@ -95,7 +94,6 @@ export const updateRecipe = /* GraphQL */ `
         }
         createdAt
         updatedAt
-        owner
       }
       user {
         id
@@ -151,7 +149,6 @@ export const deleteRecipe = /* GraphQL */ `
         }
         createdAt
         updatedAt
-        owner
       }
       user {
         id
@@ -198,7 +195,6 @@ export const createStep = /* GraphQL */ `
           name
           createdAt
           updatedAt
-          owner
         }
         user {
           id
@@ -245,7 +241,6 @@ export const updateStep = /* GraphQL */ `
           name
           createdAt
           updatedAt
-          owner
         }
         user {
           id
@@ -292,7 +287,6 @@ export const deleteStep = /* GraphQL */ `
           name
           createdAt
           updatedAt
-          owner
         }
         user {
           id
@@ -407,7 +401,6 @@ export const createCountry = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -433,7 +426,6 @@ export const updateCountry = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -459,7 +451,6 @@ export const deleteCountry = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
