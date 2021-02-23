@@ -18,7 +18,9 @@ function AppContainer() {
 
   React.useEffect(() => {
     const updateUser = async () => {
-      const userInfo = await Auth.currentAuthenticatedUser({bypassCache: true});
+      const userInfo = await Auth.currentAuthenticatedUser({
+        bypassCache: true,
+      }).catch(() => {});
       if (userInfo) {
         setLogged(true);
         const userData = await API.graphql(
@@ -29,8 +31,7 @@ function AppContainer() {
             id: userInfo.attributes.sub,
             email: userInfo.attributes.email,
             fullname: userInfo.attributes['custom:fullname'],
-            avatar:
-              'https://i.kinja-img.com/gawker-media/image/upload/t_original/ijsi5fzb1nbkbhxa2gc1.png',
+            avatar: userInfo.attributes.picture,
           };
           saveUserToDb(user);
         }
@@ -44,7 +45,7 @@ function AppContainer() {
 }
 
 function App() {
-  StatusBar.setBarStyle('light-content', true);
+  StatusBar.setBarStyle('dark-content', true);
   return (
     <ThemeProvider theme={theme}>
       <SafeAreaProvider>

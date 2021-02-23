@@ -47,7 +47,7 @@ const renderTabBar = (props) => (
 export default function ProfileScreen() {
   const [index, setIndex] = React.useState(0);
   const [user, setUser] = React.useState({});
-  const [deneme, setDeneme] = React.useState('');
+  const [avatar, setAvatar] = React.useState('');
   const navigation = useNavigation();
 
   const {isLogged, setLogged} = React.useContext(AuthContext);
@@ -65,12 +65,11 @@ export default function ProfileScreen() {
       );
       if (userData) {
         setUser(userData.data.getUser);
+        setAvatar(await Storage.get(userInfo.attributes.picture));
       }
-      //setDeneme(await Storage.get('deneme.jpg'));
-      //console.log(deneme);
     };
     fetchUser();
-  }, [deneme]);
+  }, []);
 
   const renderScene = SceneMap({
     first: FirstRoute,
@@ -94,8 +93,7 @@ export default function ProfileScreen() {
         </Box>
         <Box alignItems="center" mt={20}>
           <Image
-            source={{uri: user && user.avatar}}
-            //source={{uri: deneme}}
+            source={{uri: avatar}}
             style={{
               width: 100,
               height: 100,
