@@ -12,7 +12,12 @@ import MustLogin from './MustLogin';
 import AuthContext from '../context/AuthContext';
 import {API, Auth, graphqlOperation} from 'aws-amplify';
 import Button from '../components/Button';
-import {getUser} from '../graphql/queries';
+import {
+  denelanbunu,
+  fetchProfile,
+  getUser,
+  listFollowings,
+} from '../graphql/queries';
 import {S3Image} from 'aws-amplify-react-native';
 
 const FirstRoute = () => (
@@ -41,11 +46,13 @@ const renderTabBar = (props) => (
   />
 );
 
-export default function ProfileScreen() {
+export default function ProfileScreen({route}) {
+  const userId = route.params?.id;
   const [index, setIndex] = React.useState(0);
   const [user, setUser] = React.useState({});
+  const [isFollowing, setIsFollowing] = React.useState(false);
+  const [followingCount, setFollowings] = React.useState(0);
   const navigation = useNavigation();
-  const route = useRoute();
 
   const {isLogged, setLogged} = React.useContext(AuthContext);
 
@@ -57,14 +64,16 @@ export default function ProfileScreen() {
   React.useEffect(() => {
     const fetchUser = async () => {
       const userData = await API.graphql(
-        graphqlOperation(getUser, {id: route.params.id}),
+        graphqlOperation(fetchProfile, {id: userId}),
       );
       if (userData) {
         setUser(userData.data.getUser);
+        setFollowings(userData.data.listFollowings.items.length);
       }
     };
     fetchUser();
-  }, [route.params.id]);
+    console.log('çalıştı');
+  }, [userId]);
 
   const renderScene = SceneMap({
     first: FirstRoute,
@@ -86,63 +95,94 @@ export default function ProfileScreen() {
             <Share2 stroke={theme.colors.mainText} />
           </Button>
         </Box>
-        <Box alignItems="center" mt={20}>
-          <S3Image
-            imgKey={user.avatar}
-            style={{
-              width: 100,
-              height: 100,
-              borderRadius: 9999,
-            }}
-          />
-          <Text
-            fontWeight={700}
-            fontSize={17}
-            color={theme.colors.mainText}
-            mt="24px">
-            {user && user.fullname}
-          </Text>
-        </Box>
-        <Box flexDirection="row" mt="24px" justifyContent="space-around">
-          <Box flexDirection="column" alignItems={'center'}>
-            <Text fontWeight={700} fontSize={17} color={theme.colors.mainText}>
-              32
-            </Text>
-            <Text
-              mt={2}
-              fontWeight={500}
-              fontSize={15}
-              color={theme.colors.secondaryText}>
-              Recipes
-            </Text>
+        <Box flexDirection="row" px="24px">
+          <Box justifyContent="center" mr={20}>
+            <S3Image
+              imgKey={user.avatar}
+              style={{
+                width: 90,
+                height: 90,
+                borderRadius: 9999,
+              }}
+            />
           </Box>
-          <Box flexDirection="column" alignItems={'center'}>
-            <Text fontWeight={700} fontSize={17} color={theme.colors.mainText}>
-              782
-            </Text>
-            <Button onPress={() => navigation.navigate('Following')}>
+          <Box flexDirection={'column'} flex={1}>
+            <Box flexDirection={'row'}>
               <Text
-                mt={2}
-                fontWeight={500}
-                fontSize={15}
-                color={theme.colors.secondaryText}>
-                Following
+                fontWeight={700}
+                fontSize={17}
+                color={theme.colors.mainText}>
+                {user && user.fullname}
               </Text>
-            </Button>
-          </Box>
-          <Box flexDirection="column" alignItems={'center'}>
-            <Text fontWeight={700} fontSize={17} color={theme.colors.mainText}>
-              1287
-            </Text>
-            <Text
-              mt={2}
-              fontWeight={500}
-              fontSize={15}
-              color={theme.colors.secondaryText}>
-              Followers
-            </Text>
+            </Box>
+            <Box flexDirection={'row'} mt={15} justifyContent={'space-between'}>
+              <Box aligItems="center">
+                <Text
+                  fontWeight={700}
+                  fontSize={17}
+                  color={theme.colors.mainText}
+                  textAlign="center">
+                  32
+                </Text>
+                <Text
+                  mt={2}
+                  fontWeight={500}
+                  fontSize={15}
+                  color={theme.colors.secondaryText}>
+                  Recipes
+                </Text>
+              </Box>
+              <Box alignItems={'center'}>
+                <Text
+                  fontWeight={700}
+                  fontSize={17}
+                  color={theme.colors.mainText}>
+                  782
+                </Text>
+                <Button onPress={() => navigation.navigate('Following')}>
+                  <Text
+                    mt={2}
+                    fontWeight={500}
+                    fontSize={15}
+                    color={theme.colors.secondaryText}>
+                    Following
+                  </Text>
+                </Button>
+              </Box>
+              <Box alignItems={'center'}>
+                <Text
+                  fontWeight={700}
+                  fontSize={17}
+                  color={theme.colors.mainText}>
+                  {followingCount}
+                </Text>
+                <Text
+                  mt={2}
+                  fontWeight={500}
+                  fontSize={15}
+                  color={theme.colors.secondaryText}>
+                  Followers
+                </Text>
+              </Box>
+            </Box>
+            <Box mt="15px">
+              <Button
+                borderRadius={theme.radii}
+                bg={
+                  isFollowing ? theme.colors.mainGreen : theme.colors.mainText
+                }
+                py="5px"
+                onPress={() => {
+                  setIsFollowing(!isFollowing);
+                }}>
+                <Text color={'white'}>
+                  {isFollowing ? 'Takibi Bırak' : 'Takip Et'}
+                </Text>
+              </Button>
+            </Box>
           </Box>
         </Box>
+
         <Box mt={24} height={8} bg={theme.colors.mainGray} />
         <TabView
           navigationState={{index, routes}}

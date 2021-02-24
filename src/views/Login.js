@@ -28,11 +28,12 @@ function LoginScreen() {
 
   const navigation = useNavigation();
 
-  const {setLogged} = React.useContext(AuthContext);
+  const {setLogged, setUserId} = React.useContext(AuthContext);
 
   const signInHandler = async () => {
     await Auth.signIn(Email, Password)
-      .then(() => {
+      .then((user) => {
+        setUserId(user.userName);
         setLogged(true);
         navigation.navigate('Home');
       })

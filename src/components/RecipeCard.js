@@ -7,15 +7,25 @@ import Heart from './icons/Heart';
 import {Dimensions} from 'react-native';
 import Button from './Button';
 import {S3Image} from 'aws-amplify-react-native';
+import {useNavigation} from '@react-navigation/native';
 
 const width = Dimensions.get('window').width;
 
 const RecipeCard = ({item, onPress}) => {
   const [isFavorite, setIsFavorite] = React.useState(false);
+  const navigation = useNavigation();
 
+  React.useEffect(() => {
+    console.log(item.user.id);
+  }, [item]);
   return (
     <Box flexDirection="column" width={width * 0.41}>
-      <Box flexDirection="row" alignItems={'center'}>
+      <Box
+        as={Button}
+        justifyContent={'flex-start'}
+        onPress={() => {
+          navigation.navigate('Profile', {id: item.user.id});
+        }}>
         <S3Image
           imgKey={item.user.avatar}
           resizeMode="contain"

@@ -39,7 +39,10 @@ function TabBar({state, descriptors, navigation}) {
 
           if (!isFocused && !event.defaultPrevented) {
             if (route.name === 'Profile') {
-              navigation.navigate(route.name, {id: userId});
+              navigation.navigate('Profile', {
+                screen: 'ProfileDetail',
+                params: {id: userId},
+              });
             } else {
               navigation.navigate(route.name);
             }

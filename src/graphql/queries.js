@@ -46,6 +46,9 @@ export const getRecipe = /* GraphQL */ `
         recipes {
           nextToken
         }
+        following {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -272,11 +275,47 @@ export const getUser = /* GraphQL */ `
         }
         nextToken
       }
+      following {
+        items {
+          id
+          followerId
+          followingId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
   }
 `;
+export const fetchProfile = `query MyQuery($id: ID!) {
+getUser(id: $id) {
+    fullname
+    avatar
+    recipes {
+        nextToken
+        items {
+            image
+            title
+            category {
+                title
+            }
+        }
+    }
+}
+listFollowings(filter: {followingId: {eq: $id}}) {
+    items {
+        follower {
+            fullname
+        }
+    }
+}
+}
+`;
+
+
 export const listUsers = /* GraphQL */ `
   query ListUsers(
     $filter: ModelUserFilterInput
@@ -291,6 +330,82 @@ export const listUsers = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+        }
+        following {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getFollowing = /* GraphQL */ `
+  query GetFollowing($id: ID!) {
+    getFollowing(id: $id) {
+      id
+      followerId
+      followingId
+      follower {
+        id
+        email
+        fullname
+        avatar
+        recipes {
+          nextToken
+        }
+        following {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      following {
+        id
+        email
+        fullname
+        avatar
+        recipes {
+          nextToken
+        }
+        following {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listFollowings = /* GraphQL */ `
+  query ListFollowings(
+    $filter: ModelFollowingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listFollowings(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        followerId
+        followingId
+        follower {
+          id
+          email
+          fullname
+          avatar
+          createdAt
+          updatedAt
+        }
+        following {
+          id
+          email
+          fullname
+          avatar
+          createdAt
+          updatedAt
         }
         createdAt
         updatedAt
