@@ -18,10 +18,37 @@ import NotificationScreen from './views/Notification';
 import ProfileScreen from './views/Profile';
 import DetailRecipe from './views/DetailRecipe';
 import HeaderBackButton from '@react-navigation/stack';
+import FollowingScreen from './views/Following';
 
 const Tab = createBottomTabNavigator();
 const MainStack = createStackNavigator();
 const AuthStack = createStackNavigator();
+const ProfileStack = createStackNavigator();
+const HomeStack = createStackNavigator();
+
+function HomeSt() {
+  return (
+    <HomeStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <HomeStack.Screen name={'Home'} component={HomeScreen} />
+      <HomeStack.Screen name={'Profile'} component={ProfileScreen} />
+    </HomeStack.Navigator>
+  );
+}
+
+function ProfileSt() {
+  return (
+    <ProfileStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <ProfileStack.Screen name={'ProfileDetail'} component={ProfileScreen} />
+      <ProfileStack.Screen name={'Following'} component={FollowingScreen} />
+    </ProfileStack.Navigator>
+  );
+}
 
 function Auth() {
   return (
@@ -71,11 +98,11 @@ function MainTab() {
       }}
       initialRouteName="Home"
       tabBar={(props) => <TabBar {...props} />}>
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Home" component={HomeSt} />
       <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen name="Upload" component={UploadScreen} />
       <Tab.Screen name="Notification" component={NotificationScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Profile" component={ProfileSt} />
     </Tab.Navigator>
   );
 }

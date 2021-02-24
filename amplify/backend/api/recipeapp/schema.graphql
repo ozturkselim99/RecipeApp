@@ -1,4 +1,4 @@
-type Recipe @model{
+type Recipe @model @auth(rules: [{ allow: public, operations: [read] }]){
   id: ID!
   title: String!
   description: String
@@ -7,17 +7,16 @@ type Recipe @model{
   category: Category @connection(name:"RecipeCategory")
   country: Country @connection(name:"CountryRecipe")
   user:User @connection(name:"UserRecipe")
-
 }
 
-type Step @model{
+type Step @model @auth(rules: [{ allow: public, operations: [read] }]){
   id: ID!
   description: String!
   recipe: Recipe @connection(name: "RecipeStep")
   images: [String]
 }
 
-type Category @model{
+type Category @model @auth(rules: [{ allow: public, operations: [read] }]){
   id: ID!
   title: String!
   image: String!
@@ -35,20 +34,31 @@ enum PreparationTime{
   ZeroBetweenFifteen,FifteenBetweenThirty,ThirtyBetweenFourtyFive,FourtyFiveBetweenSixty,SixtyPlus
 }
 
-type Country @model{
+type Country @model @auth(rules: [{ allow: public, operations: [read] }]){
   id: ID!
   flag: String!
   name:String!
   recipes: [Recipe] @connection(name:"CountryRecipe")
 }
 
-type User @model{
+type User @model @auth(rules: [{ allow: public, operations: [read] }]){
   id:ID!
   email:String!
   fullname:String!
   avatar:String!
   recipes:[Recipe] @connection(name:"UserRecipe")
+  following:[Following] @connection(keyName:"followingByUserId",fields: ["id"])
 }
+type Following @model @auth(rules: [{ allow: public, operations: [read] }])
+   @key(name: "followingByUserId", fields: ["followerId"]){
+  id: ID
+  followerId: ID!
+  followingId: ID!
+  follower: User @connection(fields: ["followerId"])
+  following: User @connection(fields: ["followingId"])
+}
+
+
 #hikaye,comment,list,beğeniTablosu,kiminDenediği
 
 

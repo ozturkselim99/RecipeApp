@@ -46,6 +46,9 @@ export const onCreateRecipe = /* GraphQL */ `
         recipes {
           nextToken
         }
+        following {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -99,6 +102,9 @@ export const onUpdateRecipe = /* GraphQL */ `
         recipes {
           nextToken
         }
+        following {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -150,6 +156,9 @@ export const onDeleteRecipe = /* GraphQL */ `
         fullname
         avatar
         recipes {
+          nextToken
+        }
+        following {
           nextToken
         }
         createdAt
@@ -442,6 +451,16 @@ export const onCreateUser = /* GraphQL */ `
         }
         nextToken
       }
+      following {
+        items {
+          id
+          followerId
+          followingId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -460,6 +479,16 @@ export const onUpdateUser = /* GraphQL */ `
           title
           description
           image
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      following {
+        items {
+          id
+          followerId
+          followingId
           createdAt
           updatedAt
         }
@@ -487,6 +516,133 @@ export const onDeleteUser = /* GraphQL */ `
           updatedAt
         }
         nextToken
+      }
+      following {
+        items {
+          id
+          followerId
+          followingId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateFollowing = /* GraphQL */ `
+  subscription OnCreateFollowing {
+    onCreateFollowing {
+      id
+      followerId
+      followingId
+      follower {
+        id
+        email
+        fullname
+        avatar
+        recipes {
+          nextToken
+        }
+        following {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      following {
+        id
+        email
+        fullname
+        avatar
+        recipes {
+          nextToken
+        }
+        following {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateFollowing = /* GraphQL */ `
+  subscription OnUpdateFollowing {
+    onUpdateFollowing {
+      id
+      followerId
+      followingId
+      follower {
+        id
+        email
+        fullname
+        avatar
+        recipes {
+          nextToken
+        }
+        following {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      following {
+        id
+        email
+        fullname
+        avatar
+        recipes {
+          nextToken
+        }
+        following {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteFollowing = /* GraphQL */ `
+  subscription OnDeleteFollowing {
+    onDeleteFollowing {
+      id
+      followerId
+      followingId
+      follower {
+        id
+        email
+        fullname
+        avatar
+        recipes {
+          nextToken
+        }
+        following {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      following {
+        id
+        email
+        fullname
+        avatar
+        recipes {
+          nextToken
+        }
+        following {
+          nextToken
+        }
+        createdAt
+        updatedAt
       }
       createdAt
       updatedAt

@@ -49,6 +49,9 @@ export const createRecipe = /* GraphQL */ `
         recipes {
           nextToken
         }
+        following {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -105,6 +108,9 @@ export const updateRecipe = /* GraphQL */ `
         recipes {
           nextToken
         }
+        following {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -159,6 +165,9 @@ export const deleteRecipe = /* GraphQL */ `
         fullname
         avatar
         recipes {
+          nextToken
+        }
+        following {
           nextToken
         }
         createdAt
@@ -481,6 +490,16 @@ export const createUser = /* GraphQL */ `
         }
         nextToken
       }
+      following {
+        items {
+          id
+          followerId
+          followingId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -502,6 +521,16 @@ export const updateUser = /* GraphQL */ `
           title
           description
           image
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      following {
+        items {
+          id
+          followerId
+          followingId
           createdAt
           updatedAt
         }
@@ -532,6 +561,142 @@ export const deleteUser = /* GraphQL */ `
           updatedAt
         }
         nextToken
+      }
+      following {
+        items {
+          id
+          followerId
+          followingId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createFollowing = /* GraphQL */ `
+  mutation CreateFollowing(
+    $input: CreateFollowingInput!
+    $condition: ModelFollowingConditionInput
+  ) {
+    createFollowing(input: $input, condition: $condition) {
+      id
+      followerId
+      followingId
+      follower {
+        id
+        email
+        fullname
+        avatar
+        recipes {
+          nextToken
+        }
+        following {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      following {
+        id
+        email
+        fullname
+        avatar
+        recipes {
+          nextToken
+        }
+        following {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateFollowing = /* GraphQL */ `
+  mutation UpdateFollowing(
+    $input: UpdateFollowingInput!
+    $condition: ModelFollowingConditionInput
+  ) {
+    updateFollowing(input: $input, condition: $condition) {
+      id
+      followerId
+      followingId
+      follower {
+        id
+        email
+        fullname
+        avatar
+        recipes {
+          nextToken
+        }
+        following {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      following {
+        id
+        email
+        fullname
+        avatar
+        recipes {
+          nextToken
+        }
+        following {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteFollowing = /* GraphQL */ `
+  mutation DeleteFollowing(
+    $input: DeleteFollowingInput!
+    $condition: ModelFollowingConditionInput
+  ) {
+    deleteFollowing(input: $input, condition: $condition) {
+      id
+      followerId
+      followingId
+      follower {
+        id
+        email
+        fullname
+        avatar
+        recipes {
+          nextToken
+        }
+        following {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      following {
+        id
+        email
+        fullname
+        avatar
+        recipes {
+          nextToken
+        }
+        following {
+          nextToken
+        }
+        createdAt
+        updatedAt
       }
       createdAt
       updatedAt
