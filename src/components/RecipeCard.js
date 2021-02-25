@@ -8,13 +8,14 @@ import {Dimensions} from 'react-native';
 import Button from './Button';
 import {S3Image} from 'aws-amplify-react-native';
 import {useNavigation} from '@react-navigation/native';
+import AuthContext from '../context/AuthContext';
 
 const width = Dimensions.get('window').width;
 
 const RecipeCard = ({item, onPress, profile}) => {
   const [isFavorite, setIsFavorite] = React.useState(false);
   const navigation = useNavigation();
-
+  const {userId} = React.useContext(AuthContext);
 
   return (
     <Box flexDirection="column" width={width * 0.41}>
@@ -23,7 +24,14 @@ const RecipeCard = ({item, onPress, profile}) => {
           as={Button}
           justifyContent={'flex-start'}
           onPress={() => {
-            navigation.navigate('Profile', {id: item.user.id});
+            if (userId === item.user.id) {
+              navigation.navigate('ProfileTab', {
+                screen: 'ProfileDetail',
+                params: {id: userId, myProfile: true},
+              });
+            } else {
+              navigation.navigate('Profile', {id: item.user.id});
+            }
           }}>
           <S3Image
             imgKey={item.user.avatar}

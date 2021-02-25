@@ -135,7 +135,7 @@ function MainTab() {
       <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen name="Upload" component={UploadScreen} />
       <Tab.Screen name="Notification" component={NotificationSt} />
-      <Tab.Screen name="Profile" component={ProfileSt} />
+      <Tab.Screen name="ProfileTab" component={ProfileSt} />
     </Tab.Navigator>
   );
 }

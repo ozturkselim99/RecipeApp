@@ -38,8 +38,8 @@ function TabBar({state, descriptors, navigation}) {
           });
 
           if (!isFocused && !event.defaultPrevented) {
-            if (route.name === 'Profile') {
-              navigation.navigate('Profile', {
+            if (route.name === 'ProfileTab') {
+              navigation.navigate('ProfileTab', {
                 screen: 'ProfileDetail',
                 params: {id: userId, myProfile: true},
               });
@@ -122,7 +122,7 @@ function TabBar({state, descriptors, navigation}) {
                 </Text>
               </>
             )}
-            {label === 'Profile' && (
+            {label === 'ProfileTab' && (
               <>
                 <User
                   color={
