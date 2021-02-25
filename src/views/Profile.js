@@ -188,7 +188,7 @@ export default function ProfileScreen({route}) {
                 bg={
                   isFollowing ? theme.colors.mainGreen : theme.colors.mainText
                 }
-                py="5px"
+                py="8px"
                 onPress={() => {
                   setIsFollowing(!isFollowing);
                 }}>
