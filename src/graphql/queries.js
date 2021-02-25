@@ -294,15 +294,15 @@ export const fetchProfile = `query MyQuery($id: ID!) {
 getUser(id: $id) {
     fullname
     avatar
-    recipes {
-        nextToken
-        items {
-            image
-            title
-            category {
-                title
-            }
+   recipes {
+      items {
+        title
+        image
+        id
+        category {
+          title
         }
+      }
     }
 }
 listFollowings(filter: {followingId: {eq: $id}}) {

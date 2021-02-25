@@ -11,36 +11,37 @@ import {useNavigation} from '@react-navigation/native';
 
 const width = Dimensions.get('window').width;
 
-const RecipeCard = ({item, onPress}) => {
+const RecipeCard = ({item, onPress, profile}) => {
   const [isFavorite, setIsFavorite] = React.useState(false);
   const navigation = useNavigation();
 
-  React.useEffect(() => {
-    console.log(item.user.id);
-  }, [item]);
+
   return (
     <Box flexDirection="column" width={width * 0.41}>
-      <Box
-        as={Button}
-        justifyContent={'flex-start'}
-        onPress={() => {
-          navigation.navigate('Profile', {id: item.user.id});
-        }}>
-        <S3Image
-          imgKey={item.user.avatar}
-          resizeMode="contain"
-          style={{width: 31, height: 31, borderRadius: 11}}
-        />
-        <Text
-          style={{textAlignVertical: 'center', textAlign: 'center'}}
-          fontSize="12px"
-          fontWeight={500}
-          color={theme.colors.mainText}
-          ml="10px"
-          textAlign="justify">
-          {item.user.fullname}
-        </Text>
-      </Box>
+      {!profile && (
+        <Box
+          as={Button}
+          justifyContent={'flex-start'}
+          onPress={() => {
+            navigation.navigate('Profile', {id: item.user.id});
+          }}>
+          <S3Image
+            imgKey={item.user.avatar}
+            resizeMode="contain"
+            style={{width: 31, height: 31, borderRadius: 11}}
+          />
+          <Text
+            style={{textAlignVertical: 'center', textAlign: 'center'}}
+            fontSize="12px"
+            fontWeight={500}
+            color={theme.colors.mainText}
+            ml="10px"
+            textAlign="justify">
+            {item.user.fullname}
+          </Text>
+        </Box>
+      )}
+
       <Button mt={12} onPress={onPress}>
         <Box
           as={Button}

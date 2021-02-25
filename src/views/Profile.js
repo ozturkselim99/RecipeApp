@@ -1,9 +1,15 @@
 import * as React from 'react';
 import Box from '../components/Box';
 import Text from '../components/Text';
-import {View, StyleSheet, Dimensions} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
 import theme from '../utils/Theme';
-import {Share2} from '../components/icons';
+import {ChefHat, Playlist, Share2} from '../components/icons';
 import {ScrollView} from 'react-native-gesture-handler';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {useNavigation} from '@react-navigation/native';
@@ -13,15 +19,7 @@ import Button from '../components/Button';
 import {fetchProfile} from '../graphql/queries';
 import {S3Image} from 'aws-amplify-react-native';
 import {ChevronLeft} from '../components/icons';
-
-const FirstRoute = () => (
-  <Box
-    flexDirection="row"
-    px={24}
-    flexWrap="wrap"
-    justifyContent={'space-between'}
-  />
-);
+import RecipeCard from '../components/RecipeCard';
 
 const SecondRoute = () => (
   <View style={[styles.scene, {backgroundColor: '#673ab7'}]} />
@@ -32,11 +30,13 @@ const renderTabBar = (props) => (
     {...props}
     indicatorStyle={{backgroundColor: theme.colors.mainGreen}}
     style={{backgroundColor: 'white', color: 'black'}}
-    renderLabel={({route, focused, color}) => (
-      <Text color={theme.colors.mainText} fontSize={15} fontWeight={600}>
-        {route.title}
-      </Text>
-    )}
+    renderIcon={({route, focused, color}) => {
+      if (route.icon === 'Tarifler') {
+        return <ChefHat fill={theme.colors.mainText} />;
+      } else {
+        return <Playlist fill={theme.colors.mainText} />;
+      }
+    }}
   />
 );
 
@@ -52,8 +52,8 @@ export default function ProfileScreen({route}) {
   const {isLogged, setLogged, setUserId} = React.useContext(AuthContext);
 
   const [routes] = React.useState([
-    {key: 'first', title: 'First'},
-    {key: 'second', title: 'Second'},
+    {key: 'first', icon: 'Tarifler'},
+    {key: 'second', icon: 'Kaydedilen Tarifler'},
   ]);
 
   React.useLayoutEffect(() => {
@@ -74,7 +74,7 @@ export default function ProfileScreen({route}) {
         </Button>
       ),
       headerLeft: myProfile
-        ? null
+        ? () => <Box />
         : () => (
             <Button
               onPress={() => {
@@ -103,12 +103,37 @@ export default function ProfileScreen({route}) {
         graphqlOperation(fetchProfile, {id: userId}),
       );
       if (userData) {
+        console.log(userData);
         setUser(userData.data.getUser);
         setFollowings(userData.data.listFollowings.items.length);
       }
     };
     fetchUser();
   }, [isLogged, userId]);
+
+  const FirstRoute = () => (
+    <Box
+      as={FlatList}
+      px={24}
+      mt={18}
+      data={user.recipes?.items}
+      columnWrapperStyle={{justifyContent: 'space-between'}}
+      ItemSeparatorComponent={() => <Box size={30} />}
+      renderItem={({item}) => (
+        <RecipeCard
+          item={item}
+          profile={true}
+          onPress={() =>
+            navigation.navigate('DetailRecipe', {
+              id: item.id,
+            })
+          }
+        />
+      )}
+      numColumns={2}
+      keyExtractor={(item) => item.id}
+    />
+  );
 
   const renderScene = SceneMap({
     first: FirstRoute,
@@ -117,71 +142,71 @@ export default function ProfileScreen({route}) {
 
   const initialLayout = {width: Dimensions.get('window').width};
 
-  return (
+  return user ? (
     <Box bg={'white'} flex={1}>
-      <ScrollView>
-        <Box flexDirection="row" px="24px" mt={15}>
-          <Box justifyContent="center" mr={20}>
-            <S3Image
-              imgKey={user.avatar}
-              style={{
-                width: 90,
-                height: 90,
-                borderRadius: 9999,
-              }}
-            />
-          </Box>
-          <Box flexDirection={'column'} flex={1}>
-            <Box flexDirection={'row'} justifyContent={'space-between'}>
-              <Box aligItems="center">
-                <Text
-                  fontWeight={700}
-                  fontSize={17}
-                  color={theme.colors.mainText}
-                  textAlign="center">
-                  32
-                </Text>
-                <Text
-                  mt={2}
-                  fontWeight={500}
-                  fontSize={15}
-                  color={theme.colors.secondaryText}>
-                  Recipes
-                </Text>
-              </Box>
-              <Box alignItems={'center'}>
-                <Text
-                  fontWeight={700}
-                  fontSize={17}
-                  color={theme.colors.mainText}>
-                  782
-                </Text>
-                <Button onPress={() => navigation.navigate('Following')}>
-                  <Text
-                    mt={2}
-                    fontWeight={500}
-                    fontSize={15}
-                    color={theme.colors.secondaryText}>
-                    Following
-                  </Text>
-                </Button>
-              </Box>
-              <Box alignItems={'center'}>
-                <Text
-                  fontWeight={700}
-                  fontSize={17}
-                  color={theme.colors.mainText}>
-                  {followingCount}
-                </Text>
-                <Text
-                  mt={2}
-                  fontWeight={500}
-                  fontSize={15}
-                  color={theme.colors.secondaryText}>
-                  Followers
-                </Text>
-              </Box>
+      <Box flexDirection="row" px="24px" mt={15}>
+        <Box justifyContent="center" mr={20}>
+          <S3Image
+            imgKey={user.avatar}
+            style={{
+              width: 90,
+              height: 90,
+              borderRadius: 9999,
+            }}
+          />
+        </Box>
+        <Box flexDirection={'column'} flex={1}>
+          <Box flexDirection={'row'} justifyContent={'space-between'}>
+            <Box aligItems="center">
+              <Text
+                fontWeight={700}
+                fontSize={17}
+                color={theme.colors.mainText}
+                textAlign="center">
+                32
+              </Text>
+              <Text
+                mt={2}
+                fontWeight={500}
+                fontSize={15}
+                color={theme.colors.secondaryText}>
+                Recipes
+              </Text>
             </Box>
+            <Box alignItems={'center'}>
+              <Text
+                fontWeight={700}
+                fontSize={17}
+                color={theme.colors.mainText}>
+                782
+              </Text>
+              <Button onPress={() => navigation.navigate('Following')}>
+                <Text
+                  mt={2}
+                  fontWeight={500}
+                  fontSize={15}
+                  color={theme.colors.secondaryText}>
+                  Following
+                </Text>
+              </Button>
+            </Box>
+            <Box alignItems={'center'}>
+              <Text
+                fontWeight={700}
+                fontSize={17}
+                color={theme.colors.mainText}>
+                {followingCount}
+              </Text>
+              <Text
+                mt={2}
+                fontWeight={500}
+                fontSize={15}
+                color={theme.colors.secondaryText}>
+                Followers
+              </Text>
+            </Box>
+          </Box>
+          {!myProfile && (
             <Box mt="15px">
               <Button
                 borderRadius={theme.radii}
@@ -197,19 +222,21 @@ export default function ProfileScreen({route}) {
                 </Text>
               </Button>
             </Box>
-          </Box>
+          )}
         </Box>
+      </Box>
 
-        <Box mt={24} height={8} bg={theme.colors.mainGray} />
-        <TabView
-          navigationState={{index, routes}}
-          renderScene={renderScene}
-          onIndexChange={setIndex}
-          renderTabBar={renderTabBar}
-          initialLayout={initialLayout}
-        />
-      </ScrollView>
+      <Box mt={24} height={8} bg={theme.colors.mainGray} />
+      <TabView
+        navigationState={{index, routes}}
+        renderScene={renderScene}
+        onIndexChange={setIndex}
+        renderTabBar={renderTabBar}
+        initialLayout={initialLayout}
+      />
     </Box>
+  ) : (
+    <ActivityIndicator size="large" />
   );
 }
 
