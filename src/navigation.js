@@ -19,12 +19,15 @@ import ProfileScreen from './views/Profile';
 import DetailRecipe from './views/DetailRecipe';
 import HeaderBackButton from '@react-navigation/stack';
 import FollowingScreen from './views/Following';
+import MustLogin from './views/MustLogin';
+import AuthContext from './context/AuthContext';
 
 const Tab = createBottomTabNavigator();
 const MainStack = createStackNavigator();
 const AuthStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 const HomeStack = createStackNavigator();
+const NotificationStack = createStackNavigator();
 
 function HomeSt() {
   return (
@@ -39,14 +42,44 @@ function HomeSt() {
 }
 
 function ProfileSt() {
+  const {isLogged} = React.useContext(AuthContext);
+
   return (
     <ProfileStack.Navigator
       screenOptions={{
         headerShown: false,
       }}>
-      <ProfileStack.Screen name={'ProfileDetail'} component={ProfileScreen} />
-      <ProfileStack.Screen name={'Following'} component={FollowingScreen} />
+      {isLogged ? (
+        <>
+          <ProfileStack.Screen
+            name={'ProfileDetail'}
+            component={ProfileScreen}
+          />
+          <ProfileStack.Screen name={'Following'} component={FollowingScreen} />
+        </>
+      ) : (
+        <ProfileStack.Screen name={'MustLogin'} component={MustLogin} />
+      )}
     </ProfileStack.Navigator>
+  );
+}
+
+function NotificationSt() {
+  const {isLogged} = React.useContext(AuthContext);
+  return (
+    <NotificationStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      {isLogged ? (
+        <NotificationStack.Screen
+          name={'Notifications'}
+          component={NotificationScreen}
+        />
+      ) : (
+        <NotificationStack.Screen name={'MustLogin'} component={MustLogin} />
+      )}
+    </NotificationStack.Navigator>
   );
 }
 
@@ -101,7 +134,7 @@ function MainTab() {
       <Tab.Screen name="Home" component={HomeSt} />
       <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen name="Upload" component={UploadScreen} />
-      <Tab.Screen name="Notification" component={NotificationScreen} />
+      <Tab.Screen name="Notification" component={NotificationSt} />
       <Tab.Screen name="Profile" component={ProfileSt} />
     </Tab.Navigator>
   );

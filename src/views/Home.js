@@ -8,11 +8,26 @@ import RecipeCard from '../components/RecipeCard';
 import TagSelector from '../components/TagSelector';
 import sampleData from '../data.js';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {API, graphqlOperation} from 'aws-amplify';
+import {API, Auth, graphqlOperation} from 'aws-amplify';
 import {listRecipes} from '../graphql/queries';
+import Button from '../components/Button';
+import {Share2} from '../components/icons';
 
 export default function HomeScreen({navigation}) {
   const [recipes, setRecipes] = React.useState([]);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      title: 'ANNE ELİ',
+      headerStyle: {elevation: 0, shadowColor: 'transparent'},
+      headerTitleStyle: {
+        textAlign: 'center',
+        fontSize: 17,
+        color: theme.colors.mainText,
+      },
+    });
+  });
 
   const tags = [
     {
@@ -69,7 +84,7 @@ export default function HomeScreen({navigation}) {
   const onStoryPress = () => {};
 
   return (
-    <Box as={SafeAreaView} bg={'white'} flex={1}>
+    <Box bg={'white'} flex={1}>
       <StatusBar barStyle={'dark-content'} backgroundColor={'white'} />
       <Box>
         <FlatList

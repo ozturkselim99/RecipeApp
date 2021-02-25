@@ -11,20 +11,28 @@ import fuku from '../img/fuku.jpg';
 import suslu from '../img/susluSelo.jpeg';
 import durum from '../img/durum.jpeg';
 import brokoli from '../img/brokoli.jpeg';
-import masum from '../img/masum.jpeg';
 import crazy from '../img/crazy.jpg';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
-import AuthContext from '../context/AuthContext';
-import MustLogin from './MustLogin';
 
 export default function NotificationScreen() {
   const navigation = useNavigation();
 
-  const {isLogged} = React.useContext(AuthContext);
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      title: 'SON HAREKETLER',
+      headerStyle: {elevation: 0, shadowColor: 'transparent'},
+      headerTitleAlign: 'left',
+      headerTitleStyle: {
+        fontSize: 17,
+        fontWeight: 'bold',
+        color: theme.colors.mainText,
+      },
+    });
+  });
 
-  return isLogged ? (
-    <Box as={SafeAreaView} pt="12px" px={'24px'} bg={'white'} flex={1}>
+  return (
+    <Box px={'24px'} bg={'white'} flex={1}>
       <Text
         fontSize="17px"
         fontWeight={700}
@@ -88,7 +96,5 @@ export default function NotificationScreen() {
         buttonText={'Follow'}
       />
     </Box>
-  ) : (
-    <MustLogin />
   );
 }

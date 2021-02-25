@@ -41,7 +41,7 @@ function TabBar({state, descriptors, navigation}) {
             if (route.name === 'Profile') {
               navigation.navigate('Profile', {
                 screen: 'ProfileDetail',
-                params: {id: userId},
+                params: {id: userId, myProfile: true},
               });
             } else {
               navigation.navigate(route.name);

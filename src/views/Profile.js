@@ -1,24 +1,18 @@
 import * as React from 'react';
 import Box from '../components/Box';
 import Text from '../components/Text';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {View, StyleSheet, Dimensions} from 'react-native';
 import theme from '../utils/Theme';
 import {Share2} from '../components/icons';
 import {ScrollView} from 'react-native-gesture-handler';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import MustLogin from './MustLogin';
+import {useNavigation} from '@react-navigation/native';
 import AuthContext from '../context/AuthContext';
 import {API, Auth, graphqlOperation} from 'aws-amplify';
 import Button from '../components/Button';
-import {
-  denelanbunu,
-  fetchProfile,
-  getUser,
-  listFollowings,
-} from '../graphql/queries';
+import {fetchProfile} from '../graphql/queries';
 import {S3Image} from 'aws-amplify-react-native';
+import {ChevronLeft} from '../components/icons';
 
 const FirstRoute = () => (
   <Box
@@ -48,18 +42,60 @@ const renderTabBar = (props) => (
 
 export default function ProfileScreen({route}) {
   const userId = route.params?.id;
+  const myProfile = route.params?.myProfile;
   const [index, setIndex] = React.useState(0);
   const [user, setUser] = React.useState({});
   const [isFollowing, setIsFollowing] = React.useState(false);
   const [followingCount, setFollowings] = React.useState(0);
   const navigation = useNavigation();
 
-  const {isLogged, setLogged} = React.useContext(AuthContext);
+  const {isLogged, setLogged, setUserId} = React.useContext(AuthContext);
 
   const [routes] = React.useState([
     {key: 'first', title: 'First'},
     {key: 'second', title: 'Second'},
   ]);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      title: user ? user.fullname : ' ',
+      headerRight: () => (
+        <Button
+          onPress={() => {
+            Auth.signOut().then(() => {
+              navigation.navigate('Auth');
+              setLogged(false);
+              setUserId('');
+            });
+          }}
+          px={20}>
+          <Share2 stroke={theme.colors.mainText} />
+        </Button>
+      ),
+      headerLeft: myProfile
+        ? null
+        : () => (
+            <Button
+              onPress={() => {
+                navigation.goBack();
+              }}
+              px={20}>
+              <ChevronLeft
+                stroke={theme.colors.mainText}
+                height={24}
+                width={24}
+              />
+            </Button>
+          ),
+      headerStyle: {elevation: 0, shadowColor: 'transparent'},
+      headerTitleStyle: {
+        textAlign: 'center',
+        fontSize: 17,
+        color: theme.colors.mainText,
+      },
+    });
+  });
 
   React.useEffect(() => {
     const fetchUser = async () => {
@@ -72,8 +108,7 @@ export default function ProfileScreen({route}) {
       }
     };
     fetchUser();
-    console.log('çalıştı');
-  }, [userId]);
+  }, [isLogged, userId]);
 
   const renderScene = SceneMap({
     first: FirstRoute,
@@ -82,20 +117,10 @@ export default function ProfileScreen({route}) {
 
   const initialLayout = {width: Dimensions.get('window').width};
 
-  return isLogged ? (
-    <Box as={SafeAreaView} bg={'white'} flex={1}>
+  return (
+    <Box bg={'white'} flex={1}>
       <ScrollView>
-        <Box alignItems={'flex-end'} mr={24} pt={24}>
-          <Button
-            onPress={() => {
-              Auth.signOut();
-              navigation.navigate('Auth');
-              setLogged(false);
-            }}>
-            <Share2 stroke={theme.colors.mainText} />
-          </Button>
-        </Box>
-        <Box flexDirection="row" px="24px">
+        <Box flexDirection="row" px="24px" mt={15}>
           <Box justifyContent="center" mr={20}>
             <S3Image
               imgKey={user.avatar}
@@ -107,15 +132,7 @@ export default function ProfileScreen({route}) {
             />
           </Box>
           <Box flexDirection={'column'} flex={1}>
-            <Box flexDirection={'row'}>
-              <Text
-                fontWeight={700}
-                fontSize={17}
-                color={theme.colors.mainText}>
-                {user && user.fullname}
-              </Text>
-            </Box>
-            <Box flexDirection={'row'} mt={15} justifyContent={'space-between'}>
+            <Box flexDirection={'row'} justifyContent={'space-between'}>
               <Box aligItems="center">
                 <Text
                   fontWeight={700}
@@ -171,7 +188,7 @@ export default function ProfileScreen({route}) {
                 bg={
                   isFollowing ? theme.colors.mainGreen : theme.colors.mainText
                 }
-                py="5px"
+                py="8px"
                 onPress={() => {
                   setIsFollowing(!isFollowing);
                 }}>
@@ -193,8 +210,6 @@ export default function ProfileScreen({route}) {
         />
       </ScrollView>
     </Box>
-  ) : (
-    <MustLogin />
   );
 }
 
