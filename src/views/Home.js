@@ -7,14 +7,13 @@ import theme from '../utils/Theme';
 import RecipeCard from '../components/RecipeCard';
 import TagSelector from '../components/TagSelector';
 import sampleData from '../data.js';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {API, Auth, graphqlOperation} from 'aws-amplify';
+import {API,graphqlOperation} from 'aws-amplify';
 import {listRecipes} from '../graphql/queries';
-import Button from '../components/Button';
-import {Share2} from '../components/icons';
 
 export default function HomeScreen({navigation}) {
   const [recipes, setRecipes] = React.useState([]);
+  
+  
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -80,6 +79,8 @@ export default function HomeScreen({navigation}) {
 
     fetchData();
   }, []);
+
+  
 
   const onStoryPress = () => {};
 

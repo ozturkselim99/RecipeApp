@@ -49,11 +49,24 @@ export const createRecipe = /* GraphQL */ `
         recipes {
           nextToken
         }
+        likes {
+          nextToken
+        }
         following {
           nextToken
         }
         createdAt
         updatedAt
+      }
+      likes {
+        items {
+          id
+          userId
+          recipeId
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       createdAt
       updatedAt
@@ -108,11 +121,24 @@ export const updateRecipe = /* GraphQL */ `
         recipes {
           nextToken
         }
+        likes {
+          nextToken
+        }
         following {
           nextToken
         }
         createdAt
         updatedAt
+      }
+      likes {
+        items {
+          id
+          userId
+          recipeId
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       createdAt
       updatedAt
@@ -167,11 +193,24 @@ export const deleteRecipe = /* GraphQL */ `
         recipes {
           nextToken
         }
+        likes {
+          nextToken
+        }
         following {
           nextToken
         }
         createdAt
         updatedAt
+      }
+      likes {
+        items {
+          id
+          userId
+          recipeId
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       createdAt
       updatedAt
@@ -215,6 +254,9 @@ export const createStep = /* GraphQL */ `
           avatar
           createdAt
           updatedAt
+        }
+        likes {
+          nextToken
         }
         createdAt
         updatedAt
@@ -263,6 +305,9 @@ export const updateStep = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        likes {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -309,6 +354,9 @@ export const deleteStep = /* GraphQL */ `
           avatar
           createdAt
           updatedAt
+        }
+        likes {
+          nextToken
         }
         createdAt
         updatedAt
@@ -490,6 +538,16 @@ export const createUser = /* GraphQL */ `
         }
         nextToken
       }
+      likes {
+        items {
+          id
+          userId
+          recipeId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       following {
         items {
           id
@@ -521,6 +579,16 @@ export const updateUser = /* GraphQL */ `
           title
           description
           image
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      likes {
+        items {
+          id
+          userId
+          recipeId
           createdAt
           updatedAt
         }
@@ -562,6 +630,16 @@ export const deleteUser = /* GraphQL */ `
         }
         nextToken
       }
+      likes {
+        items {
+          id
+          userId
+          recipeId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       following {
         items {
           id
@@ -594,6 +672,9 @@ export const createFollowing = /* GraphQL */ `
         recipes {
           nextToken
         }
+        likes {
+          nextToken
+        }
         following {
           nextToken
         }
@@ -606,6 +687,9 @@ export const createFollowing = /* GraphQL */ `
         fullname
         avatar
         recipes {
+          nextToken
+        }
+        likes {
           nextToken
         }
         following {
@@ -636,6 +720,9 @@ export const updateFollowing = /* GraphQL */ `
         recipes {
           nextToken
         }
+        likes {
+          nextToken
+        }
         following {
           nextToken
         }
@@ -648,6 +735,9 @@ export const updateFollowing = /* GraphQL */ `
         fullname
         avatar
         recipes {
+          nextToken
+        }
+        likes {
           nextToken
         }
         following {
@@ -678,6 +768,9 @@ export const deleteFollowing = /* GraphQL */ `
         recipes {
           nextToken
         }
+        likes {
+          nextToken
+        }
         following {
           nextToken
         }
@@ -690,6 +783,210 @@ export const deleteFollowing = /* GraphQL */ `
         fullname
         avatar
         recipes {
+          nextToken
+        }
+        likes {
+          nextToken
+        }
+        following {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createLike = /* GraphQL */ `
+  mutation CreateLike(
+    $input: CreateLikeInput!
+    $condition: ModelLikeConditionInput
+  ) {
+    createLike(input: $input, condition: $condition) {
+      id
+      userId
+      recipeId
+      recipe {
+        id
+        title
+        description
+        image
+        steps {
+          nextToken
+        }
+        category {
+          id
+          title
+          image
+          createdAt
+          updatedAt
+        }
+        country {
+          id
+          flag
+          name
+          createdAt
+          updatedAt
+        }
+        user {
+          id
+          email
+          fullname
+          avatar
+          createdAt
+          updatedAt
+        }
+        likes {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      user {
+        id
+        email
+        fullname
+        avatar
+        recipes {
+          nextToken
+        }
+        likes {
+          nextToken
+        }
+        following {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateLike = /* GraphQL */ `
+  mutation UpdateLike(
+    $input: UpdateLikeInput!
+    $condition: ModelLikeConditionInput
+  ) {
+    updateLike(input: $input, condition: $condition) {
+      id
+      userId
+      recipeId
+      recipe {
+        id
+        title
+        description
+        image
+        steps {
+          nextToken
+        }
+        category {
+          id
+          title
+          image
+          createdAt
+          updatedAt
+        }
+        country {
+          id
+          flag
+          name
+          createdAt
+          updatedAt
+        }
+        user {
+          id
+          email
+          fullname
+          avatar
+          createdAt
+          updatedAt
+        }
+        likes {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      user {
+        id
+        email
+        fullname
+        avatar
+        recipes {
+          nextToken
+        }
+        likes {
+          nextToken
+        }
+        following {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteLike = /* GraphQL */ `
+  mutation DeleteLike(
+    $input: DeleteLikeInput!
+    $condition: ModelLikeConditionInput
+  ) {
+    deleteLike(input: $input, condition: $condition) {
+      id
+      userId
+      recipeId
+      recipe {
+        id
+        title
+        description
+        image
+        steps {
+          nextToken
+        }
+        category {
+          id
+          title
+          image
+          createdAt
+          updatedAt
+        }
+        country {
+          id
+          flag
+          name
+          createdAt
+          updatedAt
+        }
+        user {
+          id
+          email
+          fullname
+          avatar
+          createdAt
+          updatedAt
+        }
+        likes {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      user {
+        id
+        email
+        fullname
+        avatar
+        recipes {
+          nextToken
+        }
+        likes {
           nextToken
         }
         following {

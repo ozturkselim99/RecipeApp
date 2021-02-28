@@ -9,6 +9,8 @@ import Button from './Button';
 import {S3Image} from 'aws-amplify-react-native';
 import {useNavigation} from '@react-navigation/native';
 import AuthContext from '../context/AuthContext';
+import {createLike} from '../graphql/mutations';
+import {API, graphqlOperation} from 'aws-amplify';
 
 const width = Dimensions.get('window').width;
 
@@ -16,6 +18,23 @@ const RecipeCard = ({item, onPress, profile}) => {
   const [isFavorite, setIsFavorite] = React.useState(false);
   const navigation = useNavigation();
   const {userId} = React.useContext(AuthContext);
+  React.useEffect(() => {
+    //TODO: BEĞENİ KONTROLÜ DÜZELTİLMELİ
+    item.likes.items.map((like) => {
+      if (like.user.id === '79cc1124-6642-4d44-8c79-4eca77a72325') {
+        setIsFavorite(true);
+      }
+    });
+  }, []);
+  const likeHandler = async () => {
+    const likeRecipe = {
+      userId: '79cc1124-6642-4d44-8c79-4eca77a72325',
+      recipeId: item.id,
+    };
+
+    await API.graphql(graphqlOperation(createLike, {input: likeRecipe}));
+    setIsFavorite(true);
+  };
 
   return (
     <Box flexDirection="column" width={width * 0.41}>
@@ -53,7 +72,7 @@ const RecipeCard = ({item, onPress, profile}) => {
       <Button mt={12} onPress={onPress}>
         <Box
           as={Button}
-          onPress={() => setIsFavorite(!isFavorite)}
+          onPress={likeHandler}
           position="absolute"
           top={16}
           size="32px"

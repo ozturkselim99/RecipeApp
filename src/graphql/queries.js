@@ -46,11 +46,24 @@ export const getRecipe = /* GraphQL */ `
         recipes {
           nextToken
         }
+        likes {
+          nextToken
+        }
         following {
           nextToken
         }
         createdAt
         updatedAt
+      }
+      likes {
+        items {
+          id
+          userId
+          recipeId
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       createdAt
       updatedAt
@@ -94,6 +107,13 @@ export const listRecipes = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        likes {
+          items {
+            user {
+              id
+            }
+          }
+        }
         createdAt
         updatedAt
       }
@@ -135,6 +155,9 @@ export const getStep = /* GraphQL */ `
           avatar
           createdAt
           updatedAt
+        }
+        likes {
+          nextToken
         }
         createdAt
         updatedAt
@@ -275,6 +298,16 @@ export const getUser = /* GraphQL */ `
         }
         nextToken
       }
+      likes {
+        items {
+          id
+          userId
+          recipeId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       following {
         items {
           id
@@ -290,32 +323,6 @@ export const getUser = /* GraphQL */ `
     }
   }
 `;
-export const fetchProfile = `query MyQuery($id: ID!) {
-getUser(id: $id) {
-    fullname
-    avatar
-   recipes {
-      items {
-        title
-        image
-        id
-        category {
-          title
-        }
-      }
-    }
-}
-listFollowings(filter: {followingId: {eq: $id}}) {
-    items {
-        follower {
-            fullname
-        }
-    }
-}
-}
-`;
-
-
 export const listUsers = /* GraphQL */ `
   query ListUsers(
     $filter: ModelUserFilterInput
@@ -329,6 +336,9 @@ export const listUsers = /* GraphQL */ `
         fullname
         avatar
         recipes {
+          nextToken
+        }
+        likes {
           nextToken
         }
         following {
@@ -355,6 +365,9 @@ export const getFollowing = /* GraphQL */ `
         recipes {
           nextToken
         }
+        likes {
+          nextToken
+        }
         following {
           nextToken
         }
@@ -367,6 +380,9 @@ export const getFollowing = /* GraphQL */ `
         fullname
         avatar
         recipes {
+          nextToken
+        }
+        likes {
           nextToken
         }
         following {
@@ -400,6 +416,104 @@ export const listFollowings = /* GraphQL */ `
           updatedAt
         }
         following {
+          id
+          email
+          fullname
+          avatar
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getLike = /* GraphQL */ `
+  query GetLike($id: ID!) {
+    getLike(id: $id) {
+      id
+      userId
+      recipeId
+      recipe {
+        id
+        title
+        description
+        image
+        steps {
+          nextToken
+        }
+        category {
+          id
+          title
+          image
+          createdAt
+          updatedAt
+        }
+        country {
+          id
+          flag
+          name
+          createdAt
+          updatedAt
+        }
+        user {
+          id
+          email
+          fullname
+          avatar
+          createdAt
+          updatedAt
+        }
+        likes {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      user {
+        id
+        email
+        fullname
+        avatar
+        recipes {
+          nextToken
+        }
+        likes {
+          nextToken
+        }
+        following {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listLikes = /* GraphQL */ `
+  query ListLikes(
+    $filter: ModelLikeFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listLikes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        userId
+        recipeId
+        recipe {
+          id
+          title
+          description
+          image
+          createdAt
+          updatedAt
+        }
+        user {
           id
           email
           fullname

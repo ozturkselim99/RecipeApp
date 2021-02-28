@@ -7,6 +7,7 @@ type Recipe @model @auth(rules: [{ allow: public, operations: [read] }]){
   category: Category @connection(name:"RecipeCategory")
   country: Country @connection(name:"CountryRecipe")
   user:User @connection(name:"UserRecipe")
+  likes:[Like] @connection(keyName: "likesByRecipeId", fields: ["id"])
 }
 
 type Step @model @auth(rules: [{ allow: public, operations: [read] }]){
@@ -47,6 +48,7 @@ type User @model @auth(rules: [{ allow: public, operations: [read] }]){
   fullname:String!
   avatar:String!
   recipes:[Recipe] @connection(name:"UserRecipe")
+  likes:[Like] @connection(keyName:"likeByUserId",fields: ["id"])
   following:[Following] @connection(keyName:"followingByUserId",fields: ["id"])
 }
 type Following @model @auth(rules: [{ allow: public, operations: [read] }])
@@ -56,6 +58,16 @@ type Following @model @auth(rules: [{ allow: public, operations: [read] }])
   followingId: ID!
   follower: User @connection(fields: ["followerId"])
   following: User @connection(fields: ["followingId"])
+}
+
+type Like @model @auth(rules: [{ allow: public, operations: [read] }])
+ @key(name: "likesByRecipeId", fields: ["recipeId"])
+   @key(name: "likeByUserId", fields: ["userId"]){
+  id: ID
+  userId: ID!
+  recipeId:ID!
+  recipe: Recipe @connection(fields: ["recipeId"])
+  user: User @connection(fields: ["userId"])
 }
 
 
