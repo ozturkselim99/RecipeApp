@@ -7,13 +7,61 @@ import theme from '../utils/Theme';
 import RecipeCard from '../components/RecipeCard';
 import TagSelector from '../components/TagSelector';
 import sampleData from '../data.js';
-import {API,graphqlOperation} from 'aws-amplify';
-import {listRecipes} from '../graphql/queries';
-
+import {API, graphqlOperation} from 'aws-amplify';
+export const listRecipes = /* GraphQL */ `
+  query ListRecipes(
+    $filter: ModelRecipeFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listRecipes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        title
+        description
+        image
+        steps {
+          nextToken
+        }
+        category {
+          id
+          title
+          image
+          createdAt
+          updatedAt
+        }
+        country {
+          id
+          flag
+          name
+          createdAt
+          updatedAt
+        }
+        user {
+          id
+          email
+          fullname
+          avatar
+          createdAt
+          updatedAt
+        }
+        likes {
+          items {
+            id
+            user {
+              id
+            }
+          }
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export default function HomeScreen({navigation}) {
   const [recipes, setRecipes] = React.useState([]);
-  
-  
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -79,8 +127,6 @@ export default function HomeScreen({navigation}) {
 
     fetchData();
   }, []);
-
-  
 
   const onStoryPress = () => {};
 

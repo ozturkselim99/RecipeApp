@@ -109,6 +109,7 @@ export const listRecipes = /* GraphQL */ `
         }
         likes {
           items {
+          id
             user {
               id
             }

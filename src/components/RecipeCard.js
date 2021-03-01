@@ -9,31 +9,47 @@ import Button from './Button';
 import {S3Image} from 'aws-amplify-react-native';
 import {useNavigation} from '@react-navigation/native';
 import AuthContext from '../context/AuthContext';
-import {createLike} from '../graphql/mutations';
+import {createLike, deleteLike} from '../graphql/mutations';
 import {API, graphqlOperation} from 'aws-amplify';
 
 const width = Dimensions.get('window').width;
 
 const RecipeCard = ({item, onPress, profile}) => {
   const [isFavorite, setIsFavorite] = React.useState(false);
+  const [likeId, setLikeId] = React.useState('');
   const navigation = useNavigation();
   const {userId} = React.useContext(AuthContext);
   React.useEffect(() => {
     //TODO: BEĞENİ KONTROLÜ DÜZELTİLMELİ
     item.likes.items.map((like) => {
-      if (like.user.id === '79cc1124-6642-4d44-8c79-4eca77a72325') {
+      if (like.user.id === userId) {
         setIsFavorite(true);
+        setLikeId(like.id);
       }
     });
-  }, []);
+  }, [item.likes.items, userId]);
   const likeHandler = async () => {
     const likeRecipe = {
-      userId: '79cc1124-6642-4d44-8c79-4eca77a72325',
+      userId: userId,
       recipeId: item.id,
     };
 
-    await API.graphql(graphqlOperation(createLike, {input: likeRecipe}));
-    setIsFavorite(true);
+    await API.graphql(graphqlOperation(createLike, {input: likeRecipe})).then(
+      (response) => {
+        setLikeId(response.data.createLike.id);
+        setIsFavorite(true);
+      },
+    );
+  };
+
+  const unLikeHandler = async () => {
+    console.log(likeId);
+    await API.graphql(graphqlOperation(deleteLike, {input: {id: likeId}})).then(
+      () => {
+        setIsFavorite(false);
+        setLikeId('');
+      },
+    );
   };
 
   return (
@@ -72,7 +88,7 @@ const RecipeCard = ({item, onPress, profile}) => {
       <Button mt={12} onPress={onPress}>
         <Box
           as={Button}
-          onPress={likeHandler}
+          onPress={isFavorite ? unLikeHandler : likeHandler}
           position="absolute"
           top={16}
           size="32px"

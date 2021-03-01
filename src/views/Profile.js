@@ -2,7 +2,6 @@ import * as React from 'react';
 import Box from '../components/Box';
 import Text from '../components/Text';
 import {
-  View,
   StyleSheet,
   Dimensions,
   FlatList,
@@ -15,15 +14,11 @@ import {useNavigation} from '@react-navigation/native';
 import AuthContext from '../context/AuthContext';
 import {API, Auth, graphqlOperation} from 'aws-amplify';
 import Button from '../components/Button';
-import {fetchProfile, getFollowing, listFollowings} from '../graphql/queries';
+import {listFollowings} from '../graphql/queries';
 import {S3Image} from 'aws-amplify-react-native';
 import {ChevronLeft} from '../components/icons';
 import RecipeCard from '../components/RecipeCard';
 import {createFollowing, deleteFollowing} from '../graphql/mutations';
-
-const SecondRoute = () => (
-  <View style={[styles.scene, {backgroundColor: '#673ab7'}]} />
-);
 
 const renderTabBar = (props) => (
   <TabBar
@@ -39,7 +34,60 @@ const renderTabBar = (props) => (
     }}
   />
 );
-
+export const getUser = /* GraphQL */ `
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
+      id
+      email
+      fullname
+      avatar
+      recipes {
+        items {
+          id
+          title
+          image
+          category {
+            title
+          }
+          likes {
+            items {
+              user {
+                id
+              }
+            }
+          }
+        }
+        nextToken
+      }
+      likes {
+        items {
+          recipe {
+            image
+            title
+            category {
+              title
+            }
+            likes {
+              items {
+                user {
+                  id
+                }
+              }
+            }
+          }
+        }
+      }
+      following {
+        items {
+          id
+          followerId
+          followingId
+        }
+        nextToken
+      }
+    }
+  }
+`;
 export default function ProfileScreen({route}) {
   const profileId = route.params?.id;
   const myProfile = route.params?.myProfile;
@@ -130,14 +178,14 @@ export default function ProfileScreen({route}) {
   React.useEffect(() => {
     const fetchUser = async () => {
       const userData = await API.graphql(
-        graphqlOperation(fetchProfile, {id: profileId}),
+        graphqlOperation(getUser, {id: profileId}),
       );
       if (userData) {
         setUser(userData.data.getUser);
-        setFollowings(userData.data.listFollowings.items.length);
+        console.log(userData.data.getUser);
       }
     };
-    const followStatus = async () => {
+    /* const followStatus = async () => {
       await API.graphql(
         graphqlOperation(listFollowings, {
           filter: {followingId: {eq: profileId}, followerId: {eq: userId}},
@@ -151,10 +199,32 @@ export default function ProfileScreen({route}) {
         }
       });
     };
+    !myProfile && followStatus();*/
     fetchUser();
-    !myProfile && followStatus();
-  }, [isLogged, myProfile, profileId, userId]);
-
+  }, [profileId]);
+  const SecondRoute = () => (
+    <Box
+      as={FlatList}
+      px={24}
+      mt={18}
+      data={user.likes?.items}
+      columnWrapperStyle={{justifyContent: 'space-between'}}
+      ItemSeparatorComponent={() => <Box size={30} />}
+      renderItem={({item}) => (
+        <RecipeCard
+          item={item.recipe}
+          profile={true}
+          onPress={() =>
+            navigation.navigate('DetailRecipe', {
+              id: item.id,
+            })
+          }
+        />
+      )}
+      numColumns={2}
+      keyExtractor={(item) => item.id}
+    />
+  );
   const FirstRoute = () => (
     <Box
       as={FlatList}
