@@ -14,11 +14,10 @@ import {useNavigation} from '@react-navigation/native';
 import AuthContext from '../context/AuthContext';
 import {API, Auth, graphqlOperation} from 'aws-amplify';
 import Button from '../components/Button';
-import {listFollowings} from '../graphql/queries';
 import {S3Image} from 'aws-amplify-react-native';
 import {ChevronLeft} from '../components/icons';
 import RecipeCard from '../components/RecipeCard';
-import {createFollowing, deleteFollowing} from '../graphql/mutations';
+import {deleteFollowing} from '../graphql/mutations';
 
 const renderTabBar = (props) => (
   <TabBar
@@ -34,8 +33,9 @@ const renderTabBar = (props) => (
     }}
   />
 );
+
 export const getUser = /* GraphQL */ `
-  query GetUser($id: ID!) {
+  query GetUser($id: ID!, $myId: ID!) {
     getUser(id: $id) {
       id
       email
@@ -77,32 +77,48 @@ export const getUser = /* GraphQL */ `
           }
         }
       }
-      following {
-        items {
-          id
-          followerId
-          followingId
-        }
-        nextToken
+    }
+    getFollowingsByUserId(followerId: $id) {
+      scannedCount
+    }
+    getFollowersByUserId(followingId: $id) {
+      scannedCount
+    }
+    getIsFollowing(followingId: $id, followerId: {eq: $myId}) {
+      count
+      scannedCount
+      items {
+        id
       }
     }
   }
 `;
+
+const createFollowing = /* GraphQL */ `
+  mutation CreateFollowing(
+    $input: CreateFollowingInput!
+    $condition: ModelFollowingConditionInput
+  ) {
+    createFollowing(input: $input, condition: $condition) {
+      id
+    }
+  }
+`;
+
 export default function ProfileScreen({route}) {
   const profileId = route.params?.id;
   const myProfile = route.params?.myProfile;
   const [index, setIndex] = React.useState(0);
+  const [followingsCount, setFollowingsCount] = React.useState(0);
+  const [followersCount, setFollowersCount] = React.useState(0);
   const [user, setUser] = React.useState({});
   const [isFollowing, setIsFollowing] = React.useState({
     isFollowing: false,
     id: '',
   });
-  const [followingCount, setFollowings] = React.useState(0);
   const navigation = useNavigation();
 
-  const {isLogged, setLogged, setUserId, userId} = React.useContext(
-    AuthContext,
-  );
+  const {setLogged, setUserId, userId} = React.useContext(AuthContext);
 
   const [routes] = React.useState([
     {key: 'first', icon: 'Tarifler'},
@@ -114,20 +130,22 @@ export default function ProfileScreen({route}) {
       followerId: userId,
     };
     await API.graphql(graphqlOperation(createFollowing, {input: follow}))
-      .then((data) => {
-        //console.log(data);
-        setIsFollowing({isFollowing: true, id: ''});
+      .then((response) => {
+        setIsFollowing({isFollowing: true, id: response.data.createFollowing.id});
+        setFollowersCount(followersCount + 1);
       })
       .catch((e) => {
         console.log(e);
       });
   };
+
   const unFollowHandler = async () => {
     await API.graphql(
       graphqlOperation(deleteFollowing, {input: {id: isFollowing.id}}),
     )
       .then(() => {
         setIsFollowing({isFollowing: false, id: ''});
+        setFollowersCount(followersCount - 1);
       })
       .catch((e) => {
         console.log(e);
@@ -177,31 +195,24 @@ export default function ProfileScreen({route}) {
 
   React.useEffect(() => {
     const fetchUser = async () => {
-      const userData = await API.graphql(
-        graphqlOperation(getUser, {id: profileId}),
+      await API.graphql(graphqlOperation(getUser, {id: profileId, myId: userId})).then(
+        (userData) => {
+          setUser(userData.data.getUser);
+          if(userData.data.getIsFollowing.scannedCount !== 0){
+            setIsFollowing({
+              isFollowing: true,
+              id: userData.data.getIsFollowing.items[0].id
+            })
+          }
+          setFollowingsCount(userData.data.getFollowingsByUserId.scannedCount);
+          setFollowersCount(userData.data.getFollowersByUserId.scannedCount);
+
+        },
       );
-      if (userData) {
-        setUser(userData.data.getUser);
-        console.log(userData.data.getUser);
-      }
     };
-    /* const followStatus = async () => {
-      await API.graphql(
-        graphqlOperation(listFollowings, {
-          filter: {followingId: {eq: profileId}, followerId: {eq: userId}},
-        }),
-      ).then((s) => {
-        if (s.data.listFollowings.items.length > 0) {
-          setIsFollowing({
-            isFollowing: true,
-            id: s.data.listFollowings.items[0].id,
-          });
-        }
-      });
-    };
-    !myProfile && followStatus();*/
     fetchUser();
   }, [profileId]);
+
   const SecondRoute = () => (
     <Box
       as={FlatList}
@@ -225,6 +236,7 @@ export default function ProfileScreen({route}) {
       keyExtractor={(item) => item.id}
     />
   );
+
   const FirstRoute = () => (
     <Box
       as={FlatList}
@@ -277,7 +289,7 @@ export default function ProfileScreen({route}) {
                 fontSize={17}
                 color={theme.colors.mainText}
                 textAlign="center">
-                32
+                {user.recipes?.items.length}
               </Text>
               <Text
                 mt={2}
@@ -292,7 +304,7 @@ export default function ProfileScreen({route}) {
                 fontWeight={700}
                 fontSize={17}
                 color={theme.colors.mainText}>
-                782
+                {followingsCount}
               </Text>
               <Button onPress={() => navigation.navigate('Following')}>
                 <Text
@@ -309,7 +321,7 @@ export default function ProfileScreen({route}) {
                 fontWeight={700}
                 fontSize={17}
                 color={theme.colors.mainText}>
-                {followingCount}
+                {followersCount}
               </Text>
               <Text
                 mt={2}

@@ -24,6 +24,8 @@ export const onCreateRecipe = /* GraphQL */ `
         image
         recipe {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -34,6 +36,8 @@ export const onCreateRecipe = /* GraphQL */ `
         name
         recipes {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -45,12 +49,13 @@ export const onCreateRecipe = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -64,6 +69,8 @@ export const onCreateRecipe = /* GraphQL */ `
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -93,6 +100,8 @@ export const onUpdateRecipe = /* GraphQL */ `
         image
         recipe {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -103,6 +112,8 @@ export const onUpdateRecipe = /* GraphQL */ `
         name
         recipes {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -114,12 +125,13 @@ export const onUpdateRecipe = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -133,6 +145,8 @@ export const onUpdateRecipe = /* GraphQL */ `
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -162,6 +176,8 @@ export const onDeleteRecipe = /* GraphQL */ `
         image
         recipe {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -172,6 +188,8 @@ export const onDeleteRecipe = /* GraphQL */ `
         name
         recipes {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -183,12 +201,13 @@ export const onDeleteRecipe = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -202,6 +221,8 @@ export const onDeleteRecipe = /* GraphQL */ `
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -245,6 +266,8 @@ export const onCreateStep = /* GraphQL */ `
         }
         likes {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -292,6 +315,8 @@ export const onUpdateStep = /* GraphQL */ `
         }
         likes {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -339,6 +364,8 @@ export const onDeleteStep = /* GraphQL */ `
         }
         likes {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -365,6 +392,8 @@ export const onCreateCategory = /* GraphQL */ `
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -387,6 +416,8 @@ export const onUpdateCategory = /* GraphQL */ `
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -409,6 +440,8 @@ export const onDeleteCategory = /* GraphQL */ `
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -431,6 +464,8 @@ export const onCreateCountry = /* GraphQL */ `
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -453,6 +488,8 @@ export const onUpdateCountry = /* GraphQL */ `
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -475,6 +512,8 @@ export const onDeleteCountry = /* GraphQL */ `
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -498,6 +537,8 @@ export const onCreateUser = /* GraphQL */ `
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       likes {
         items {
@@ -508,16 +549,8 @@ export const onCreateUser = /* GraphQL */ `
           updatedAt
         }
         nextToken
-      }
-      following {
-        items {
-          id
-          followerId
-          followingId
-          createdAt
-          updatedAt
-        }
-        nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -541,6 +574,8 @@ export const onUpdateUser = /* GraphQL */ `
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       likes {
         items {
@@ -551,16 +586,8 @@ export const onUpdateUser = /* GraphQL */ `
           updatedAt
         }
         nextToken
-      }
-      following {
-        items {
-          id
-          followerId
-          followingId
-          createdAt
-          updatedAt
-        }
-        nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -584,6 +611,8 @@ export const onDeleteUser = /* GraphQL */ `
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       likes {
         items {
@@ -594,16 +623,8 @@ export const onDeleteUser = /* GraphQL */ `
           updatedAt
         }
         nextToken
-      }
-      following {
-        items {
-          id
-          followerId
-          followingId
-          createdAt
-          updatedAt
-        }
-        nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -623,12 +644,13 @@ export const onCreateFollowing = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -640,12 +662,13 @@ export const onCreateFollowing = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -668,12 +691,13 @@ export const onUpdateFollowing = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -685,12 +709,13 @@ export const onUpdateFollowing = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -713,12 +738,13 @@ export const onDeleteFollowing = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -730,12 +756,13 @@ export const onDeleteFollowing = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -783,6 +810,8 @@ export const onCreateLike = /* GraphQL */ `
         }
         likes {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -794,12 +823,13 @@ export const onCreateLike = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -847,6 +877,8 @@ export const onUpdateLike = /* GraphQL */ `
         }
         likes {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -858,12 +890,13 @@ export const onUpdateLike = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -911,6 +944,8 @@ export const onDeleteLike = /* GraphQL */ `
         }
         likes {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -922,12 +957,13 @@ export const onDeleteLike = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt

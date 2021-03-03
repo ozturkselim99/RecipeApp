@@ -6,8 +6,18 @@ import theme from './utils/Theme';
 import {StatusBar} from 'react-native';
 import AuthContext, {AuthProvider} from './context/AuthContext';
 import {API, Auth, graphqlOperation} from 'aws-amplify';
-import {getUser} from './graphql/queries';
 import {createUser} from './graphql/mutations';
+
+export const getUser = /* GraphQL */ `
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
+      id
+      email
+      fullname
+      avatar
+    }
+  }
+`;
 
 function AppContainer() {
   const {setLogged, setUserId} = React.useContext(AuthContext);
@@ -38,9 +48,8 @@ function AppContainer() {
         }
       }
     };
-
     updateUser();
-  }, [setLogged]);
+  }, [setLogged, setUserId]);
 
   return <Navigation />;
 }
