@@ -27,6 +27,8 @@ export const createRecipe = /* GraphQL */ `
         image
         recipe {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -37,10 +39,13 @@ export const createRecipe = /* GraphQL */ `
         name
         recipes {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
       }
+      userId
       user {
         id
         email
@@ -48,12 +53,13 @@ export const createRecipe = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -67,6 +73,8 @@ export const createRecipe = /* GraphQL */ `
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -99,6 +107,8 @@ export const updateRecipe = /* GraphQL */ `
         image
         recipe {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -109,10 +119,13 @@ export const updateRecipe = /* GraphQL */ `
         name
         recipes {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
       }
+      userId
       user {
         id
         email
@@ -120,12 +133,13 @@ export const updateRecipe = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -139,6 +153,8 @@ export const updateRecipe = /* GraphQL */ `
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -171,6 +187,8 @@ export const deleteRecipe = /* GraphQL */ `
         image
         recipe {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -181,10 +199,13 @@ export const deleteRecipe = /* GraphQL */ `
         name
         recipes {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
       }
+      userId
       user {
         id
         email
@@ -192,12 +213,13 @@ export const deleteRecipe = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -211,6 +233,8 @@ export const deleteRecipe = /* GraphQL */ `
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -247,6 +271,7 @@ export const createStep = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        userId
         user {
           id
           email
@@ -257,6 +282,8 @@ export const createStep = /* GraphQL */ `
         }
         likes {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -297,6 +324,7 @@ export const updateStep = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        userId
         user {
           id
           email
@@ -307,6 +335,8 @@ export const updateStep = /* GraphQL */ `
         }
         likes {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -347,6 +377,7 @@ export const deleteStep = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        userId
         user {
           id
           email
@@ -357,6 +388,8 @@ export const deleteStep = /* GraphQL */ `
         }
         likes {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -382,10 +415,13 @@ export const createCategory = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -407,10 +443,13 @@ export const updateCategory = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -432,10 +471,13 @@ export const deleteCategory = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -457,10 +499,13 @@ export const createCountry = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -482,10 +527,13 @@ export const updateCountry = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -507,10 +555,13 @@ export const deleteCountry = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -533,10 +584,13 @@ export const createUser = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       likes {
         items {
@@ -547,16 +601,8 @@ export const createUser = /* GraphQL */ `
           updatedAt
         }
         nextToken
-      }
-      following {
-        items {
-          id
-          followerId
-          followingId
-          createdAt
-          updatedAt
-        }
-        nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -579,10 +625,13 @@ export const updateUser = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       likes {
         items {
@@ -593,16 +642,8 @@ export const updateUser = /* GraphQL */ `
           updatedAt
         }
         nextToken
-      }
-      following {
-        items {
-          id
-          followerId
-          followingId
-          createdAt
-          updatedAt
-        }
-        nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -625,10 +666,13 @@ export const deleteUser = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       likes {
         items {
@@ -639,16 +683,8 @@ export const deleteUser = /* GraphQL */ `
           updatedAt
         }
         nextToken
-      }
-      following {
-        items {
-          id
-          followerId
-          followingId
-          createdAt
-          updatedAt
-        }
-        nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -671,12 +707,13 @@ export const createFollowing = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -688,12 +725,13 @@ export const createFollowing = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -719,12 +757,13 @@ export const updateFollowing = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -736,12 +775,13 @@ export const updateFollowing = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -767,12 +807,13 @@ export const deleteFollowing = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -784,12 +825,13 @@ export const deleteFollowing = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -830,6 +872,7 @@ export const createLike = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        userId
         user {
           id
           email
@@ -840,6 +883,8 @@ export const createLike = /* GraphQL */ `
         }
         likes {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -851,12 +896,13 @@ export const createLike = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -897,6 +943,7 @@ export const updateLike = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        userId
         user {
           id
           email
@@ -907,6 +954,8 @@ export const updateLike = /* GraphQL */ `
         }
         likes {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -918,12 +967,13 @@ export const updateLike = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -964,6 +1014,7 @@ export const deleteLike = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        userId
         user {
           id
           email
@@ -974,6 +1025,8 @@ export const deleteLike = /* GraphQL */ `
         }
         likes {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -985,12 +1038,13 @@ export const deleteLike = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt

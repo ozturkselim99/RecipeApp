@@ -24,6 +24,8 @@ export const getRecipe = /* GraphQL */ `
         image
         recipe {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -34,10 +36,13 @@ export const getRecipe = /* GraphQL */ `
         name
         recipes {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
       }
+      userId
       user {
         id
         email
@@ -45,12 +50,13 @@ export const getRecipe = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -64,6 +70,8 @@ export const getRecipe = /* GraphQL */ `
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -99,6 +107,7 @@ export const listRecipes = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        userId
         user {
           id
           email
@@ -108,17 +117,16 @@ export const listRecipes = /* GraphQL */ `
           updatedAt
         }
         likes {
-          items {
-          id
-            user {
-              id
-            }
-          }
+          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
       }
       nextToken
+      scannedCount
+      count
     }
   }
 `;
@@ -149,6 +157,7 @@ export const getStep = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        userId
         user {
           id
           email
@@ -159,6 +168,8 @@ export const getStep = /* GraphQL */ `
         }
         likes {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -184,6 +195,7 @@ export const listSteps = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
@@ -207,10 +219,13 @@ export const getCategory = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -230,6 +245,8 @@ export const listCategorys = /* GraphQL */ `
         image
         recipe {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -250,10 +267,13 @@ export const getCountry = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -273,6 +293,8 @@ export const listCountrys = /* GraphQL */ `
         name
         recipes {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -294,10 +316,13 @@ export const getUser = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
         nextToken
+        scannedCount
+        count
       }
       likes {
         items {
@@ -308,16 +333,8 @@ export const getUser = /* GraphQL */ `
           updatedAt
         }
         nextToken
-      }
-      following {
-        items {
-          id
-          followerId
-          followingId
-          createdAt
-          updatedAt
-        }
-        nextToken
+        scannedCount
+        count
       }
       createdAt
       updatedAt
@@ -338,17 +355,20 @@ export const listUsers = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
       }
       nextToken
+      scannedCount
+      count
     }
   }
 `;
@@ -365,12 +385,13 @@ export const getFollowing = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -382,12 +403,13 @@ export const getFollowing = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -428,6 +450,8 @@ export const listFollowings = /* GraphQL */ `
         updatedAt
       }
       nextToken
+      scannedCount
+      count
     }
   }
 `;
@@ -459,6 +483,7 @@ export const getLike = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        userId
         user {
           id
           email
@@ -469,6 +494,8 @@ export const getLike = /* GraphQL */ `
         }
         likes {
           nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -480,12 +507,13 @@ export const getLike = /* GraphQL */ `
         avatar
         recipes {
           nextToken
+          scannedCount
+          count
         }
         likes {
           nextToken
-        }
-        following {
-          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -511,6 +539,7 @@ export const listLikes = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
@@ -526,6 +555,247 @@ export const listLikes = /* GraphQL */ `
         updatedAt
       }
       nextToken
+      scannedCount
+      count
+    }
+  }
+`;
+export const getRecipesByUserId = /* GraphQL */ `
+  query GetRecipesByUserId(
+    $userId: ID
+    $sortDirection: ModelSortDirection
+    $filter: ModelRecipeFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    getRecipesByUserId(
+      userId: $userId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        title
+        description
+        image
+        steps {
+          nextToken
+        }
+        category {
+          id
+          title
+          image
+          createdAt
+          updatedAt
+        }
+        country {
+          id
+          flag
+          name
+          createdAt
+          updatedAt
+        }
+        userId
+        user {
+          id
+          email
+          fullname
+          avatar
+          createdAt
+          updatedAt
+        }
+        likes {
+          nextToken
+          scannedCount
+          count
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+      scannedCount
+      count
+    }
+  }
+`;
+export const getFollowingsByUserId = /* GraphQL */ `
+  query GetFollowingsByUserId(
+    $followerId: ID
+    $sortDirection: ModelSortDirection
+    $filter: ModelFollowingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    getFollowingsByUserId(
+      followerId: $followerId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        followerId
+        followingId
+        follower {
+          id
+          email
+          fullname
+          avatar
+          createdAt
+          updatedAt
+        }
+        following {
+          id
+          email
+          fullname
+          avatar
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+      scannedCount
+      count
+    }
+  }
+`;
+export const getIsFollowing = /* GraphQL */ `
+  query GetIsFollowing(
+    $followingId: ID
+    $followerId: ModelIDKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelFollowingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    getIsFollowing(
+      followingId: $followingId
+      followerId: $followerId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        followerId
+        followingId
+        follower {
+          id
+          email
+          fullname
+          avatar
+          createdAt
+          updatedAt
+        }
+        following {
+          id
+          email
+          fullname
+          avatar
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+      scannedCount
+      count
+    }
+  }
+`;
+export const getFollowersByUserId = /* GraphQL */ `
+  query GetFollowersByUserId(
+    $followingId: ID
+    $sortDirection: ModelSortDirection
+    $filter: ModelFollowingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    getFollowersByUserId(
+      followingId: $followingId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        followerId
+        followingId
+        follower {
+          id
+          email
+          fullname
+          avatar
+          createdAt
+          updatedAt
+        }
+        following {
+          id
+          email
+          fullname
+          avatar
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+      scannedCount
+      count
+    }
+  }
+`;
+export const likesByUserId = /* GraphQL */ `
+  query LikesByUserId(
+    $userId: ID
+    $sortDirection: ModelSortDirection
+    $filter: ModelLikeFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    likesByUserId(
+      userId: $userId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        userId
+        recipeId
+        recipe {
+          id
+          title
+          description
+          image
+          userId
+          createdAt
+          updatedAt
+        }
+        user {
+          id
+          email
+          fullname
+          avatar
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+      scannedCount
+      count
     }
   }
 `;
