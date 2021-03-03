@@ -45,6 +45,7 @@ export const createRecipe = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      userId
       user {
         id
         email
@@ -124,6 +125,7 @@ export const updateRecipe = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      userId
       user {
         id
         email
@@ -203,6 +205,7 @@ export const deleteRecipe = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      userId
       user {
         id
         email
@@ -268,6 +271,7 @@ export const createStep = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        userId
         user {
           id
           email
@@ -320,6 +324,7 @@ export const updateStep = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        userId
         user {
           id
           email
@@ -372,6 +377,7 @@ export const deleteStep = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        userId
         user {
           id
           email
@@ -409,6 +415,7 @@ export const createCategory = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
@@ -436,6 +443,7 @@ export const updateCategory = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
@@ -463,6 +471,7 @@ export const deleteCategory = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
@@ -490,6 +499,7 @@ export const createCountry = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
@@ -517,6 +527,7 @@ export const updateCountry = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
@@ -544,6 +555,7 @@ export const deleteCountry = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
@@ -572,6 +584,7 @@ export const createUser = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
@@ -612,6 +625,7 @@ export const updateUser = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
@@ -652,6 +666,7 @@ export const deleteUser = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
@@ -857,6 +872,7 @@ export const createLike = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        userId
         user {
           id
           email
@@ -927,6 +943,7 @@ export const updateLike = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        userId
         user {
           id
           email
@@ -997,6 +1014,7 @@ export const deleteLike = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        userId
         user {
           id
           email

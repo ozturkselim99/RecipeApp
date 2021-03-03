@@ -1,38 +1,18 @@
 import * as React from 'react';
 import Box from '../components/Box';
 import Text from '../components/Text';
-import {
-  StyleSheet,
-  Dimensions,
-  FlatList,
-  ActivityIndicator,
-} from 'react-native';
+import {FlatList, ActivityIndicator} from 'react-native';
 import theme from '../utils/Theme';
-import {ChefHat, Playlist, Share2} from '../components/icons';
-import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {useNavigation} from '@react-navigation/native';
 import AuthContext from '../context/AuthContext';
 import {API, Auth, graphqlOperation} from 'aws-amplify';
 import Button from '../components/Button';
 import {S3Image} from 'aws-amplify-react-native';
-import {ChevronLeft} from '../components/icons';
+import {ChevronLeft, Settings, ChefHat, Playlist} from '../components/icons';
 import RecipeCard from '../components/RecipeCard';
 import {deleteFollowing} from '../graphql/mutations';
-
-const renderTabBar = (props) => (
-  <TabBar
-    {...props}
-    indicatorStyle={{backgroundColor: theme.colors.mainGreen}}
-    style={{backgroundColor: 'white', color: 'black'}}
-    renderIcon={({route, focused, color}) => {
-      if (route.icon === 'Tarifler') {
-        return <ChefHat fill={theme.colors.mainText} />;
-      } else {
-        return <Playlist fill={theme.colors.mainText} />;
-      }
-    }}
-  />
-);
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+const Tab = createMaterialTopTabNavigator();
 
 export const getUser = /* GraphQL */ `
   query GetUser($id: ID!, $myId: ID!) {
@@ -94,6 +74,58 @@ export const getUser = /* GraphQL */ `
   }
 `;
 
+const getLikes = /* GraphQL */ `
+  query getLikes($id: ID!) {
+    likesByUserId(userId: $id) {
+      items {
+        id
+        recipe {
+          category {
+            title
+          }
+          image
+          id
+          title
+          likes {
+            items {
+              user {
+                id
+              }
+            }
+          }
+          user {
+            id
+            fullname
+            avatar
+          }
+        }
+      }
+    }
+  }
+`;
+
+const getRecipes = /* GraphQL */ `
+  query getRecipes($id: ID!) {
+    getRecipesByUserId(userId: $id) {
+      items {
+        id
+        title
+        image
+        category {
+          title
+        }
+        likes {
+          items {
+            user {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 const createFollowing = /* GraphQL */ `
   mutation CreateFollowing(
     $input: CreateFollowingInput!
@@ -105,10 +137,104 @@ const createFollowing = /* GraphQL */ `
   }
 `;
 
+function UserRecipesScreen({userId}) {
+  const [recipes, setRecipes] = React.useState([]);
+  const navigation = useNavigation();
+  React.useEffect(() => {
+    const fetchRecipes = async () => {
+      await API.graphql(graphqlOperation(getRecipes, {id: userId})).then(
+        (res) => {
+          setRecipes(res.data.getRecipesByUserId.items);
+        },
+      );
+    };
+    fetchRecipes();
+    const unsubscribe = navigation.addListener('tabPress', (e) => {
+      fetchRecipes();
+    });
+
+    return unsubscribe;
+  }, [userId, navigation]);
+  return (
+    <Box flex={1} bg={'white'}>
+      <Box
+        as={FlatList}
+        px={24}
+        mt={18}
+        data={recipes}
+        columnWrapperStyle={{justifyContent: 'space-between'}}
+        ItemSeparatorComponent={() => <Box size={30} />}
+        renderItem={({item}) => (
+          <RecipeCard
+            item={item}
+            profile={true}
+            onPress={() =>
+              navigation.navigate('DetailRecipe', {
+                id: item.id,
+              })
+            }
+          />
+        )}
+        numColumns={2}
+        keyExtractor={(item) => item.id}
+      />
+    </Box>
+  );
+}
+
+function UserLikesScreen({userId}) {
+  const [likes, setLikes] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
+  const navigation = useNavigation();
+
+  React.useEffect(() => {
+    const fetchLikes = async () => {
+      await API.graphql(graphqlOperation(getLikes, {id: userId})).then(
+        (res) => {
+          setLikes(res.data.likesByUserId.items);
+          setLoading(true);
+        },
+      );
+    };
+    const unsubscribe = navigation.addListener('tabPress', (e) => {
+      fetchLikes();
+    });
+
+    return unsubscribe;
+  });
+  return (
+    <Box flex={1} bg={'white'}>
+      {!loading ? (
+        <ActivityIndicator size={'large'} />
+      ) : (
+        <Box
+          as={FlatList}
+          px={24}
+          mt={18}
+          data={likes}
+          columnWrapperStyle={{justifyContent: 'space-between'}}
+          ItemSeparatorComponent={() => <Box size={30} />}
+          renderItem={({item}) => (
+            <RecipeCard
+              item={item.recipe}
+              onPress={() =>
+                navigation.navigate('DetailRecipe', {
+                  id: item.recipe.id,
+                })
+              }
+            />
+          )}
+          numColumns={2}
+          keyExtractor={(item) => item.id}
+        />
+      )}
+    </Box>
+  );
+}
+
 export default function ProfileScreen({route}) {
   const profileId = route.params?.id;
   const myProfile = route.params?.myProfile;
-  const [index, setIndex] = React.useState(0);
   const [followingsCount, setFollowingsCount] = React.useState(0);
   const [followersCount, setFollowersCount] = React.useState(0);
   const [user, setUser] = React.useState({});
@@ -120,10 +246,6 @@ export default function ProfileScreen({route}) {
 
   const {setLogged, setUserId, userId} = React.useContext(AuthContext);
 
-  const [routes] = React.useState([
-    {key: 'first', icon: 'Tarifler'},
-    {key: 'second', icon: 'Kaydedilen Tarifler'},
-  ]);
   const followHandler = async () => {
     const follow = {
       followingId: profileId,
@@ -131,7 +253,10 @@ export default function ProfileScreen({route}) {
     };
     await API.graphql(graphqlOperation(createFollowing, {input: follow}))
       .then((response) => {
-        setIsFollowing({isFollowing: true, id: response.data.createFollowing.id});
+        setIsFollowing({
+          isFollowing: true,
+          id: response.data.createFollowing.id,
+        });
         setFollowersCount(followersCount + 1);
       })
       .catch((e) => {
@@ -156,19 +281,20 @@ export default function ProfileScreen({route}) {
     navigation.setOptions({
       headerShown: true,
       title: user ? user.fullname : ' ',
-      headerRight: () => (
-        <Button
-          onPress={() => {
-            Auth.signOut().then(() => {
-              navigation.navigate('Auth');
-              setLogged(false);
-              setUserId('');
-            });
-          }}
-          px={20}>
-          <Share2 stroke={theme.colors.mainText} />
-        </Button>
-      ),
+      headerRight: () =>
+        myProfile ? (
+          <Button
+            onPress={() => {
+              Auth.signOut().then(() => {
+                navigation.navigate('Auth');
+                setLogged(false);
+                setUserId('');
+              });
+            }}
+            px={20}>
+            <Settings stroke={theme.colors.mainText} />
+          </Button>
+        ) : null,
       headerLeft: myProfile
         ? () => <Box />
         : () => (
@@ -195,78 +321,22 @@ export default function ProfileScreen({route}) {
 
   React.useEffect(() => {
     const fetchUser = async () => {
-      await API.graphql(graphqlOperation(getUser, {id: profileId, myId: userId})).then(
-        (userData) => {
-          setUser(userData.data.getUser);
-          if(userData.data.getIsFollowing.scannedCount !== 0){
-            setIsFollowing({
-              isFollowing: true,
-              id: userData.data.getIsFollowing.items[0].id
-            })
-          }
-          setFollowingsCount(userData.data.getFollowingsByUserId.scannedCount);
-          setFollowersCount(userData.data.getFollowersByUserId.scannedCount);
-
-        },
-      );
+      await API.graphql(
+        graphqlOperation(getUser, {id: profileId, myId: userId}),
+      ).then((userData) => {
+        setUser(userData.data.getUser);
+        if (userData.data.getIsFollowing.scannedCount !== 0) {
+          setIsFollowing({
+            isFollowing: true,
+            id: userData.data.getIsFollowing.items[0].id,
+          });
+        }
+        setFollowingsCount(userData.data.getFollowingsByUserId.scannedCount);
+        setFollowersCount(userData.data.getFollowersByUserId.scannedCount);
+      });
     };
     fetchUser();
-  }, [profileId]);
-
-  const SecondRoute = () => (
-    <Box
-      as={FlatList}
-      px={24}
-      mt={18}
-      data={user.likes?.items}
-      columnWrapperStyle={{justifyContent: 'space-between'}}
-      ItemSeparatorComponent={() => <Box size={30} />}
-      renderItem={({item}) => (
-        <RecipeCard
-          item={item.recipe}
-          profile={true}
-          onPress={() =>
-            navigation.navigate('DetailRecipe', {
-              id: item.id,
-            })
-          }
-        />
-      )}
-      numColumns={2}
-      keyExtractor={(item) => item.id}
-    />
-  );
-
-  const FirstRoute = () => (
-    <Box
-      as={FlatList}
-      px={24}
-      mt={18}
-      data={user.recipes?.items}
-      columnWrapperStyle={{justifyContent: 'space-between'}}
-      ItemSeparatorComponent={() => <Box size={30} />}
-      renderItem={({item}) => (
-        <RecipeCard
-          item={item}
-          profile={true}
-          onPress={() =>
-            navigation.navigate('DetailRecipe', {
-              id: item.id,
-            })
-          }
-        />
-      )}
-      numColumns={2}
-      keyExtractor={(item) => item.id}
-    />
-  );
-
-  const renderScene = SceneMap({
-    first: FirstRoute,
-    second: SecondRoute,
-  });
-
-  const initialLayout = {width: Dimensions.get('window').width};
+  }, [profileId, userId]);
 
   return user ? (
     <Box bg={'white'} flex={1}>
@@ -355,21 +425,39 @@ export default function ProfileScreen({route}) {
       </Box>
 
       <Box mt={24} height={8} bg={theme.colors.mainGray} />
-      <TabView
-        navigationState={{index, routes}}
-        renderScene={renderScene}
-        onIndexChange={setIndex}
-        renderTabBar={renderTabBar}
-        initialLayout={initialLayout}
-      />
+      <Tab.Navigator
+        screenOptions={({route}) => ({
+          tabBarIcon: ({focused, color, size}) => {
+            if (route.name === 'UserRecipes') {
+              return <ChefHat fill={theme.colors.mainText} />;
+            } else if (route.name === 'UserLikes') {
+              return <Playlist fill={theme.colors.mainText} />;
+            }
+          },
+        })}
+        tabBarOptions={{
+          showIcon: true,
+          showLabel: false,
+          indicatorStyle: {
+            backgroundColor: theme.colors.mainGreen,
+          },
+        }}>
+        <Tab.Screen
+          name="UserRecipes"
+          scree
+          children={() => (
+            <UserRecipesScreen userId={myProfile ? userId : profileId} />
+          )}
+        />
+        <Tab.Screen
+          name="UserLikes"
+          children={() => (
+            <UserLikesScreen userId={myProfile ? userId : profileId} />
+          )}
+        />
+      </Tab.Navigator>
     </Box>
   ) : (
     <ActivityIndicator size="large" />
   );
 }
-
-const styles = StyleSheet.create({
-  scene: {
-    flex: 1,
-  },
-});

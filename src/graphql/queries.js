@@ -42,6 +42,7 @@ export const getRecipe = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      userId
       user {
         id
         email
@@ -106,6 +107,7 @@ export const listRecipes = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        userId
         user {
           id
           email
@@ -155,6 +157,7 @@ export const getStep = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        userId
         user {
           id
           email
@@ -192,6 +195,7 @@ export const listSteps = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
@@ -215,6 +219,7 @@ export const getCategory = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
@@ -262,6 +267,7 @@ export const getCountry = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
@@ -310,6 +316,7 @@ export const getUser = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
@@ -476,6 +483,7 @@ export const getLike = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        userId
         user {
           id
           email
@@ -531,6 +539,7 @@ export const listLikes = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
@@ -541,6 +550,66 @@ export const listLikes = /* GraphQL */ `
           avatar
           createdAt
           updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+      scannedCount
+      count
+    }
+  }
+`;
+export const getRecipesByUserId = /* GraphQL */ `
+  query GetRecipesByUserId(
+    $userId: ID
+    $sortDirection: ModelSortDirection
+    $filter: ModelRecipeFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    getRecipesByUserId(
+      userId: $userId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        title
+        description
+        image
+        steps {
+          nextToken
+        }
+        category {
+          id
+          title
+          image
+          createdAt
+          updatedAt
+        }
+        country {
+          id
+          flag
+          name
+          createdAt
+          updatedAt
+        }
+        userId
+        user {
+          id
+          email
+          fullname
+          avatar
+          createdAt
+          updatedAt
+        }
+        likes {
+          nextToken
+          scannedCount
+          count
         }
         createdAt
         updatedAt
@@ -669,6 +738,51 @@ export const getFollowersByUserId = /* GraphQL */ `
           updatedAt
         }
         following {
+          id
+          email
+          fullname
+          avatar
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+      scannedCount
+      count
+    }
+  }
+`;
+export const likesByUserId = /* GraphQL */ `
+  query LikesByUserId(
+    $userId: ID
+    $sortDirection: ModelSortDirection
+    $filter: ModelLikeFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    likesByUserId(
+      userId: $userId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        userId
+        recipeId
+        recipe {
+          id
+          title
+          description
+          image
+          userId
+          createdAt
+          updatedAt
+        }
+        user {
           id
           email
           fullname

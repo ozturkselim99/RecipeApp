@@ -1,4 +1,8 @@
-type Recipe @model @auth(rules: [{allow: public, operations: [read]}]) {
+type Recipe
+@model
+@auth(rules: [{allow: public, operations: [read]}])
+@key(name: "recipesByUserId", fields: ["userId"], queryField: "getRecipesByUserId")
+{
   id: ID!
   title: String!
   description: String
@@ -6,7 +10,8 @@ type Recipe @model @auth(rules: [{allow: public, operations: [read]}]) {
   steps: [Step] @connection(name: "RecipeStep")
   category: Category @connection(name: "RecipeCategory")
   country: Country @connection(name: "CountryRecipe")
-  user: User @connection(name: "UserRecipe")
+  userId: ID!
+  user: User @connection(fields: ["userId"])
   likes: [Like] @connection(keyName: "likesByRecipeId", fields: ["id"])
 }
 
@@ -55,12 +60,14 @@ type Country @model @auth(rules: [{allow: public, operations: [read]}]) {
   recipes: [Recipe] @connection(name: "CountryRecipe")
 }
 
-type User @model @auth(rules: [{allow: public, operations: [read]}]) {
+type User
+@model
+@auth(rules: [{allow: public, operations: [read]}]){
   id: ID!
   email: String!
   fullname: String!
   avatar: String!
-  recipes: [Recipe] @connection(name: "UserRecipe")
+  recipes: [Recipe] @connection(keyName: "recipesByUserId", fields: ["id"])
   likes: [Like] @connection(keyName: "likeByUserId", fields: ["id"])
 }
 type Following
@@ -92,7 +99,7 @@ type Like
   @model
   @auth(rules: [{allow: public, operations: [read]}])
   @key(name: "likesByRecipeId", fields: ["recipeId"])
-  @key(name: "likeByUserId", fields: ["userId"]) {
+  @key(name: "likeByUserId", fields: ["userId"], queryField: "likesByUserId") {
   id: ID
   userId: ID!
   recipeId: ID!

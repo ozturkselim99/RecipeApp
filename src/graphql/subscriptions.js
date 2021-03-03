@@ -42,6 +42,7 @@ export const onCreateRecipe = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      userId
       user {
         id
         email
@@ -118,6 +119,7 @@ export const onUpdateRecipe = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      userId
       user {
         id
         email
@@ -194,6 +196,7 @@ export const onDeleteRecipe = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      userId
       user {
         id
         email
@@ -256,6 +259,7 @@ export const onCreateStep = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        userId
         user {
           id
           email
@@ -305,6 +309,7 @@ export const onUpdateStep = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        userId
         user {
           id
           email
@@ -354,6 +359,7 @@ export const onDeleteStep = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        userId
         user {
           id
           email
@@ -388,6 +394,7 @@ export const onCreateCategory = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
@@ -412,6 +419,7 @@ export const onUpdateCategory = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
@@ -436,6 +444,7 @@ export const onDeleteCategory = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
@@ -460,6 +469,7 @@ export const onCreateCountry = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
@@ -484,6 +494,7 @@ export const onUpdateCountry = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
@@ -508,6 +519,7 @@ export const onDeleteCountry = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
@@ -533,6 +545,7 @@ export const onCreateUser = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
@@ -570,6 +583,7 @@ export const onUpdateUser = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
@@ -607,6 +621,7 @@ export const onDeleteUser = /* GraphQL */ `
           title
           description
           image
+          userId
           createdAt
           updatedAt
         }
@@ -800,6 +815,7 @@ export const onCreateLike = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        userId
         user {
           id
           email
@@ -867,6 +883,7 @@ export const onUpdateLike = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        userId
         user {
           id
           email
@@ -934,6 +951,7 @@ export const onDeleteLike = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        userId
         user {
           id
           email
