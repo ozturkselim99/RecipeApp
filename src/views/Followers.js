@@ -12,11 +12,11 @@ import {FlatList} from 'react-native';
 function SearchIcon() {
   return <Search stroke={theme.colors.mainText} />;
 }
-const getFollowing = `
-query getFollowing ($userId:ID!){
-  getFollowingsByUserId(followerId: $userId) {
+const getFollowers = `
+query getFollowers ($userId:ID!){
+  getFollowersByUserId(followingId: $userId) {
     items {
-      following {
+      follower {
         fullname
         avatar
         id
@@ -26,20 +26,21 @@ query getFollowing ($userId:ID!){
 }
 `;
 
-export default function FollowingScreen({route}) {
+export default function FollowersScreen({route}) {
   const [isFocus, setIsFocus] = React.useState(false);
-  const [followings, setFollowings] = React.useState([]);
+  const [followers, setFollowers] = React.useState([]);
   const searchInputRef = React.useRef(null);
   const userId = route.params?.userId;
   React.useEffect(() => {
-    const fetchFollowings = async () => {
-      await API.graphql(graphqlOperation(getFollowing, {userId: userId})).then(
+    const fetchFollowers = async () => {
+      await API.graphql(graphqlOperation(getFollowers, {userId: userId})).then(
         (response) => {
-          setFollowings(response.data.getFollowingsByUserId.items);
+           console.log(response);
+           setFollowers(response.data.getFollowersByUserId.items);
         },
       );
     };
-    fetchFollowings();
+    fetchFollowers();
   }, [userId]);
 
   return (
@@ -58,8 +59,8 @@ export default function FollowingScreen({route}) {
         <Box
           as={FlatList}
           mt={18}
-          data={followings}
-          renderItem={({item}) => <FollowList item={item.following} />}
+          data={followers}
+          renderItem={({item}) => <FollowList item={item.follower} />}
           keyExtractor={(item) => item.id}
         />
       </ScrollView>
