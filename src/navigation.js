@@ -19,6 +19,7 @@ import ProfileScreen from './views/Profile';
 import DetailRecipe from './views/DetailRecipe';
 import HeaderBackButton from '@react-navigation/stack';
 import FollowingScreen from './views/Following';
+import FollowersScreen from './views/Followers';
 import MustLogin from './views/MustLogin';
 import AuthContext from './context/AuthContext';
 
@@ -55,6 +56,7 @@ function ProfileSt() {
             name={'ProfileDetail'}
             component={ProfileScreen}
           />
+          <ProfileStack.Screen name={'Followers'} component={FollowersScreen} />
           <ProfileStack.Screen name={'Following'} component={FollowingScreen} />
         </>
       ) : (
