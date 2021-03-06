@@ -1,17 +1,11 @@
 import Box from '../components/Box';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {ScrollView} from 'react-native-gesture-handler';
 import FollowList from '../components/FollowList';
-import FormInput from '../components/FormInput';
-import theme from '../utils/Theme';
-import {Search} from '../components/icons';
 import {API, graphqlOperation} from 'aws-amplify';
 import {FlatList} from 'react-native';
+import SearchBox from '../components/SearchBox';
 
-function SearchIcon() {
-  return <Search stroke={theme.colors.mainText} />;
-}
 const getFollowing = `
 query getFollowing ($userId:ID!){
   getFollowingsByUserId(followerId: $userId) {
@@ -27,10 +21,11 @@ query getFollowing ($userId:ID!){
 `;
 
 export default function FollowingScreen({route}) {
-  const [isFocus, setIsFocus] = React.useState(false);
   const [followings, setFollowings] = React.useState([]);
-  const searchInputRef = React.useRef(null);
+  const [filterFollowings, setFilterFollowings] = React.useState([]);
+  const [isSearching, setIsSearching] = React.useState(false);
   const userId = route.params?.userId;
+
   React.useEffect(() => {
     const fetchFollowings = async () => {
       await API.graphql(graphqlOperation(getFollowing, {userId: userId})).then(
@@ -40,29 +35,34 @@ export default function FollowingScreen({route}) {
       );
     };
     fetchFollowings();
-  }, [userId]);
+  }, [followings, userId]);
 
   return (
     <Box as={SafeAreaView} pt="24px" px={'24px'} bg={'white'} flex={1}>
-      <ScrollView>
-        <Box flex={1}>
-          <FormInput
-            inputRef={searchInputRef}
-            LeftIcon={SearchIcon}
-            placeholderText={'Takipçilerde ara'}
-            backgroundColor={theme.colors.mainGray}
-            clearButtonMode="always"
-            onFocus={() => setIsFocus(true)}
-          />
-        </Box>
-        <Box
-          as={FlatList}
-          mt={18}
-          data={followings}
-          renderItem={({item}) => <FollowList item={item.following} />}
-          keyExtractor={(item) => item.id}
-        />
-      </ScrollView>
+      <SearchBox
+        onChangeText={(text) => {
+          if (text.length > 0) {
+            setIsSearching(true);
+            const filterData = followings.filter((item) => {
+              return item.following.fullname
+                .toLowerCase()
+                .includes(text.toLowerCase());
+            });
+            setFilterFollowings(filterData);
+          } else {
+            setIsSearching(false);
+          }
+        }}
+      />
+      <Box
+        as={FlatList}
+        mt={18}
+        data={isSearching ? filterFollowings : followings}
+        keyExtractor={(item, index) => {
+          return item.following.id;
+        }}
+        renderItem={({item}) => <FollowList item={item.following} />}
+      />
     </Box>
   );
 }
