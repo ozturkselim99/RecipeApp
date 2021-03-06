@@ -19,9 +19,9 @@ import ProfileScreen from './views/Profile';
 import DetailRecipe from './views/DetailRecipe';
 import HeaderBackButton from '@react-navigation/stack';
 import FollowingScreen from './views/Following';
-import FollowersScreen from './views/Followers';
 import MustLogin from './views/MustLogin';
 import AuthContext from './context/AuthContext';
+import FollowersScreen from './views/Followers';
 
 const Tab = createBottomTabNavigator();
 const MainStack = createStackNavigator();
@@ -38,6 +38,8 @@ function HomeSt() {
       }}>
       <HomeStack.Screen name={'Home'} component={HomeScreen} />
       <HomeStack.Screen name={'Profile'} component={ProfileScreen} />
+      <HomeStack.Screen name={'Following'} component={FollowingScreen} />
+      <HomeStack.Screen name={'Followers'} component={FollowersScreen} />
     </HomeStack.Navigator>
   );
 }
@@ -56,8 +58,8 @@ function ProfileSt() {
             name={'ProfileDetail'}
             component={ProfileScreen}
           />
-          <ProfileStack.Screen name={'Followers'} component={FollowersScreen} />
           <ProfileStack.Screen name={'Following'} component={FollowingScreen} />
+          <ProfileStack.Screen name={'Followers'} component={FollowersScreen} />
         </>
       ) : (
         <ProfileStack.Screen name={'MustLogin'} component={MustLogin} />
