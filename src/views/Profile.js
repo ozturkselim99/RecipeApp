@@ -142,21 +142,24 @@ function UserRecipesScreen({userId}) {
   const [recipes, setRecipes] = React.useState([]);
   const navigation = useNavigation();
 
-  React.useEffect(() => {
-    const fetchRecipes = async () => {
-      await API.graphql(graphqlOperation(getRecipes, {id: userId})).then(
-        (res) => {
-          setRecipes(res.data.getRecipesByUserId.items);
-        },
-      );
-    };
-    fetchRecipes();
-    const unsubscribe = navigation.addListener('tabPress', (e) => {
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchRecipes = async () => {
+        await API.graphql(graphqlOperation(getRecipes, {id: userId})).then(
+          (res) => {
+            setRecipes(res.data.getRecipesByUserId.items);
+          },
+        );
+      };
       fetchRecipes();
-    });
+      const unsubscribe = navigation.addListener('tabPress', (e) => {
+        fetchRecipes();
+      });
 
-    return unsubscribe;
-  }, [userId, navigation]);
+      return unsubscribe;
+    }, [navigation, userId]),
+  );
+
   return (
     <Box flex={1} bg={'white'}>
       <Box
