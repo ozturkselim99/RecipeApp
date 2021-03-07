@@ -33,7 +33,7 @@ function LoginScreen() {
   const signInHandler = async () => {
     await Auth.signIn(Email, Password)
       .then((user) => {
-        setUserId(user.userName);
+        setUserId(user.username);
         setLogged(true);
         navigation.navigate('Home');
       })

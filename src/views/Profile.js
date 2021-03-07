@@ -12,6 +12,7 @@ import {ChevronLeft, Settings, ChefHat, Playlist} from '../components/icons';
 import RecipeCard from '../components/RecipeCard';
 import {deleteFollowing} from '../graphql/mutations';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import {useFocusEffect} from '@react-navigation/native';
 const Tab = createMaterialTopTabNavigator();
 
 export const getUser = /* GraphQL */ `
@@ -140,21 +141,25 @@ const createFollowing = /* GraphQL */ `
 function UserRecipesScreen({userId}) {
   const [recipes, setRecipes] = React.useState([]);
   const navigation = useNavigation();
-  React.useEffect(() => {
-    const fetchRecipes = async () => {
-      await API.graphql(graphqlOperation(getRecipes, {id: userId})).then(
-        (res) => {
-          setRecipes(res.data.getRecipesByUserId.items);
-        },
-      );
-    };
-    fetchRecipes();
-    const unsubscribe = navigation.addListener('tabPress', (e) => {
-      fetchRecipes();
-    });
 
-    return unsubscribe;
-  }, [userId, navigation]);
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchRecipes = async () => {
+        await API.graphql(graphqlOperation(getRecipes, {id: userId})).then(
+          (res) => {
+            setRecipes(res.data.getRecipesByUserId.items);
+          },
+        );
+      };
+      fetchRecipes();
+      const unsubscribe = navigation.addListener('tabPress', (e) => {
+        fetchRecipes();
+      });
+
+      return unsubscribe;
+    }, [navigation, userId]),
+  );
+
   return (
     <Box flex={1} bg={'white'}>
       <Box
@@ -319,24 +324,26 @@ export default function ProfileScreen({route}) {
     });
   });
 
-  React.useEffect(() => {
-    const fetchUser = async () => {
-      await API.graphql(
-        graphqlOperation(getUser, {id: profileId, myId: userId}),
-      ).then((userData) => {
-        setUser(userData.data.getUser);
-        if (userData.data.getIsFollowing.scannedCount !== 0) {
-          setIsFollowing({
-            isFollowing: true,
-            id: userData.data.getIsFollowing.items[0].id,
-          });
-        }
-        setFollowingsCount(userData.data.getFollowingsByUserId.scannedCount);
-        setFollowersCount(userData.data.getFollowersByUserId.scannedCount);
-      });
-    };
-    fetchUser();
-  }, [profileId, userId]);
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchUser = async () => {
+        await API.graphql(
+          graphqlOperation(getUser, {id: profileId, myId: userId}),
+        ).then((userData) => {
+          setUser(userData.data.getUser);
+          if (userData.data.getIsFollowing.scannedCount !== 0) {
+            setIsFollowing({
+              isFollowing: true,
+              id: userData.data.getIsFollowing.items[0].id,
+            });
+          }
+          setFollowingsCount(userData.data.getFollowingsByUserId.scannedCount);
+          setFollowersCount(userData.data.getFollowersByUserId.scannedCount);
+        });
+      };
+      fetchUser();
+    }, [profileId, userId]),
+  );
 
   return user ? (
     <Box bg={'white'} flex={1}>
@@ -435,7 +442,7 @@ export default function ProfileScreen({route}) {
       <Box mt={24} height={8} bg={theme.colors.mainGray} />
       <Tab.Navigator
         screenOptions={({route}) => ({
-          tabBarIcon: ({focused, color, size}) => {
+          tabBarIcon: () => {
             if (route.name === 'UserRecipes') {
               return <ChefHat fill={theme.colors.mainText} />;
             } else if (route.name === 'UserLikes') {

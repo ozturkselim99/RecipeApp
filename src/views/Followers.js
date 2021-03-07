@@ -8,10 +8,8 @@ import theme from '../utils/Theme';
 import {Search} from '../components/icons';
 import {API, graphqlOperation} from 'aws-amplify';
 import {FlatList} from 'react-native';
+import SearchBox from '../components/SearchBox';
 
-function SearchIcon() {
-  return <Search stroke={theme.colors.mainText} />;
-}
 const getFollowers = `
 query getFollowers ($userId:ID!){
   getFollowersByUserId(followingId: $userId) {
@@ -27,16 +25,15 @@ query getFollowers ($userId:ID!){
 `;
 
 export default function FollowersScreen({route}) {
-  const [isFocus, setIsFocus] = React.useState(false);
   const [followers, setFollowers] = React.useState([]);
-  const searchInputRef = React.useRef(null);
+  const [filterFollowers, setFilterFollowers] = React.useState([]);
+  const [isSearching, setIsSearching] = React.useState(false);
   const userId = route.params?.userId;
   React.useEffect(() => {
     const fetchFollowers = async () => {
       await API.graphql(graphqlOperation(getFollowers, {userId: userId})).then(
         (response) => {
-           console.log(response);
-           setFollowers(response.data.getFollowersByUserId.items);
+          setFollowers(response.data.getFollowersByUserId.items);
         },
       );
     };
@@ -45,25 +42,30 @@ export default function FollowersScreen({route}) {
 
   return (
     <Box as={SafeAreaView} pt="24px" px={'24px'} bg={'white'} flex={1}>
-      <ScrollView>
-        <Box flex={1}>
-          <FormInput
-            inputRef={searchInputRef}
-            LeftIcon={SearchIcon}
-            placeholderText={'Takipçilerde ara'}
-            backgroundColor={theme.colors.mainGray}
-            clearButtonMode="always"
-            onFocus={() => setIsFocus(true)}
-          />
-        </Box>
-        <Box
-          as={FlatList}
-          mt={18}
-          data={followers}
-          renderItem={({item}) => <FollowList item={item.follower} />}
-          keyExtractor={(item) => item.id}
-        />
-      </ScrollView>
+      <SearchBox
+        onChangeText={(text) => {
+          if (text.length > 0) {
+            setIsSearching(true);
+            const filterData = followers.filter((item) => {
+              return item.follower.fullname
+                .toLowerCase()
+                .includes(text.toLowerCase());
+            });
+            setFilterFollowers(filterData);
+          } else {
+            setIsSearching(false);
+          }
+        }}
+      />
+      <Box
+        as={FlatList}
+        mt={18}
+        data={isSearching ? filterFollowers : followers}
+        keyExtractor={(item, index) => {
+          return item.follower.id;
+        }}
+        renderItem={({item}) => <FollowList item={item.follower} />}
+      />
     </Box>
   );
 }
