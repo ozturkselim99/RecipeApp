@@ -74,7 +74,7 @@ const renderContent = (recipe) => {
                 fontSize="15px"
                 fontWeight="bold"
                 color={theme.colors.mainText}>
-                10000 likes
+                {recipe.likes.scannedCount} likes
               </Text>
             </Box>
           </Box>

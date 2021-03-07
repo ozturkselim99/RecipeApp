@@ -123,24 +123,26 @@ export default function FollowList({item}) {
           {item.fullname}
         </Text>
       </Box>
-      <Button
-        bg={
-          isFollowing.followStatus
-            ? theme.colors.mainGreen
-            : theme.colors.mainText
-        }
-        borderRadius={theme.radii.button}
-        px={24}
-        height={40}
-        onPress={isFollowing.followStatus ? unFollowHandler : followHandler}>
-        <Text
-          fontSize={12}
-          fontWeight={500}
-          color={'white'}
-          alignItems="center">
-          {isFollowing.followStatus ? 'Takibi Bırak' : 'Takip Et'}
-        </Text>
-      </Button>
+      {!(profileId === userId) && (
+        <Button
+          bg={
+            isFollowing.followStatus
+              ? theme.colors.mainGreen
+              : theme.colors.mainText
+          }
+          borderRadius={theme.radii.button}
+          px={24}
+          height={40}
+          onPress={isFollowing.followStatus ? unFollowHandler : followHandler}>
+          <Text
+            fontSize={12}
+            fontWeight={500}
+            color={'white'}
+            alignItems="center">
+            {isFollowing.followStatus ? 'Takibi Bırak' : 'Takip Et'}
+          </Text>
+        </Button>
+      )}
     </Box>
   );
 }
