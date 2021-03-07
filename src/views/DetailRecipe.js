@@ -1,9 +1,9 @@
 import * as React from 'react';
 import Box from '../components/Box';
-import {Platform, Dimensions, ActivityIndicator} from 'react-native';
+import {Platform, Dimensions, ActivityIndicator, Modal} from 'react-native';
 import ReactNativeParallaxHeader from 'react-native-parallax-header';
 import Text from '../components/Text';
-import {Heart, CheckCircle} from '../components/icons';
+import {Heart, CheckCircle, Eye, ChevronLeft} from '../components/icons';
 import theme from '../utils/Theme';
 import {Image} from 'react-native';
 import {useRoute} from '@react-navigation/native';
@@ -11,15 +11,46 @@ import {API, graphqlOperation} from 'aws-amplify';
 import {getRecipe} from '../graphql/queries';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {S3Image} from 'aws-amplify-react-native';
+import Button from '../components/Button';
+import ImageViewer from 'react-native-image-zoom-viewer';
+import Close from '../components/icons/X';
 
 const {height: SCREEN_HEIGHT} = Dimensions.get('window');
 
 const IS_IPHONE_X = SCREEN_HEIGHT === 812 || SCREEN_HEIGHT === 896;
 const HEADER_HEIGHT = Platform.OS === 'ios' ? (IS_IPHONE_X ? 88 : 64) : 64;
 
-const renderContent = (recipe) => {
+function CloseIcon() {
+  return <Close stroke={theme.colors.mainText} />;
+}
+
+const renderContent = (recipe, modalVisible, setModalVisible) => {
+  const images = recipe.steps.items.map((step) => {
+    return {url: step.images[0]};
+  });
   return (
     <Box px="24px">
+      <Modal visible={modalVisible} transparent={true}>
+        <ImageViewer
+          imageUrls={images}
+          onSwipeDown={() => {
+            setModalVisible(false);
+            console.log('onSwipeDown');
+          }}
+          enableSwipeDown={true}
+          renderHeader={() => (
+            <Button
+              justifyContent={'flex-end'}
+              pt={20}
+              pr={10}
+              onPress={() => {
+                setModalVisible(false);
+              }}>
+              <Close stroke={'white'} height={24} width={24} />
+            </Button>
+          )}
+        />
+      </Modal>
       <Box
         style={{
           height: 5,
@@ -145,10 +176,15 @@ const renderContent = (recipe) => {
               </Text>
             </Box>
             <Box alignItems="center" justifyContent="center" mt="14px">
-              <Image
-                source={{uri: step.images[0]}}
-                style={{width: 280, height: 171, borderRadius: 12}}
-              />
+              <Button
+                onPress={() => {
+                  setModalVisible(true);
+                }}>
+                <Image
+                  source={{uri: step.images[0]}}
+                  style={{width: 280, height: 171, borderRadius: 12}}
+                />
+              </Button>
             </Box>
           </React.Fragment>
         ))}
@@ -159,6 +195,7 @@ const renderContent = (recipe) => {
 
 function DetailRecipe() {
   const [recipe, setRecipe] = React.useState(null);
+  const [modalVisible, setModalVisible] = React.useState(false);
 
   const route = useRoute();
 
@@ -185,7 +222,7 @@ function DetailRecipe() {
       extraScrollHeight={20}
       backgroundImage={{uri: recipe?.image[0]}}
       backgroundImageScale={1.2}
-      renderContent={() => renderContent(recipe)}
+      renderContent={() => renderContent(recipe, modalVisible, setModalVisible)}
       containerStyle={{flex: 1, background: 'white'}}
       contentContainerStyle={{flexGrow: 1, background: 'white'}}
       innerContainerStyle={{flex: 1, background: 'white'}}

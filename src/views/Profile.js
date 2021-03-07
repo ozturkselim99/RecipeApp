@@ -376,7 +376,6 @@ export default function ProfileScreen({route}) {
                 Tarif
               </Text>
             </Box>
-
             <Box alignItems={'center'}>
               <Text
                 fontWeight={700}
