@@ -369,8 +369,6 @@ export default function ProfileScreen({route}) {
                 Tarif
               </Text>
             </Box>
-
-            
             <Box alignItems={'center'}>
               <Text
                 fontWeight={700}
@@ -378,7 +376,10 @@ export default function ProfileScreen({route}) {
                 color={theme.colors.mainText}>
                 {followingsCount}
               </Text>
-              <Button onPress={() => navigation.navigate('Following',{userId:profileId})}>
+              <Button
+                onPress={() =>
+                  navigation.navigate('Following', {userId: profileId})
+                }>
                 <Text
                   mt={2}
                   fontWeight={500}
@@ -395,14 +396,17 @@ export default function ProfileScreen({route}) {
                 color={theme.colors.mainText}>
                 {followersCount}
               </Text>
-              <Button onPress={() => navigation.navigate('Followers',{userId:profileId})} >
-              <Text
-                mt={2}
-                fontWeight={500}
-                fontSize={15}
-                color={theme.colors.secondaryText}>
-                Takipçi
-              </Text>
+              <Button
+                onPress={() =>
+                  navigation.navigate('Followers', {userId: profileId})
+                }>
+                <Text
+                  mt={2}
+                  fontWeight={500}
+                  fontSize={15}
+                  color={theme.colors.secondaryText}>
+                  Takipçi
+                </Text>
               </Button>
             </Box>
           </Box>
