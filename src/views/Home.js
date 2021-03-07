@@ -66,7 +66,7 @@ export default function HomeScreen({navigation}) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      title: 'ANNE ELİ',
+      title: 'LOGOLOGO',
       headerStyle: {elevation: 0, shadowColor: 'transparent'},
       headerTitleStyle: {
         textAlign: 'center',
