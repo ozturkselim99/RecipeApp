@@ -22,6 +22,7 @@ import FollowingScreen from './views/Following';
 import MustLogin from './views/MustLogin';
 import AuthContext from './context/AuthContext';
 import FollowersScreen from './views/Followers';
+import StoryScreen from './views/Story';
 
 const Tab = createBottomTabNavigator();
 const MainStack = createStackNavigator();
@@ -153,6 +154,7 @@ function Navigator() {
         }}>
         <MainStack.Screen name="Main" component={MainTab} />
         <MainStack.Screen name="DetailRecipe" component={DetailRecipe} />
+        <MainStack.Screen name="Story" component={StoryScreen} />
         <MainStack.Screen name="Auth" component={Auth} />
       </MainStack.Navigator>
     </NavigationContainer>
