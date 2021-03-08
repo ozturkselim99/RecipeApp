@@ -25,37 +25,6 @@ export const getUser = /* GraphQL */ `
       recipes {
         items {
           id
-          title
-          image
-          category {
-            title
-          }
-          likes {
-            items {
-              user {
-                id
-              }
-            }
-          }
-        }
-        nextToken
-      }
-      likes {
-        items {
-          recipe {
-            image
-            title
-            category {
-              title
-            }
-            likes {
-              items {
-                user {
-                  id
-                }
-              }
-            }
-          }
         }
       }
     }
@@ -89,6 +58,7 @@ const getLikes = /* GraphQL */ `
           title
           likes {
             items {
+              id
               user {
                 id
               }
@@ -117,6 +87,7 @@ const getRecipes = /* GraphQL */ `
         }
         likes {
           items {
+            id
             user {
               id
             }
