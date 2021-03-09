@@ -19,6 +19,7 @@ const RecipeCard = ({item, onPress, profile}) => {
   const [likeId, setLikeId] = React.useState('');
   const navigation = useNavigation();
   const {userId} = React.useContext(AuthContext);
+
   React.useEffect(() => {
     //TODO: BEĞENİ KONTROLÜ DÜZELTİLMELİ
     item.likes.items.map((like) => {
@@ -28,6 +29,7 @@ const RecipeCard = ({item, onPress, profile}) => {
       }
     });
   }, [item.likes.items, userId]);
+
   const likeHandler = async () => {
     const likeRecipe = {
       userId: userId,
@@ -43,7 +45,6 @@ const RecipeCard = ({item, onPress, profile}) => {
   };
 
   const unLikeHandler = async () => {
-    console.log(likeId);
     await API.graphql(graphqlOperation(deleteLike, {input: {id: likeId}})).then(
       () => {
         setIsFavorite(false);
