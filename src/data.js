@@ -1,7 +1,7 @@
 const data = {
   stories: [
     {
-      id: '0',
+      id: '065456',
       username: 'furkanergun',
       avatar:
         'https://www.liveabout.com/thmb/ZP0_t8FX8rYfkj1XueE3U_oO2XE=/960x720/filters:fill(auto,1)/memefish-58a203955f9b58819c7d4560.jpg',
@@ -20,13 +20,13 @@ const data = {
         },
         {
           imageUri:
-            'https://lh3.googleusercontent.com/proxy/cTB66Af39yCQmn0Z5Dy9YGYG8NCTmtLVB4QzOYNMs6ejl3SpWcGK6rEsIKCDpeeetC8b5jE5iyDk-suYMRDJe5zvmfjYAmuzDG5JcKnQQ59pI9caMwYrg5aTjqoEgVzaBNH7BvUkGk8TXsqSYTutYCkuBYp6osmM',
+            'https://i.pinimg.com/originals/fd/14/06/fd14067c20c7e0cadae478cf7b59ed2b.jpg',
           postedTime: '25m',
         },
       ],
     },
     {
-      id: '1',
+      id: '065446',
       username: 'selimozturk',
       avatar:
         'https://images-na.ssl-images-amazon.com/images/I/81TRmjAhZaL.png',
@@ -50,7 +50,7 @@ const data = {
       ],
     },
     {
-      id: '2',
+      id: '065436',
       username: 'berkayozdag',
       avatar: 'https://images.wsj.net/im-187611?width=1280&size=1',
       hasStory: true,
@@ -63,7 +63,7 @@ const data = {
       ],
     },
     {
-      id: '3',
+      id: '065416',
       username: 'davudsamed',
       avatar:
         'https://upload.wikimedia.org/wikipedia/commons/9/9f/Ansjovis.jpg',
@@ -77,7 +77,7 @@ const data = {
       ],
     },
     {
-      id: '4',
+      id: '065406',
       username: 'ozgurkarabulut',
       avatar:
         'https://hayatdenilenbirmasaldir.files.wordpress.com/2020/05/kanarya-1.jpg',

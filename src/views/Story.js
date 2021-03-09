@@ -4,18 +4,41 @@ import Text from '../components/Text';
 import {Image} from 'react-native';
 import {Dimensions, TouchableOpacity} from 'react-native';
 import theme from '../utils/Theme';
+import sampleData from '../data.js';
 
 export default function StoryScreen({route, navigation}) {
   const [userStories, setUserStories] = React.useState([]);
   const [activeStoryIndex, setActiveStoryIndex] = React.useState(0);
+  const stories = route.params?.story.stories;
+  const dataStoriesLength = sampleData.stories.length;
+  const userIndex = route.params?.userIndex;
+  const user = {
+    avatar: route.params.story.avatar,
+    username: route.params?.story.username,
+    postedTime: route.params.story.stories[activeStoryIndex].postedTime,
+    storyImage: route.params.story.stories[activeStoryIndex].imageUri,
+  };
 
   React.useEffect(() => {
-    const userStories = route.params?.story.stories;
-    setUserStories(userStories);
-  }, [route.params?.story]);
+    setUserStories(stories);
+  }, [stories]);
 
-  const navigateToNextUser = () => {};
-  const navigateToPrevUser = () => {};
+  const navigateToNextUser = () => {
+    dataStoriesLength - 1 > userIndex
+      ? navigation.push('Story', {
+          story: sampleData.stories[userIndex + 1],
+          userIndex: userIndex + 1,
+        })
+      : navigation.navigate('Home');
+  };
+  const navigateToPrevUser = () => {
+    userIndex - 1 !== -1
+      ? navigation.push('Story', {
+          story: sampleData.stories[userIndex - 1],
+          userIndex: userIndex - 1,
+        })
+      : navigation.navigate('Home');
+  };
   const handlePress = (e) => {
     const x = e.nativeEvent.locationX;
     const screenWidth = Dimensions.get('window').width;
@@ -34,7 +57,7 @@ export default function StoryScreen({route, navigation}) {
   };
 
   return (
-    <TouchableOpacity onPress={handlePress}>
+    <TouchableOpacity onPress={handlePress} activeOpacity={1}>
       <Box
         position="absolute"
         zIndex={1}
@@ -44,7 +67,7 @@ export default function StoryScreen({route, navigation}) {
         alignItems="center">
         <Image
           source={{
-            uri: route.params.story.avatar,
+            uri: user.avatar,
           }}
           style={{width: 48, height: 48, borderRadius: theme.radii.full}}
         />
@@ -52,13 +75,13 @@ export default function StoryScreen({route, navigation}) {
           {route.params?.story.username}
         </Text>
         <Text fontSize="16px" color={theme.colors.mainGray} ml={12}>
-          {route.params.story.stories[activeStoryIndex].postedTime}
+          {user.postedTime}
         </Text>
       </Box>
       <Image
         style={{width: '100%', height: '100%'}}
         source={{
-          uri: route.params.story.stories[activeStoryIndex].imageUri,
+          uri: user.storyImage,
         }}
       />
     </TouchableOpacity>

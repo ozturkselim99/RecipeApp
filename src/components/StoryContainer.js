@@ -12,7 +12,12 @@ const StoryContainer = ({stories}) => {
         horizontal={true}
         style={styles.container}
         data={stories}
-        renderItem={({item}) => <StoryListItem item={item} />}
+        renderItem={({item}) => (
+          <StoryListItem
+            item={item}
+            userIndex={stories.findIndex((i) => i.username === item.username)}
+          />
+        )}
       />
     </React.Fragment>
   );
