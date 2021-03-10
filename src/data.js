@@ -23,6 +23,16 @@ const data = {
             'https://i.pinimg.com/originals/fd/14/06/fd14067c20c7e0cadae478cf7b59ed2b.jpg',
           postedTime: '25m',
         },
+        {
+          imageUri:
+            'https://i.pinimg.com/originals/dd/41/b9/dd41b921f779c05762b04bddb183d04c.jpg',
+          postedTime: '25m',
+        },
+        {
+          imageUri:
+            'https://i.pinimg.com/originals/bd/20/fc/bd20fcb06d3c3c068894a9ca98128f04.jpg',
+          postedTime: '25m',
+        },
       ],
     },
     {

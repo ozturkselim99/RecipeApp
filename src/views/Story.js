@@ -4,11 +4,15 @@ import Text from '../components/Text';
 import {Image} from 'react-native';
 import {Dimensions, TouchableOpacity} from 'react-native';
 import theme from '../utils/Theme';
+import GestureRecognizer from 'react-native-swipe-gestures';
 import sampleData from '../data.js';
-
+import ProgressArray from '../components/ProgressArray';
+import Animated from 'react-native-reanimated';
 export default function StoryScreen({route, navigation}) {
   const [userStories, setUserStories] = React.useState([]);
   const [activeStoryIndex, setActiveStoryIndex] = React.useState(0);
+  const [isPause, setIsPause] = React.useState(false);
+  const [duration, setDuration] = React.useState(3);
   const stories = route.params?.story.stories;
   const dataStoriesLength = sampleData.stories.length;
   const userIndex = route.params?.userIndex;
@@ -22,6 +26,10 @@ export default function StoryScreen({route, navigation}) {
   React.useEffect(() => {
     setUserStories(stories);
   }, [stories]);
+
+  const onPause = (result) => {
+    setIsPause(result);
+  };
 
   const navigateToNextUser = () => {
     dataStoriesLength - 1 > userIndex
@@ -49,41 +57,58 @@ export default function StoryScreen({route, navigation}) {
     activeStoryIndex >= userStories.length - 1
       ? navigateToNextUser()
       : setActiveStoryIndex(activeStoryIndex + 1);
+    setDuration(3);
   };
   const handlePrevStory = () => {
     activeStoryIndex <= 0
       ? navigateToPrevUser()
       : setActiveStoryIndex(activeStoryIndex - 1);
+    setDuration(3);
   };
 
   return (
-    <TouchableOpacity onPress={handlePress} activeOpacity={1}>
-      <Box
-        position="absolute"
-        zIndex={1}
-        flexDirection="row"
-        pt={16}
-        pl={12}
-        alignItems="center">
+    <GestureRecognizer
+      onSwipeLeft={handleNextStory}
+      onSwipeRight={handlePrevStory}>
+      <TouchableOpacity
+        onPress={handlePress}
+        activeOpacity={1}
+        onLongPress={() => onPause(true)}
+        onPressOut={() => onPause(false)}>
+        <Box
+          position="absolute"
+          zIndex={1}
+          flexDirection="column"
+          width="100%"
+          pt={16}
+          px={12}>
+          <ProgressArray
+            activeStoryIndex={activeStoryIndex}
+            length={stories.map((_, i) => i)}
+          />
+          <Box flexDirection="row" alignItems="center" mt={8}>
+            <Image
+              source={{
+                uri: user.avatar,
+              }}
+              style={{width: 48, height: 48, borderRadius: theme.radii.full}}
+            />
+            <Text fontWeight={700} fontSize="16px" color="white" ml={12}>
+              {route.params?.story.username}
+            </Text>
+            <Text fontSize="16px" color={theme.colors.mainGray} ml={12}>
+              {user.postedTime}
+            </Text>
+            <Text>{duration}</Text>
+          </Box>
+        </Box>
         <Image
+          style={{width: '100%', height: '100%'}}
           source={{
-            uri: user.avatar,
+            uri: user.storyImage,
           }}
-          style={{width: 48, height: 48, borderRadius: theme.radii.full}}
         />
-        <Text fontWeight={700} fontSize="16px" color="white" ml={12}>
-          {route.params?.story.username}
-        </Text>
-        <Text fontSize="16px" color={theme.colors.mainGray} ml={12}>
-          {user.postedTime}
-        </Text>
-      </Box>
-      <Image
-        style={{width: '100%', height: '100%'}}
-        source={{
-          uri: user.storyImage,
-        }}
-      />
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </GestureRecognizer>
   );
 }
