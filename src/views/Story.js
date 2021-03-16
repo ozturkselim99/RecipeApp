@@ -7,12 +7,13 @@ import theme from '../utils/Theme';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import sampleData from '../data.js';
 import ProgressArray from '../components/ProgressArray';
-import Animated from 'react-native-reanimated';
+import {BackHandler} from 'react-native';
+
 export default function StoryScreen({route, navigation}) {
   const [userStories, setUserStories] = React.useState([]);
   const [activeStoryIndex, setActiveStoryIndex] = React.useState(0);
   const [isPause, setIsPause] = React.useState(false);
-  const [duration, setDuration] = React.useState(3);
+  const [progress, setProgress] = React.useState(1);
   const stories = route.params?.story.stories;
   const dataStoriesLength = sampleData.stories.length;
   const userIndex = route.params?.userIndex;
@@ -23,11 +24,24 @@ export default function StoryScreen({route, navigation}) {
     storyImage: route.params.story.stories[activeStoryIndex].imageUri,
   };
 
+  const handleBackButtonClick = () => {
+    navigation.navigate('Home');
+    return true;
+  };
+
   React.useEffect(() => {
     setUserStories(stories);
-  }, [stories]);
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, [navigation, stories]);
 
   const onPause = (result) => {
+    console.log(result);
     setIsPause(result);
   };
 
@@ -57,19 +71,21 @@ export default function StoryScreen({route, navigation}) {
     activeStoryIndex >= userStories.length - 1
       ? navigateToNextUser()
       : setActiveStoryIndex(activeStoryIndex + 1);
-    setDuration(3);
+    console.log('ileri');
+    setProgress(0);
   };
   const handlePrevStory = () => {
     activeStoryIndex <= 0
       ? navigateToPrevUser()
       : setActiveStoryIndex(activeStoryIndex - 1);
-    setDuration(3);
+    console.log('geri');
+    setProgress(0);
   };
 
   return (
     <GestureRecognizer
-      onSwipeLeft={handleNextStory}
-      onSwipeRight={handlePrevStory}>
+      onSwipeLeft={navigateToNextUser}
+      onSwipeRight={navigateToPrevUser}>
       <TouchableOpacity
         onPress={handlePress}
         activeOpacity={1}
@@ -83,8 +99,12 @@ export default function StoryScreen({route, navigation}) {
           pt={16}
           px={12}>
           <ProgressArray
+            progress={progress}
+            pause={isPause}
             activeStoryIndex={activeStoryIndex}
             length={stories.map((_, i) => i)}
+            nextStory={handleNextStory}
+            prevStory={handlePrevStory}
           />
           <Box flexDirection="row" alignItems="center" mt={8}>
             <Image
@@ -99,7 +119,6 @@ export default function StoryScreen({route, navigation}) {
             <Text fontSize="16px" color={theme.colors.mainGray} ml={12}>
               {user.postedTime}
             </Text>
-            <Text>{duration}</Text>
           </Box>
         </Box>
         <Image
