@@ -9,6 +9,8 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {Auth} from 'aws-amplify';
 import AuthContext from '../context/AuthContext';
 import {useNavigation} from '@react-navigation/native';
+import {Modal} from 'react-native';
+import Close from '../components/icons/X';
 
 function MailIcon() {
   return <Mail stroke={theme.colors.mainText} />;
@@ -26,6 +28,9 @@ function LoginScreen() {
   const [Email, setEmail] = React.useState('');
   const [Password, setPassword] = React.useState('');
 
+  const [error, setError] = React.useState(false);
+  const [modalVisible, setModalVisible] = React.useState(false);
+
   const navigation = useNavigation();
 
   const {setLogged, setUserId} = React.useContext(AuthContext);
@@ -37,7 +42,10 @@ function LoginScreen() {
         setLogged(true);
         navigation.navigate('Home');
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        setError(true);
+        setModalVisible(true);
+      });
   };
 
   return (
@@ -86,7 +94,24 @@ function LoginScreen() {
           <Text color={theme.colors.mainText}>Şifremi Unuttum </Text>
         </Button>
       </Box>
-      <Box px={24} mt="72px">
+      <Box px={24} mt="12px">
+        {error && (
+          <Box
+            mb="60px"
+            py="10px"
+            px="30px"
+            bg={'white'}
+            alignItems="center"
+            borderRadius={theme.radii.button}>
+            <Text
+              fontSize={15}
+              fontWeight={700}
+              color={theme.colors.googleButtonColor}>
+              Girdiğiniz kullanıcı bilgileriniz bir hesaba ait değil. Lütfen
+              kullanıcı adınızı ve şifrenizi kontrol edip tekrar deneyiniz.
+            </Text>
+          </Box>
+        )}
         <Button
           bg={theme.colors.mainGreen}
           width="100%"
