@@ -1,18 +1,19 @@
 import * as React from 'react';
 import Box from '../components/Box';
 import Text from '../components/Text';
-import {FlatList, ActivityIndicator} from 'react-native';
+import { FlatList, ActivityIndicator } from 'react-native';
 import theme from '../utils/Theme';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../context/AuthContext';
-import {API, Auth, graphqlOperation} from 'aws-amplify';
+import { API, Auth, graphqlOperation } from 'aws-amplify';
 import Button from '../components/Button';
-import {S3Image} from 'aws-amplify-react-native';
-import {ChevronLeft, Settings, ChefHat, Playlist} from '../components/icons';
+import { S3Image } from 'aws-amplify-react-native';
+import { ChevronLeft, Settings, ChefHat, Playlist } from '../components/icons';
 import RecipeCard from '../components/RecipeCard';
-import {deleteFollowing} from '../graphql/mutations';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {useFocusEffect} from '@react-navigation/native';
+import { deleteFollowing } from '../graphql/mutations';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { useFocusEffect } from '@react-navigation/native';
+
 const Tab = createMaterialTopTabNavigator();
 
 export const getUser = /* GraphQL */ `
@@ -109,14 +110,14 @@ const createFollowing = /* GraphQL */ `
   }
 `;
 
-function UserRecipesScreen({userId}) {
+function UserRecipesScreen({ userId }) {
   const [recipes, setRecipes] = React.useState([]);
   const navigation = useNavigation();
 
   useFocusEffect(
     React.useCallback(() => {
       const fetchRecipes = async () => {
-        await API.graphql(graphqlOperation(getRecipes, {id: userId})).then(
+        await API.graphql(graphqlOperation(getRecipes, { id: userId })).then(
           (res) => {
             setRecipes(res.data.getRecipesByUserId.items);
           },
@@ -138,9 +139,9 @@ function UserRecipesScreen({userId}) {
         px={24}
         mt={18}
         data={recipes}
-        columnWrapperStyle={{justifyContent: 'space-between'}}
+        columnWrapperStyle={{ justifyContent: 'space-between' }}
         ItemSeparatorComponent={() => <Box size={30} />}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <RecipeCard
             item={item}
             profile={true}
@@ -158,14 +159,14 @@ function UserRecipesScreen({userId}) {
   );
 }
 
-function UserLikesScreen({userId}) {
+function UserLikesScreen({ userId }) {
   const [likes, setLikes] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const navigation = useNavigation();
 
   React.useEffect(() => {
     const fetchLikes = async () => {
-      await API.graphql(graphqlOperation(getLikes, {id: userId})).then(
+      await API.graphql(graphqlOperation(getLikes, { id: userId })).then(
         (res) => {
           setLikes(res.data.likesByUserId.items);
           setLoading(true);
@@ -188,9 +189,9 @@ function UserLikesScreen({userId}) {
           px={24}
           mt={18}
           data={likes}
-          columnWrapperStyle={{justifyContent: 'space-between'}}
+          columnWrapperStyle={{ justifyContent: 'space-between' }}
           ItemSeparatorComponent={() => <Box size={30} />}
-          renderItem={({item}) => (
+          renderItem={({ item }) => (
             <RecipeCard
               item={item.recipe}
               onPress={() =>
@@ -208,7 +209,7 @@ function UserLikesScreen({userId}) {
   );
 }
 
-export default function ProfileScreen({route}) {
+export default function ProfileScreen({ route }) {
   const profileId = route.params?.id;
   const myProfile = route.params?.myProfile;
   const [followingsCount, setFollowingsCount] = React.useState(0);
@@ -220,14 +221,14 @@ export default function ProfileScreen({route}) {
   });
   const navigation = useNavigation();
 
-  const {setLogged, setUserId, userId} = React.useContext(AuthContext);
+  const { setLogged, setUserId, userId } = React.useContext(AuthContext);
 
   const followHandler = async () => {
     const follow = {
       followingId: profileId,
       followerId: userId,
     };
-    await API.graphql(graphqlOperation(createFollowing, {input: follow}))
+    await API.graphql(graphqlOperation(createFollowing, { input: follow }))
       .then((response) => {
         setIsFollowing({
           isFollowing: true,
@@ -242,10 +243,10 @@ export default function ProfileScreen({route}) {
 
   const unFollowHandler = async () => {
     await API.graphql(
-      graphqlOperation(deleteFollowing, {input: {id: isFollowing.id}}),
+      graphqlOperation(deleteFollowing, { input: { id: isFollowing.id } }),
     )
       .then(() => {
-        setIsFollowing({isFollowing: false, id: ''});
+        setIsFollowing({ isFollowing: false, id: '' });
         setFollowersCount(followersCount - 1);
       })
       .catch((e) => {
@@ -274,19 +275,19 @@ export default function ProfileScreen({route}) {
       headerLeft: myProfile
         ? () => <Box />
         : () => (
-            <Button
-              onPress={() => {
-                navigation.goBack();
-              }}
-              px={20}>
-              <ChevronLeft
-                stroke={theme.colors.mainText}
-                height={24}
-                width={24}
-              />
-            </Button>
-          ),
-      headerStyle: {elevation: 0, shadowColor: 'transparent'},
+          <Button
+            onPress={() => {
+              navigation.goBack();
+            }}
+            px={20}>
+            <ChevronLeft
+              stroke={theme.colors.mainText}
+              height={24}
+              width={24}
+            />
+          </Button>
+        ),
+      headerStyle: { elevation: 0, shadowColor: 'transparent' },
       headerTitleStyle: {
         textAlign: 'center',
         fontSize: 17,
@@ -299,7 +300,7 @@ export default function ProfileScreen({route}) {
     React.useCallback(() => {
       const fetchUser = async () => {
         await API.graphql(
-          graphqlOperation(getUser, {id: profileId, myId: userId}),
+          graphqlOperation(getUser, { id: profileId, myId: userId }),
         ).then((userData) => {
           setUser(userData.data.getUser);
           if (userData.data.getIsFollowing.scannedCount !== 0) {
@@ -339,13 +340,19 @@ export default function ProfileScreen({route}) {
                 textAlign="center">
                 {user.recipes?.items.length}
               </Text>
-              <Text
-                mt={2}
-                fontWeight={500}
-                fontSize={15}
-                color={theme.colors.secondaryText}>
-                Tarif
+              
+              {/* Buraya tıklandığında Profil Edit sayfası açılacak.  */}
+              <Button
+                onPress={() => navigation.navigate('EditProfile', {userId: profileId})}>
+                <Text
+                  mt={2}
+                  fontWeight={500}
+                  fontSize={15}
+                  color={theme.colors.secondaryText}>
+                  Tarif
               </Text>
+              </Button>
+
             </Box>
             <Box alignItems={'center'}>
               <Text
@@ -356,7 +363,7 @@ export default function ProfileScreen({route}) {
               </Text>
               <Button
                 onPress={() =>
-                  navigation.navigate('Following', {userId: profileId})
+                  navigation.navigate('Following', { userId: profileId })
                 }>
                 <Text
                   mt={2}
@@ -376,7 +383,7 @@ export default function ProfileScreen({route}) {
               </Text>
               <Button
                 onPress={() =>
-                  navigation.navigate('Followers', {userId: profileId})
+                  navigation.navigate('Followers', { userId: profileId })
                 }>
                 <Text
                   mt={2}
@@ -412,7 +419,7 @@ export default function ProfileScreen({route}) {
 
       <Box mt={24} height={8} bg={theme.colors.mainGray} />
       <Tab.Navigator
-        screenOptions={({route}) => ({
+        screenOptions={({ route }) => ({
           tabBarIcon: () => {
             if (route.name === 'UserRecipes') {
               return <ChefHat fill={theme.colors.mainText} />;
