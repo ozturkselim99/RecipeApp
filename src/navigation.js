@@ -1,8 +1,8 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {NavigationContainer} from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
 
 import LoginScreen from './views/Login';
 import RegisterScreen from './views/Register';
@@ -22,6 +22,9 @@ import FollowingScreen from './views/Following';
 import MustLogin from './views/MustLogin';
 import AuthContext from './context/AuthContext';
 import FollowersScreen from './views/Followers';
+import EditProfileScreen from './views/EditProfile';
+import EditPasswordScreen from './views/EditPassword';
+
 
 const Tab = createBottomTabNavigator();
 const MainStack = createStackNavigator();
@@ -40,12 +43,14 @@ function HomeSt() {
       <HomeStack.Screen name={'Profile'} component={ProfileScreen} />
       <HomeStack.Screen name={'Following'} component={FollowingScreen} />
       <HomeStack.Screen name={'Followers'} component={FollowersScreen} />
+      <HomeStack.Screen name={'EditProfile'} component={EditProfileScreen} />
+      <HomeStack.Screen name={'EditPassword'} component={EditPasswordScreen} />
     </HomeStack.Navigator>
   );
 }
 
 function ProfileSt() {
-  const {isLogged} = React.useContext(AuthContext);
+  const { isLogged } = React.useContext(AuthContext);
 
   return (
     <ProfileStack.Navigator
@@ -60,6 +65,9 @@ function ProfileSt() {
           />
           <ProfileStack.Screen name={'Following'} component={FollowingScreen} />
           <ProfileStack.Screen name={'Followers'} component={FollowersScreen} />
+          <ProfileStack.Screen name={'EditProfile'} component={EditProfileScreen} />
+          <ProfileStack.Screen name={'EditPassword'} component={EditPasswordScreen} />
+          
         </>
       ) : (
         <ProfileStack.Screen name={'MustLogin'} component={MustLogin} />
@@ -69,7 +77,7 @@ function ProfileSt() {
 }
 
 function NotificationSt() {
-  const {isLogged} = React.useContext(AuthContext);
+  const { isLogged } = React.useContext(AuthContext);
   return (
     <NotificationStack.Navigator
       screenOptions={{
@@ -91,9 +99,9 @@ function Auth() {
   return (
     <AuthStack.Navigator
       screenOptions={{
-        headerStyle: {shadowColor: 'transparent'},
+        headerStyle: { shadowColor: 'transparent' },
       }}
-      options={({navigation, route}) => ({
+      options={({ navigation, route }) => ({
         headerLeft: (props) => (
           <HeaderBackButton
             {...props}
