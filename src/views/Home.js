@@ -128,7 +128,7 @@ export default function HomeScreen({navigation}) {
     fetchData();
   }, []);
 
-  const onStoryPress = () => {};
+
 
   return (
     <Box bg={'white'} flex={1}>
@@ -136,53 +136,49 @@ export default function HomeScreen({navigation}) {
       <Box>
         <FlatList
           ListHeaderComponent={() => (
-            <StoryContainer
-              stories={sampleData.stories}
-              onStoryPress={onStoryPress}
+            <>
+              <StoryContainer
+                stories={sampleData.stories}
+              />
+              <Box mt="20px" ml="24px">
+                <Text
+                  fontWeight="700"
+                  fontSize="17px"
+                  color={theme.colors.mainText}>
+                  Category
+                </Text>
+                <Box as={ScrollView} horizontal flexDirection="row" mt="16px">
+                  <TagSelector
+                    tags={tags}
+                    multiple
+                    onChange={(selected) => console.log(selected)}
+                  />
+                </Box>
+              </Box>
+            </>
+          )}
+          data={recipes}
+          ItemSeparatorComponent={() => <Box size={10} />}
+          columnWrapperStyle={{
+            justifyContent: 'space-between',
+            paddingHorizontal: 24,
+            marginTop: 18,
+          }}
+          renderItem={({item}) => (
+            <RecipeCard
+              item={item}
+              onPress={() =>
+                navigation.navigate('DetailRecipe', {
+                  id: item.id,
+                })
+              }
             />
           )}
-          data={[
-            {key: 'a'},
-            {key: 'b'},
-            {key: 'c'},
-            {key: 'd'},
-            {key: 'e'},
-            {key: 'f'},
-          ]}
+          numColumns={2}
+          keyExtractor={(item) => item.id}
+          key={2}
         />
       </Box>
-      <Box mt="20px" ml="24px">
-        <Text fontWeight="700" fontSize="17px" color={theme.colors.mainText}>
-          Category
-        </Text>
-        <Box as={ScrollView} horizontal flexDirection="row" mt="16px">
-          <TagSelector
-            tags={tags}
-            multiple
-            onChange={(selected) => console.log(selected)}
-          />
-        </Box>
-      </Box>
-      <Box
-        as={FlatList}
-        px={24}
-        mt={18}
-        data={recipes}
-        columnWrapperStyle={{justifyContent: 'space-between'}}
-        ItemSeparatorComponent={() => <Box size={30} />}
-        renderItem={({item}) => (
-          <RecipeCard
-            item={item}
-            onPress={() =>
-              navigation.navigate('DetailRecipe', {
-                id: item.id,
-              })
-            }
-          />
-        )}
-        numColumns={2}
-        keyExtractor={(item) => item.id}
-      />
     </Box>
   );
 }

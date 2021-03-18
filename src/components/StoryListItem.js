@@ -1,13 +1,21 @@
 import React from 'react';
 import ProfilePicture from './ProfilePicture';
 import Box from './Box';
+import Button from './Button';
 import Text from './Text';
 import theme from '../utils/Theme';
+import {useNavigation} from '@react-navigation/native';
 
-const StoryListItem = ({item, onStoryPress}) => {
+const StoryListItem = ({item, onStoryPress, userIndex}) => {
+  const navigation = useNavigation();
   return (
     <Box flex={1} mr={15} alignItems="center">
-      <ProfilePicture item={item} onStoryPress={onStoryPress} />
+      <ProfilePicture
+        item={item}
+        onStoryPress={() => {
+          navigation.navigate('Story', {story: item, userIndex: userIndex});
+        }}
+      />
       <Text
         color={theme.colors.mainText}
         mt="5px"

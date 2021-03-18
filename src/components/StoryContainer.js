@@ -4,7 +4,7 @@ import StoryListItem from './StoryListItem';
 import theme from '../utils/Theme';
 import Box from './Box';
 
-const StoryContainer = ({stories, onStoryPress}) => {
+const StoryContainer = ({stories}) => {
   return (
     <React.Fragment>
       <FlatList
@@ -13,10 +13,12 @@ const StoryContainer = ({stories, onStoryPress}) => {
         style={styles.container}
         data={stories}
         renderItem={({item}) => (
-          <StoryListItem item={item} onStoryPress={onStoryPress} />
+          <StoryListItem
+            item={item}
+            userIndex={stories.findIndex((i) => i.username === item.username)}
+          />
         )}
       />
-      <Box height={1} bg={theme.colors.secondaryText} />
     </React.Fragment>
   );
 };

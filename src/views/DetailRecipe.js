@@ -20,10 +20,6 @@ const {height: SCREEN_HEIGHT} = Dimensions.get('window');
 const IS_IPHONE_X = SCREEN_HEIGHT === 812 || SCREEN_HEIGHT === 896;
 const HEADER_HEIGHT = Platform.OS === 'ios' ? (IS_IPHONE_X ? 88 : 64) : 64;
 
-function CloseIcon() {
-  return <Close stroke={theme.colors.mainText} />;
-}
-
 const renderContent = (recipe, modalVisible, setModalVisible) => {
   const images = recipe.steps.items.map((step) => {
     return {url: step.images[0]};
