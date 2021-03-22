@@ -53,7 +53,7 @@ class TagSelector extends Component {
               : theme.colors.mainText
           }
           fontSize="15px">
-          {tag.name}
+          {tag.title}
         </Text>
       </Button>
     );
