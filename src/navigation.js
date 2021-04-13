@@ -44,7 +44,17 @@ function HomeSt() {
       <HomeStack.Screen name={'Profile'} component={ProfileScreen} />
       <HomeStack.Screen name={'Following'} component={FollowingScreen} />
       <HomeStack.Screen name={'Followers'} component={FollowersScreen} />
-      <HomeStack.Screen name={'EditProfile'} component={EditProfileScreen} />
+      <HomeStack.Screen name={'EditProfile'} component={EditProfileScreen}
+        options={{
+          title: 'My home',
+          headerStyle: {
+            backgroundColor: '#f4511e',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }} />
       <HomeStack.Screen name={'EditPassword'} component={EditPasswordScreen} />
     </HomeStack.Navigator>
   );
@@ -66,9 +76,20 @@ function ProfileSt() {
           />
           <ProfileStack.Screen name={'Following'} component={FollowingScreen} />
           <ProfileStack.Screen name={'Followers'} component={FollowersScreen} />
-          <ProfileStack.Screen name={'EditProfile'} component={EditProfileScreen} />
+          <ProfileStack.Screen name={'EditProfile'} component={EditProfileScreen}
+            options={{
+              title: 'My home',
+              headerStyle: {
+                backgroundColor: '#f4511e',
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+            }}
+            headerShown={'true'} />
           <ProfileStack.Screen name={'EditPassword'} component={EditPasswordScreen} />
-          
+
         </>
       ) : (
         <ProfileStack.Screen name={'MustLogin'} component={MustLogin} />
@@ -164,6 +185,9 @@ function Navigator() {
         <MainStack.Screen name="DetailRecipe" component={DetailRecipe} />
         <MainStack.Screen name="Story" component={StoryScreen} />
         <MainStack.Screen name="Auth" component={Auth} />
+        <MainStack.Screen name="EditProfile" component={EditProfileScreen} screenOptions={{
+          headerShown: true,
+        }} />
       </MainStack.Navigator>
     </NavigationContainer>
   );

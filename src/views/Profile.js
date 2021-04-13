@@ -343,7 +343,7 @@ export default function ProfileScreen({ route }) {
               
               {/* Buraya tıklandığında Profil Edit sayfası açılacak.  */}
               <Button
-                onPress={() => navigation.navigate('EditProfile', {userId: profileId})}>
+                onPress={() => navigation.navigate('EditProfile', {user: user})}>
                 <Text
                   mt={2}
                   fontWeight={500}
