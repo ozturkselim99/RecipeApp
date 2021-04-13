@@ -6,6 +6,7 @@ import Input from '../components/Input'
 import Button from '../components/Button';
 import theme from '../utils/Theme';
 import { Mail, Lock, Eye, CheckCircle, User } from '../components/icons';
+import { ChevronLeft, Settings, ChefHat, Playlist } from '../components/icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Auth } from 'aws-amplify';
 import BlankAvatar from '../img/BlankAvatar2.png';
@@ -35,53 +36,25 @@ function EditPasswordScreen({ navigation }) {
                  </Text>
             </Box>
 
-            <View
-                style={{
-                    borderBottomColor: 'gray',
-                    borderBottomWidth: 1,
-                }}
-            />
-
-            <Box>
+            <Box  borderBottomWidth="0.5px">
                 <TextInput placeholder="Mevcut Şifre">
 
                 </TextInput>
             </Box>
 
-            <View
-                style={{
-                    borderBottomColor: 'gray',
-                    borderBottomWidth: 1,
-                }}
-            />
-
-            <Box>
+            <Box borderBottomWidth="0.5px">
                 <TextInput placeholder="Yeni Şifre">
 
                 </TextInput>
             </Box>
 
-            <View
-                style={{
-                    borderBottomColor: 'gray',
-                    borderBottomWidth: 1,
-                }}
-            />
-
-            <Box>
+            <Box borderBottomWidth="0.5px">
                 <TextInput passwordRules="true" placeholder="Yeni Şifre Tekrar">
 
                 </TextInput>
             </Box>
 
-            <View
-                style={{
-                    borderBottomColor: 'gray',
-                    borderBottomWidth: 1,
-                }}
-            />
-
-            <Button mt="24"
+            <Button mt="24px"
                 onPress={() => { }}>
                 <Text fontWeight={700} fontSize="17px" color={theme.colors.mainText}>
                     Kaydet
