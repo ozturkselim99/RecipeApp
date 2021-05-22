@@ -1,0 +1,196 @@
+{
+  "users": [
+    {
+      "id": 0,
+      "fullName": "Furkan Ergün",
+      "avatar": "https://cdn.pixabay.com/photo/2012/12/20/10/12/align-fingers-71282_1280.jpg",
+      "followerCount": 52,
+      "followingCount": 53
+    },
+    {
+      "id": 1,
+      "fullName": "Berkay Özdağ",
+      "avatar": "https://cdn.pixabay.com/photo/2017/12/11/15/34/lion-3012515_1280.jpg",
+      "followerCount": 100,
+      "followingCount": 200
+    },
+    {
+      "id": 2,
+      "fullName": "Ahmet Selim Öztürk",
+      "avatar": "https://cdn.pixabay.com/photo/2015/02/01/12/31/feet-619399_1280.jpg",
+      "followerCount": 150,
+      "followingCount": 230
+    },
+    {
+      "id": 3,
+      "fullName": "Davud Samed Tombul",
+      "avatar": "https://lh3.googleusercontent.com/proxy/rKscLvL4i1ElHTcSZp1TiLsf31re1NPYd8vC5Mv3Gme15PAxeRAdX5LBkvBtt1kmAWOWEN-tnj3Xhxk4tJ2NdJkbxpKrozXdJLHEqzfl293UCS-6uztVj0KUo3g",
+      "followerCount": 150,
+      "followingCount": 230
+    },
+    {
+      "id": 4,
+      "fullName": "Ali Coşkun",
+      "avatar": "https://upload.wikimedia.org/wikipedia/commons/5/58/Kangal_dog_with_spikey_collar%2C_Turkey.jpg",
+      "followerCount": 150,
+      "followingCount": 230
+    },
+    {
+      "id": 5,
+      "fullName": "Özgür Ulaş Karabulut",
+      "avatar" : "https://www.miyhav.com/icerik/uploads/2018/02/kanarya.jpg",
+      "followerCount": 150,
+      "followingCount": 230
+    }
+  ],
+  "categories": [
+    {
+      "id": 0,
+      "title": "Tatlılar",
+      "image": "https://hamurisitarifler.com/wp-content/uploads/2020/05/ok-hafif-sutlu-tatli-tarifi-825x498.png"
+    },
+    {
+      "id": 1,
+      "title": "Çorbalar",
+      "image": "https://i12.haber7.net//haber/haber7/photos/2019/09/hangi_corbalar_zayiflatir_kilo_verdiren_corba_cesitleri_1551357985_4645.jpg"
+    },
+    {
+      "id": 2,
+      "title": "Salatalar",
+      "image": "https://i.lezzet.com.tr/images-xxlarge-recipe/girit-zeytin-salatasi-4639bcb6-90c1-471f-a3f0-3db2cf1c4af8.jpg"
+    },
+    {
+      "id": 3,
+      "title": "Deniz Ürünleri",
+      "image": "https://i4.hurimg.com/i/hurriyet/75/0x0/5b4ef3035379ff1e9c27ffd9.gif"
+    },
+    {
+      "id": 4,
+      "title": "Hamur İşleri",
+      "image": "https://www.nefisyemek.com/tag_images/borek.jpg"
+    },
+    {
+      "id": 5,
+      "title": "Zeytinyağlılar",
+      "image": "https://i0.wp.com/lezzetadresim.com/wp-content/uploads/2016/06/20160618_155429.jpg?fit=1300%2C975&ssl=1"
+    }
+  ],
+  "recipes": [
+    {
+      "id": 0,
+      "title": "Ağlayan Pasta",
+      "time": "10 Dakika",
+      "rating": "4,9/5",
+      "image": "https://i4.hurimg.com/i/hurriyet/75/750x422/5ac8accbd3806c0c7094c8b5.jpg",
+      "trending": true,
+      "categoryId": 0,
+      "userId": 1
+    },
+    {
+      "id": 1,
+      "title": "Beyti Kebabı",
+      "time": "40 Dakika",
+      "rating": "4,9/5",
+      "image": "https://i2.milimaj.com/i/milliyet/75/0x410/5ed105ce5542820f10d423b6.jpg",
+      "trending": true,
+      "categoryId": 0,
+      "userId": 2
+    },
+    {
+      "id": 2,
+      "title": "Patatesli Semizotu Salatası",
+      "time": "20 Dakika",
+      "rating": "3,8/5",
+      "image": "https://i.lezzet.com.tr/images-xxlarge-recipe/patatesli_semizotu_salatasi-a3bef5b5-f248-4851-a290-819f8739c198.jpg",
+      "trending": true,
+      "categoryId": 2,
+      "userId": 3
+    },
+    {
+      "id": 3,
+      "title": "Kalamar Tava",
+      "time": "45 Dakika",
+      "rating": "4/5",
+      "image": "https://www.refikaninmutfagi.com/wp-content/uploads/2013/02/Kalamar1.jpg",
+      "trending": false,
+      "categoryId": 3,
+      "userId": 3
+    },
+    {
+      "id": 4,
+      "title": "Soğuk Baklava",
+      "time": "1 Saat",
+      "rating": "4,8/5",
+      "image": "https://i12.haber7.net//haber/haber7/photos/2020/51/soguk_baklava_nedir_soguk_baklava_nasil_yapiliyor_soguk_baklavanin_puf_noktasi_1607937499_3495.jpg",
+      "trending": false,
+      "categoryId": 0,
+      "userId": 0
+    },
+    {
+      "id": 5,
+      "title": "Tulumba",
+      "time": "30 Dakika",
+      "rating": "4,8/5",
+      "image": "https://i.sozcu.com.tr/wp-content/uploads/2019/06/03/iecrop/tulumba-shutter-1_16_9_1559554356-880x495.jpg",
+      "trending": false,
+      "categoryId": 0,
+      "userId": 2
+    },
+    {
+      "id": 6,
+      "title": "Revani",
+      "time": "45 Dakika",
+      "rating": "4,3/5",
+      "image": "https://i4.hurimg.com/i/hurriyet/75/750x422/5df3393a0f25440af86edd27.jpg",
+      "trending": false,
+      "categoryId": 0,
+      "userId": 3
+    },
+    {
+      "id": 7,
+      "title": "Mercimek Çorbası",
+      "time": "45 Dakika",
+      "rating": "4,7/5",
+      "image": "https://im.haberturk.com/2020/10/27/ver1603801237/2849815_810x458.jpg",
+      "trending": false,
+      "categoryId": 1,
+      "userId": 2
+    },
+    {
+      "id": 8,
+      "title": "Yoğurt Çorbası",
+      "time": "45 Dakika",
+      "rating": "4,8/5",
+      "image": "https://i4.hurimg.com/i/hurriyet/75/750x422/5e7ca01c2269a2082cdb9e3f.jpg",
+      "trending": false,
+      "categoryId": 1,
+      "userId": 0
+    },
+    {
+      "id": 9,
+      "title": "Tarhana Çorbası",
+      "time": "45 Dakika",
+      "rating": "4,8/5",
+      "image": "https://i.sozcu.com.tr/wp-content/uploads/2019/08/29/iecrop/tarhana-corbasi-shutterstock_16_9_1567087800-880x495.jpg",
+      "trending": false,
+      "categoryId": 1,
+      "userId": 2
+    }
+  ],
+  "comments": [
+    {
+      "id": 0,
+      "content": "Çok güzeldi",
+      "rating": 4,
+      "recipeId": 1,
+      "userId": 0
+    },
+    {
+      "id": 1,
+      "content": "Çok güzeldi 2",
+      "rating": 4,
+      "recipeId": 1,
+      "userId": 1
+    }
+  ]
+}

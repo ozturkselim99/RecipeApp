@@ -1,8 +1,7 @@
 import React from 'react';
 import Button from './Button';
-import {Search, Home, Bell, Plus, User} from './icons';
+import {Search, Home, User, Plus, Bell} from './icons';
 import Box from './Box';
-import Text from './Text';
 
 import theme from '../utils/Theme';
 import AuthContext from '../context/AuthContext';
@@ -14,6 +13,7 @@ function TabBar({state, descriptors, navigation}) {
     <Box
       bg="white"
       flexDirection="row"
+      pb={10}
       style={{
         shadowColor: '#000',
         shadowOpacity: 0.1,
@@ -38,11 +38,8 @@ function TabBar({state, descriptors, navigation}) {
           });
 
           if (!isFocused && !event.defaultPrevented) {
-            if (route.name === 'ProfileTab') {
-              navigation.navigate('ProfileTab', {
-                screen: 'ProfileDetail',
-                params: {id: userId, myProfile: true},
-              });
+            if (route.name === 'Profile') {
+              navigation.navigate('Auth', 'Profile');
             } else {
               navigation.navigate(route.name);
             }
@@ -51,7 +48,7 @@ function TabBar({state, descriptors, navigation}) {
 
         return label === 'Upload' ? (
           // search button
-          <Box key={label} p={14} mt={-36} borderRadius="full">
+          <Box key={label} p={14} mt={-30} borderRadius="full">
             <Button
               size={56}
               bg={theme.colors.mainGreen}
@@ -59,15 +56,6 @@ function TabBar({state, descriptors, navigation}) {
               onPress={onPress}>
               <Plus stroke="white" />
             </Button>
-            <Text
-              color={
-                isFocused ? theme.colors.mainGreen : theme.colors.secondaryText
-              }
-              mt={8}
-              textAlign={'center'}
-              fontSize={12}>
-              {label}
-            </Text>
           </Box>
         ) : (
           // tab-button
@@ -87,20 +75,9 @@ function TabBar({state, descriptors, navigation}) {
                       : theme.colors.secondaryText
                   }
                 />
-                <Text
-                  color={
-                    isFocused
-                      ? theme.colors.mainGreen
-                      : theme.colors.secondaryText
-                  }
-                  mt={2}
-                  textAlign={'center'}
-                  fontSize={12}>
-                  {label}
-                </Text>
               </>
             )}
-            {label === 'Notification' && (
+            {label === 'Notifications' && (
               <>
                 <Bell
                   color={
@@ -109,20 +86,9 @@ function TabBar({state, descriptors, navigation}) {
                       : theme.colors.secondaryText
                   }
                 />
-                <Text
-                  color={
-                    isFocused
-                      ? theme.colors.mainGreen
-                      : theme.colors.secondaryText
-                  }
-                  mt={2}
-                  textAlign={'center'}
-                  fontSize={12}>
-                  {label}
-                </Text>
               </>
             )}
-            {label === 'ProfileTab' && (
+            {label === 'Profile' && (
               <>
                 <User
                   color={
@@ -131,17 +97,6 @@ function TabBar({state, descriptors, navigation}) {
                       : theme.colors.secondaryText
                   }
                 />
-                <Text
-                  color={
-                    isFocused
-                      ? theme.colors.mainGreen
-                      : theme.colors.secondaryText
-                  }
-                  mt={2}
-                  textAlign={'center'}
-                  fontSize={12}>
-                  {label}
-                </Text>
               </>
             )}
             {label === 'Search' && (
@@ -153,17 +108,6 @@ function TabBar({state, descriptors, navigation}) {
                       : theme.colors.secondaryText
                   }
                 />
-                <Text
-                  color={
-                    isFocused
-                      ? theme.colors.mainGreen
-                      : theme.colors.secondaryText
-                  }
-                  mt={2}
-                  textAlign={'center'}
-                  fontSize={12}>
-                  {label}
-                </Text>
               </>
             )}
           </Button>

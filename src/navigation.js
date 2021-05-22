@@ -1,31 +1,28 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {NavigationContainer} from '@react-navigation/native';
 
-import LoginScreen from './views/Login';
-import RegisterScreen from './views/Register';
-import VerificationScreen from './views/VerificationCode';
+import SignIn from './views/Auth/SignIn';
+import RegisterScreen from './views/Auth/Register';
+import VerificationScreen from './views/Auth/VerificationCode';
 import ResetPasswordScreen from './views/ResetPassword';
-import PasswordVerificationScreen from './views/PasswordVerification';
-import PasswordRecoveryScreen from './views/ForgotPassword';
+import PasswordVerificationScreen from './views/Auth/PasswordVerification';
+import PasswordRecoveryScreen from './views/Auth/ForgotPassword';
 import HomeScreen from './views/Home';
 import TabBar from './components/TabBar';
 import SearchScreen from './views/Search';
 import UploadScreen from './views/Upload';
-import NotificationScreen from './views/Notification';
-import ProfileScreen from './views/Profile';
-import DetailRecipe from './views/DetailRecipe';
-import HeaderBackButton from '@react-navigation/stack';
+import NotificationScreen from './views/Notifications';
+import ProfileScreen from './views/Profile/Profile';
+import DetailRecipe from './views/RecipeDetail/DetailRecipe';
 import FollowingScreen from './views/Following';
-import MustLogin from './views/MustLogin';
-import AuthContext from './context/AuthContext';
 import FollowersScreen from './views/Followers';
 import EditProfileScreen from './views/EditProfile';
 import EditPasswordScreen from './views/EditPassword';
-import StoryScreen from './views/Story';
-
+import WelcomeScreen from './views/Welcome';
+import CategoryDetailScreen from './views/CategoryDetail';
 
 const Tab = createBottomTabNavigator();
 const MainStack = createStackNavigator();
@@ -34,7 +31,7 @@ const ProfileStack = createStackNavigator();
 const HomeStack = createStackNavigator();
 const NotificationStack = createStackNavigator();
 
-function HomeSt() {
+function HomeGroup() {
   return (
     <HomeStack.Navigator
       screenOptions={{
@@ -42,77 +39,43 @@ function HomeSt() {
       }}>
       <HomeStack.Screen name={'Home'} component={HomeScreen} />
       <HomeStack.Screen name={'Profile'} component={ProfileScreen} />
-      <HomeStack.Screen name={'Following'} component={FollowingScreen} />
-      <HomeStack.Screen name={'Followers'} component={FollowersScreen} />
-      <HomeStack.Screen name={'EditProfile'} component={EditProfileScreen}
-        options={{
-          title: 'My home',
-          headerStyle: {
-            backgroundColor: '#f4511e',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }} />
-      <HomeStack.Screen name={'EditPassword'} component={EditPasswordScreen} />
+      <HomeStack.Screen
+        name={'CategoryDetail'}
+        component={CategoryDetailScreen}
+      />          
     </HomeStack.Navigator>
   );
 }
 
-function ProfileSt() {
-  const { isLogged } = React.useContext(AuthContext);
-
+function Profile() {
   return (
     <ProfileStack.Navigator
       screenOptions={{
         headerShown: false,
       }}>
-      {isLogged ? (
-        <>
-          <ProfileStack.Screen
-            name={'ProfileDetail'}
-            component={ProfileScreen}
-          />
-          <ProfileStack.Screen name={'Following'} component={FollowingScreen} />
-          <ProfileStack.Screen name={'Followers'} component={FollowersScreen} />
-          <ProfileStack.Screen name={'EditProfile'} component={EditProfileScreen}
-            options={{
-              title: 'My home',
-              headerStyle: {
-                backgroundColor: '#f4511e',
-              },
-              headerTintColor: '#fff',
-              headerTitleStyle: {
-                fontWeight: 'bold',
-              },
-            }}
-            headerShown={'true'} />
-          <ProfileStack.Screen name={'EditPassword'} component={EditPasswordScreen} />
 
-        </>
-      ) : (
-        <ProfileStack.Screen name={'MustLogin'} component={MustLogin} />
-      )}
+      <ProfileStack.Screen name={'Profile'} component={ProfileScreen} />
+      <ProfileStack.Screen name={'Following'} component={FollowingScreen} />
+      <ProfileStack.Screen name={'Followers'} component={FollowersScreen} />
+      <ProfileStack.Screen name={'EditProfile'} component={EditProfileScreen} />
+      <ProfileStack.Screen
+        name={'EditPassword'}
+        component={EditPasswordScreen}
+      />
     </ProfileStack.Navigator>
   );
 }
 
 function NotificationSt() {
-  const { isLogged } = React.useContext(AuthContext);
   return (
     <NotificationStack.Navigator
       screenOptions={{
         headerShown: false,
       }}>
-      {isLogged ? (
-        <NotificationStack.Screen
-          name={'Notifications'}
-          component={NotificationScreen}
-        />
-      ) : (
-        <NotificationStack.Screen name={'MustLogin'} component={MustLogin} />
-      )}
+      <NotificationStack.Screen
+        name={'Notifications'}
+        component={NotificationScreen}
+      />
     </NotificationStack.Navigator>
   );
 }
@@ -121,17 +84,9 @@ function Auth() {
   return (
     <AuthStack.Navigator
       screenOptions={{
-        headerStyle: { shadowColor: 'transparent' },
-      }}
-      options={({ navigation, route }) => ({
-        headerLeft: (props) => (
-          <HeaderBackButton
-            {...props}
-            onPress={() => navigation.navigate('Home')}
-          />
-        ),
-      })}>
-      <MainStack.Screen name={'Login'} component={LoginScreen} />
+        headerShown: false,
+      }}>
+      <MainStack.Screen name={'Login'} component={SignIn} />
       <AuthStack.Screen name={'Register'} component={RegisterScreen} />
       <AuthStack.Screen
         name={'ResetPassword'}
@@ -165,11 +120,11 @@ function MainTab() {
       }}
       initialRouteName="Home"
       tabBar={(props) => <TabBar {...props} />}>
-      <Tab.Screen name="Home" component={HomeSt} />
+      <Tab.Screen name="Home" component={HomeGroup} />
       <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen name="Upload" component={UploadScreen} />
-      <Tab.Screen name="Notification" component={NotificationSt} />
-      <Tab.Screen name="ProfileTab" component={ProfileSt} />
+      <Tab.Screen name="Notifications" component={NotificationSt} />
+      <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );
 }
@@ -181,9 +136,9 @@ function Navigator() {
         screenOptions={{
           headerShown: false,
         }}>
+        <MainStack.Screen name="Welcome" component={WelcomeScreen} />
         <MainStack.Screen name="Main" component={MainTab} />
-        <MainStack.Screen name="DetailRecipe" component={DetailRecipe} />
-        <MainStack.Screen name="Story" component={StoryScreen} />
+        <MainStack.Screen name="RecipeDetail" component={DetailRecipe} />
         <MainStack.Screen name="Auth" component={Auth} />
         <MainStack.Screen name="EditProfile" component={EditProfileScreen} screenOptions={{
           headerShown: true,

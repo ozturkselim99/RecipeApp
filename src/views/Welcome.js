@@ -1,53 +1,132 @@
-import Box from '../components/Box';
 import * as React from 'react';
-import {Image, StatusBar} from 'react-native';
+import {StyleSheet, StatusBar, SafeAreaView, Image, Alert} from 'react-native';
+import Video from 'react-native-video';
+import Box from '../components/Box';
 import Text from '../components/Text';
-import theme from '../utils/Theme';
 import Button from '../components/Button';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import theme from '../utils/Theme';
+import {useNavigation} from '@react-navigation/native';
 
-export default function WelcomeScreen({navigation}) {
-  StatusBar.setBarStyle('dark-content', true);
+export default function WelcomeScreen() {
+  const navigation = useNavigation();
+
+  const onBuffer = (data) => {
+    console.log('on buffering ===>>> ', data);
+  };
+
+  const videoError = (data) => {
+    console.log('video error ===>>> ', data);
+  };
+
+  const skipHandler = () => {
+    Alert.alert(
+      'Uyarı !',
+      'Uygulamaya kayıt olmazsan tüm özelliklerinden faydalanamazsın.',
+      [
+        {
+          text: 'İptal',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'Tamam', onPress: () => navigation.navigate('Main', 'Home')},
+      ],
+    );
+  };
+
   return (
-    <Box as={SafeAreaView} flex={1} bg={'white'}>
-      <Box>
+    <Box flex={1}>
+      <StatusBar animated={true} barStyle={'light-content'} />
+      <Video
+        source={require('./video.mp4')}
+        onBuffer={onBuffer}
+        onError={videoError}
+        resizeMode={'cover'}
+        repeat={true}
+        style={styles.backgroundVideo}
+      />
+
+      <Box
+        as={SafeAreaView}
+        flex={1}
+        justifyContent={'space-between'}
+        alignItems={'center'}
+        mx={30}>
+        <Box width={'100%'} mt={20} alignItems={'flex-end'}>
+          <Button onPress={skipHandler}>
+            <Text color={'white'} fontWeight={'bold'}>
+              Skip
+            </Text>
+          </Button>
+        </Box>
         <Image
-          source={require('../img/opening.jpg')}
-          style={{width: '100%', height: 420}}
+          style={{
+            marginTop: 10,
+            height: 120,
+            width: '100%',
+            resizeMode: 'contain',
+          }}
+          source={require('../img/logo.png')}
         />
-      </Box>
-      <Box px={20} mt={48}>
+
         <Text
-          fontWeight={700}
-          fontSize={22}
-          color={theme.colors.mainText}
-          lineHeigt="32"
+          color={'white'}
+          fontSize={40}
+          mx={15}
+          fontWeight={'bold'}
           textAlign={'center'}>
-          Hoşgeldiniz
+          Organized Grocery List
         </Text>
-      </Box>
-      <Box alignItems="center" px={66} mt={16}>
-        <Text
-          fontWeight={500}
-          fontSize={17}
-          color={theme.colors.secondaryText}
-          lineHeigt="27"
-          textAlign={'center'}>
-          Daha iyi yemek pişirmek için topluluğumuza katılın!
+
+        <Text color={'white'} fontSize={20} textAlign={'center'} mt={-30}>
+          Add recipes to your shopping list and never forget a recipe item again
         </Text>
-      </Box>
-      <Box px={24} mt={72}>
-        <Button
-          bg={theme.colors.mainGreen}
-          width="100%"
-          py={19}
-          onPress={() => navigation.navigate('Login')}
-          borderRadius={theme.radii.button}>
-          <Text fontSize={15} fontWeight={700} color="white">
-            Başla
+
+        <Box
+          flexDirection={'row'}
+          justifyContent={'space-between'}
+          mt={100}
+          width={'100%'}>
+          <Button bg={theme.colors.mainGreen} px={40} py={15} borderRadius={7}>
+            <Text fontSize={15} color={'white'} fontWeight={'bold'}>
+              Sign Up
+            </Text>
+          </Button>
+
+          <Button
+            px={40}
+            py={15}
+            borderRadius={7}
+            borderColor={'white'}
+            onPress={() => navigation.navigate('Auth', 'Login')}
+            borderWidth={1}>
+            <Text fontSize={15} fontWeight={'bold'} color={'white'}>
+              Sign In
+            </Text>
+          </Button>
+        </Box>
+
+        <Box flexDirection={'row'} mb={20}>
+          <Text color={'gray'} fontSize={14} textAlign={'center'}>
+            By joining you agree to our{' '}
+            <Text color={'white'}>Terms of Service </Text>and{' '}
+            <Text color={'white'}>Privacy Policy</Text>
           </Text>
-        </Button>
+        </Box>
       </Box>
     </Box>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  backgroundVideo: {
+    height: '100%',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+  },
+});

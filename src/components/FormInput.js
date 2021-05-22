@@ -19,6 +19,7 @@ function FormInput({
   borderWidth,
   keyboardType,
   autoCapitalize,
+  fontWeight,
 }) {
   const [showPassword, setShowPassword] = React.useState(false);
   const [isFocus, setIsFocus] = React.useState(false);
@@ -63,6 +64,7 @@ function FormInput({
         height={56}
         ref={inputRef}
         onFocus={_onFocus}
+        fontWeight={fontWeight}
         onBlur={() => setIsFocus(false)}
         color={theme.colors.mainText}
         borderWidth={borderWidth == null ? 1 : borderWidth}
@@ -72,12 +74,12 @@ function FormInput({
         }
         placeholder={placeholderText}
         placeholderTextColor={theme.colors.secondaryText}
-        pl={56}
+        pl={47}
         borderRadius={theme.radii.input}
       />
       {LeftIcon && (
-        <Box position="absolute" left={24} top={16}>
-          <LeftIcon height={5} />
+        <Box position="absolute" left={15} top={16}>
+          <LeftIcon />
         </Box>
       )}
       {RightIcon && (
