@@ -42,7 +42,7 @@ function HomeGroup() {
       <HomeStack.Screen
         name={'CategoryDetail'}
         component={CategoryDetailScreen}
-      />
+      />          
     </HomeStack.Navigator>
   );
 }
@@ -53,6 +53,7 @@ function Profile() {
       screenOptions={{
         headerShown: false,
       }}>
+
       <ProfileStack.Screen name={'Profile'} component={ProfileScreen} />
       <ProfileStack.Screen name={'Following'} component={FollowingScreen} />
       <ProfileStack.Screen name={'Followers'} component={FollowersScreen} />
@@ -139,6 +140,9 @@ function Navigator() {
         <MainStack.Screen name="Main" component={MainTab} />
         <MainStack.Screen name="RecipeDetail" component={DetailRecipe} />
         <MainStack.Screen name="Auth" component={Auth} />
+        <MainStack.Screen name="EditProfile" component={EditProfileScreen} screenOptions={{
+          headerShown: true,
+        }} />
       </MainStack.Navigator>
     </NavigationContainer>
   );
