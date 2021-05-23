@@ -4,9 +4,7 @@ import Text from '../../components/Text';
 import Button from '../../components/Button';
 import CodeInput from '../../components/CodeInput';
 import theme from '../../utils/Theme';
-import CountDown from 'react-native-countdown-component';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Auth} from 'aws-amplify';
 
 function VerificationScreen({route, navigation}) {
   const [code1, setCode1] = React.useState('');
@@ -24,13 +22,7 @@ function VerificationScreen({route, navigation}) {
   const code6Ref = React.useRef(null);
 
   const confirmHandle = async () => {
-    const verificationCode = code1 + code2 + code3 + code4 + code5 + code6;
-    try {
-      await Auth.confirmSignUp(route.params?.email, verificationCode);
-      navigation.navigate('Login');
-    } catch (error) {
-      console.log('error confirming sign up', error);
-    }
+
   };
 
   return (

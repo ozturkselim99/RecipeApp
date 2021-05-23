@@ -20,19 +20,19 @@ export default function HomeScreen() {
   React.useEffect(() => {
     const getTrending = async () => {
       return await fetch(
-        'http://localhost:3000/recipes?_expand=user&trending=true',
+        'http://10.0.3.2:3000/recipes?_expand=user&trending=true',
       ).then((data) => data.json());
     };
 
     const getCategories = async () => {
       return await fetch(
-        'http://localhost:3000/categories?_limit=10',
+        'http://10.0.3.2:3000/categories?_limit=10',
       ).then((data) => data.json());
     };
 
     const getMostCategoriesWithRecipes = async () => {
       return await fetch(
-        'http://localhost:3000/categories?_embed=recipes&_limit=3',
+        'http://10.0.3.2:3000/categories?_embed=recipes&_limit=3',
       ).then((data) => data.json());
     };
 
@@ -131,7 +131,7 @@ export default function HomeScreen() {
             </Text>
           </Box>
           <Box alignItems={'flex-end'}>
-            <Button onPress={() => navigation.navigate('Search')}>
+            <Button onPress={() => navigation.navigate('Profile')}>
               <Image
                 source={require('../img/BlankAvatar2.png')}
                 style={{

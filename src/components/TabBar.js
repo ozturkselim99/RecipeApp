@@ -4,11 +4,8 @@ import {Search, Home, User, Plus, Bell} from './icons';
 import Box from './Box';
 
 import theme from '../utils/Theme';
-import AuthContext from '../context/AuthContext';
 
 function TabBar({state, descriptors, navigation}) {
-  const {userId} = React.useContext(AuthContext);
-
   return (
     <Box
       bg="white"

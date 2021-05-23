@@ -17,10 +17,6 @@ import UploadScreen from './views/Upload';
 import NotificationScreen from './views/Notifications';
 import ProfileScreen from './views/Profile/Profile';
 import DetailRecipe from './views/RecipeDetail/DetailRecipe';
-import FollowingScreen from './views/Following';
-import FollowersScreen from './views/Followers';
-import EditProfileScreen from './views/EditProfile';
-import EditPasswordScreen from './views/EditPassword';
 import WelcomeScreen from './views/Welcome';
 import CategoryDetailScreen from './views/CategoryDetail';
 
@@ -42,7 +38,7 @@ function HomeGroup() {
       <HomeStack.Screen
         name={'CategoryDetail'}
         component={CategoryDetailScreen}
-      />          
+      />
     </HomeStack.Navigator>
   );
 }
@@ -53,15 +49,7 @@ function Profile() {
       screenOptions={{
         headerShown: false,
       }}>
-
       <ProfileStack.Screen name={'Profile'} component={ProfileScreen} />
-      <ProfileStack.Screen name={'Following'} component={FollowingScreen} />
-      <ProfileStack.Screen name={'Followers'} component={FollowersScreen} />
-      <ProfileStack.Screen name={'EditProfile'} component={EditProfileScreen} />
-      <ProfileStack.Screen
-        name={'EditPassword'}
-        component={EditPasswordScreen}
-      />
     </ProfileStack.Navigator>
   );
 }
@@ -140,9 +128,6 @@ function Navigator() {
         <MainStack.Screen name="Main" component={MainTab} />
         <MainStack.Screen name="RecipeDetail" component={DetailRecipe} />
         <MainStack.Screen name="Auth" component={Auth} />
-        <MainStack.Screen name="EditProfile" component={EditProfileScreen} screenOptions={{
-          headerShown: true,
-        }} />
       </MainStack.Navigator>
     </NavigationContainer>
   );

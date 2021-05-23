@@ -6,8 +6,6 @@ import Text from '../../components/Text';
 import Button from '../../components/Button';
 import theme from '../../utils/Theme';
 import {Mail, Lock, Eye, Google, Facebook, Apple} from '../../components/icons';
-import {Auth} from 'aws-amplify';
-import AuthContext from '../../context/AuthContext';
 import {useNavigation} from '@react-navigation/native';
 import {Modal, StatusBar} from 'react-native';
 
@@ -32,7 +30,6 @@ export default function SignIn() {
 
   const navigation = useNavigation();
 
-  const {setLogged, setUserId} = React.useContext(AuthContext);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -45,16 +42,7 @@ export default function SignIn() {
   }, [navigation]);
 
   const signInHandler = async () => {
-    await Auth.signIn(Email, Password)
-      .then((user) => {
-        setUserId(user.username);
-        setLogged(true);
-        navigation.navigate('Home');
-      })
-      .catch((error) => {
-        setError(true);
-        setModalVisible(true);
-      });
+
   };
 
   return (

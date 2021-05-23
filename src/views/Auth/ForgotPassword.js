@@ -5,7 +5,6 @@ import Text from '../../components/Text';
 import Button from '../../components/Button';
 import theme from '../../utils/Theme';
 import {Mail} from '../../components/icons';
-import {Auth} from 'aws-amplify';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 function MailIcon() {
@@ -16,14 +15,7 @@ function ForgotPassword({navigation}) {
   const [Email, setEmail] = React.useState('');
 
   const goPasswordVerification = () => {
-    Auth.forgotPassword(Email)
-      .then((data) => {
-        navigation.navigate('PasswordVerification', {
-          email: Email,
-        });
-        console.log(data);
-      })
-      .catch((err) => console.log(err));
+
   };
 
   return (
