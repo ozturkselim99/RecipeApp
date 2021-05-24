@@ -3,21 +3,36 @@ import Box from '../components/Box';
 import Text from '../components/Text';
 import theme from '../utils/Theme';
 import {FlatList, Image, ImageBackground} from 'react-native';
-import {Bookmark, Clock, Star} from '../components/icons';
+import {Clock, Star} from '../components/icons';
 import Button from '../components/Button';
 import LinearGradient from 'react-native-linear-gradient';
+import {SafeAreaView} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 export default function CategoryDetailScreen({route}) {
+  const navigation = useNavigation();
   const {categoryId, categoryName} = route.params;
   const [recipes, setRecipes] = React.useState([]);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      headerTransparent: true,
+      headerTitle: '',
+      headerBackTitle: '',
+      headerTintColor: theme.colors.mainText,
+    });
+  }, [navigation]);
+
   React.useEffect(() => {
     const getRecipesByCategory = async () => {
       return await fetch(
-        'http://10.0.2.2:3000/recipes?_expand=user&categoryId=' + categoryId,
+        'http://localhost:3000/recipes?_expand=user&categoryId=' + categoryId,
       ).then(data => data.json());
     };
     getRecipesByCategory().then(data => setRecipes(data));
   }, [categoryId]);
+
   const renderRecipe = ({item}) => {
     return (
       <>
@@ -84,25 +99,32 @@ export default function CategoryDetailScreen({route}) {
             </Box>
           </Box>
         </Button>
-
-        <Box height={1} width={'100%'} backgroundColor="#e2e3e4" my={15} />
       </>
     );
   };
+
+  const itemSeparator = () => (
+    <Box height={1} width={'100%'} backgroundColor="#e2e3e4" my={15} />
+  );
+
   return (
-    <Box px={24} flexDirection={'column'} mt={15}>
-      <Text
-        color={theme.colors.mainGreen}
-        fontWeight={'bold'}
-        fontSize={27}
-        mb={15}>
-        {categoryName}
-      </Text>
-      <FlatList
-        data={recipes}
-        renderItem={renderRecipe}
-        showsVerticalScrollIndicator={false}
-      />
+    <Box as={SafeAreaView} bg={'white'} flex={1}>
+      <Box px={24} mt={30}>
+        <Text
+          fontSize="30px"
+          fontWeight={700}
+          color={theme.colors.mainText}
+          mt={12}
+          mb={30}>
+          {categoryName}
+        </Text>
+        <FlatList
+          data={recipes}
+          ItemSeparatorComponent={itemSeparator}
+          renderItem={renderRecipe}
+          showsVerticalScrollIndicator={false}
+        />
+      </Box>
     </Box>
   );
 }

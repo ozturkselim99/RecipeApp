@@ -20,19 +20,19 @@ export default function HomeScreen() {
   React.useEffect(() => {
     const getTrending = async () => {
       return await fetch(
-        'http://10.0.2.2:3000/recipes?_expand=user&trending=true',
+        'http://localhost:3000/recipes?_expand=user&trending=true',
       ).then(data => data.json());
     };
 
     const getCategories = async () => {
-      return await fetch('http://10.0.2.2:3000/categories?_limit=10').then(
+      return await fetch('http://localhost:3000/categories?_limit=10').then(
         data => data.json(),
       );
     };
 
     const getMostCategoriesWithRecipes = async () => {
       return await fetch(
-        'http://10.0.2.2:3000/categories?_embed=recipes&_limit=3',
+        'http://localhost:3000/categories?_embed=recipes&_limit=3',
       ).then(data => data.json());
     };
 
