@@ -20,25 +20,25 @@ export default function HomeScreen() {
   React.useEffect(() => {
     const getTrending = async () => {
       return await fetch(
-        'http://10.0.3.2:3000/recipes?_expand=user&trending=true',
-      ).then((data) => data.json());
+        'http://10.0.2.2:3000/recipes?_expand=user&trending=true',
+      ).then(data => data.json());
     };
 
     const getCategories = async () => {
-      return await fetch(
-        'http://10.0.3.2:3000/categories?_limit=10',
-      ).then((data) => data.json());
+      return await fetch('http://10.0.2.2:3000/categories?_limit=10').then(
+        data => data.json(),
+      );
     };
 
     const getMostCategoriesWithRecipes = async () => {
       return await fetch(
-        'http://10.0.3.2:3000/categories?_embed=recipes&_limit=3',
-      ).then((data) => data.json());
+        'http://10.0.2.2:3000/categories?_embed=recipes&_limit=3',
+      ).then(data => data.json());
     };
 
-    getTrending().then((data) => setTrending(data));
-    getCategories().then((data) => setCategories(data));
-    getMostCategoriesWithRecipes().then((data) => setMostCategories(data));
+    getTrending().then(data => setTrending(data));
+    getCategories().then(data => setCategories(data));
+    getMostCategoriesWithRecipes().then(data => setMostCategories(data));
   }, []);
 
   const renderTrendingItem = ({item}) => {
@@ -56,7 +56,12 @@ export default function HomeScreen() {
   const renderCategoryItem = ({item}) => {
     return (
       <CategoryCard
-        onPress={() => navigation.navigate('CategoryDetail')}
+        onPress={() =>
+          navigation.navigate('CategoryDetail', {
+            categoryId: item.id,
+            categoryName: item.title,
+          })
+        }
         title={item.title}
         image={item.image}
       />
