@@ -13,7 +13,7 @@ import theme from '../../utils/Theme';
 import Box from '../../components/Box';
 import Button from '../../components/Button';
 import Text from '../../components/Text';
-import {Minus, Plus, MilkBottle} from '../../components/icons';
+import {Minus, Plus, MilkBottle, Star} from '../../components/icons';
 import Donut from '../../components/DonutChart';
 
 const {height} = Dimensions.get('window');
@@ -128,7 +128,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   title1: {
-    fontSize: 24,
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: theme.colors.mainText,
   },
   title2: {
     fontSize: 16,
@@ -165,15 +167,12 @@ const styles = StyleSheet.create({
   description: {
     marginBottom: 8,
   },
-  price: {
-    marginBottom: 16,
-  },
 });
 
 function Ingredients() {
   const [count, setCount] = React.useState(1);
 
-  const renderItem = (item) => {
+  const renderItem = item => {
     return (
       <Box
         flexDirection={'row'}
@@ -222,7 +221,7 @@ function Ingredients() {
         </Box>
       </Box>
       <Box flexDirection={'row'} flexWrap={'wrap'}>
-        {ingredientsData.map((item) => renderItem(item))}
+        {ingredientsData.map(item => renderItem(item))}
       </Box>
     </Box>
   );
@@ -231,7 +230,7 @@ function Ingredients() {
 function Steps() {
   return (
     <>
-      {steps.map((item) => (
+      {steps.map(item => (
         <Box flexDirection={'row'} mt={15}>
           <Box
             borderRadius="12px"
@@ -275,7 +274,7 @@ function NutritionFacts() {
   );
 }
 
-export default ({onMeasurement}) => {
+export default ({onMeasurement, toggleModal}) => {
   return (
     <>
       <View style={styles.placeholder} />
@@ -283,8 +282,7 @@ export default ({onMeasurement}) => {
         <Box flexDirection={'row'} alignItems={'center'}>
           <Image
             source={{
-              uri:
-                'https://pbs.twimg.com/profile_images/1395220412724883457/vb0KUuq5_400x400.jpg',
+              uri: 'https://pbs.twimg.com/profile_images/1395220412724883457/vb0KUuq5_400x400.jpg',
             }}
             style={{
               width: 50,
@@ -309,20 +307,24 @@ export default ({onMeasurement}) => {
               fontSize={20}>
               Reviews
             </Text>
-            <Button>
+            <Button onPress={toggleModal}>
               <Text color={'gray'} fontSize={12}>
                 See All
               </Text>
             </Button>
           </Box>
-          <Text color={'gray'} fontSize={12}>
-            12 Images • 27 Comments
-          </Text>
+          <Button
+            onPress={toggleModal}
+            width={170}
+            justifyContent={'flex-start'}>
+            <Text color={'gray'} fontSize={12}>
+              12 Images • 27 Comments
+            </Text>
+          </Button>
           <Box mt={10} flexDirection={'row'} justifyContent={'space-between'}>
             <Image
               source={{
-                uri:
-                  'https://im.haberturk.com/2020/11/28/ver1606574471/2885324_810x458.jpg',
+                uri: 'https://im.haberturk.com/2020/11/28/ver1606574471/2885324_810x458.jpg',
               }}
               style={{
                 height: 60,
@@ -332,8 +334,7 @@ export default ({onMeasurement}) => {
             />
             <Image
               source={{
-                uri:
-                  'https://www.gursesgazetesi.com/images/haberler/2021/05/manti-nasil-pisirilir-manti-evde-nasil-yapilir.jpg',
+                uri: 'https://www.gursesgazetesi.com/images/haberler/2021/05/manti-nasil-pisirilir-manti-evde-nasil-yapilir.jpg',
               }}
               style={{
                 height: 60,
@@ -343,8 +344,7 @@ export default ({onMeasurement}) => {
             />
             <Image
               source={{
-                uri:
-                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdsP2vuEnQhpAsmMRQSWPE-_s5rthjai5hVH8sOnVyQaPde45Ie9bUYwPPpDUNGqQpN_w&usqp=CAU',
+                uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdsP2vuEnQhpAsmMRQSWPE-_s5rthjai5hVH8sOnVyQaPde45Ie9bUYwPPpDUNGqQpN_w&usqp=CAU',
               }}
               style={{
                 height: 60,
@@ -354,8 +354,7 @@ export default ({onMeasurement}) => {
             />
             <Image
               source={{
-                uri:
-                  'https://i2.milimaj.com/i/milliyet/75/0x0/5fb2a95055428523348c4936.jpg',
+                uri: 'https://i2.milimaj.com/i/milliyet/75/0x0/5fb2a95055428523348c4936.jpg',
               }}
               style={{
                 height: 60,
@@ -365,8 +364,7 @@ export default ({onMeasurement}) => {
             />
             <ImageBackground
               source={{
-                uri:
-                  'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Mant%C4%B1.jpg/1200px-Mant%C4%B1.jpg',
+                uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Mant%C4%B1.jpg/1200px-Mant%C4%B1.jpg',
               }}
               style={{
                 height: 60,
@@ -388,6 +386,20 @@ export default ({onMeasurement}) => {
                 + 8
               </Text>
             </ImageBackground>
+          </Box>
+          <Box mt={20} alignItems={'center'}>
+            <Button
+              borderWidth={1}
+              width={100}
+              bg={theme.colors.mainText}
+              borderRadius={theme.radii.full}
+              onPress={toggleModal}
+              p={4}>
+              <Star height={18} width={18} fill={'#f3a83b'} stroke={''} />
+              <Text color={'white'} ml={7} fontSize={13}>
+                Puan Ver
+              </Text>
+            </Button>
           </Box>
         </Box>
       </Animated.View>
